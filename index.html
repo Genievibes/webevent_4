@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
+<html lang="ko"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>해저 보물 탐사</title>
+<title>[웹 이벤트] 귀여운 해양 탐사 &amp; 보물 인양</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&amp;family=Gowun+Dodum&amp;family=Jua&amp;display=swap" rel="stylesheet">
 <style>
   :root{
     --gold:#ffd76b;
@@ -27,13 +26,13 @@
     min-height:100vh;
   }
   #event-wrap{
-    width:1280px;height:758px;position:relative;overflow:hidden;
+    width:1280px;min-height:860px;position:relative;overflow:hidden;
     background:linear-gradient(180deg,#a6e3ff 0%, #6cc0ea 10%, #3f9bd6 22%, #2478b8 34%, #146199 46%, #0d4a7c 58%, #093761 70%, #062546 82%, #041832 92%, #020b18 100%);
     border-radius:26px;box-shadow:0 0 0 3px rgba(255,215,107,.35), 0 20px 60px rgba(0,0,0,.6);
     user-select:none;display:flex;flex-direction:column;
   }
   #event-wrap.edit-mode [contenteditable="true"]{
-    outline:2px dashed var(--cyan); outline-offset:3px; cursor:text; border-radius:8px;
+    outline:2px dashed var(--cyan); outline-offset:2px; cursor:text; border-radius:4px; background:rgba(95,230,255,.12);
   }
 
   /* ===================== TOOLBAR ===================== */
@@ -47,31 +46,13 @@
     padding:7px 12px;border-radius:20px;cursor:pointer;white-space:nowrap;
     transition:all .18s cubic-bezier(.34,1.56,.64,1);backdrop-filter:blur(4px);
   }
-  .tb-btn:hover{background:rgba(95,230,255,.22);border-color:var(--cyan);transform:translateY(-2px) scale(1.04) rotate(-1deg);}
+  .tb-btn:hover{background:rgba(95,230,255,.22);border-color:var(--cyan);transform:translateY(-2px) scale(1.04);}
   .tb-btn.on{background:linear-gradient(160deg,#ffe9a8,#ffd76b);color:#4a2f00;border-color:#fff3c9;}
-  .tb-btn.danger:hover{background:rgba(255,158,176,.28);border-color:var(--coral);}
-  .tb-btn.publish{background:linear-gradient(160deg,#bff5d0,#5be8a5);color:#04210f;border-color:#e8fff1;}
-  .tb-btn.publish:hover{background:linear-gradient(160deg,#d8ffe6,#7dffc0);border-color:#fff;}
   .tb-btn.download{background:linear-gradient(160deg,#cdeeff,#5fe6ff);color:#012029;border-color:#eafcff;}
-  .tb-btn.download:hover{background:linear-gradient(160deg,#e2f7ff,#8ff0ff);border-color:#fff;}
-  .tb-btn.download:disabled{opacity:.45;cursor:not-allowed;background:#33414d;color:#7c8b96;transform:none;}
-  @keyframes publishPulse{
-    0%,100%{box-shadow:0 0 0 0 rgba(91,232,165,.55);}
-    50%{box-shadow:0 0 0 7px rgba(91,232,165,0);}
-  }
-  #event-wrap.edit-mode .tb-btn.publish{animation:publishPulse 1.3s ease-in-out infinite;}
+  .tb-btn.danger:hover{background:rgba(255,158,176,.28);border-color:var(--coral);}
 
-  #publish-status{
-    position:absolute;top:46px;right:12px;z-index:499;
-    font-family:'Gowun Dodum',sans-serif;font-size:10.5px;font-weight:700;color:#eaf6ff;
-    background:rgba(6,20,38,.55);border:1px solid rgba(255,255,255,.22);
-    padding:4px 10px;border-radius:14px;backdrop-filter:blur(4px);
-    display:none;align-items:center;gap:4px;white-space:nowrap;
-  }
-  #publish-status.published{color:#c9ffe4;border-color:rgba(91,232,165,.45);background:rgba(91,232,165,.14);}
-
-  /* ===================== TOP SECTION (SEA + TITLE) ===================== */
-  #top-section{position:relative;width:100%;height:150px;flex-shrink:0;}
+  /* ===================== TOP SECTION ===================== */
+  #top-section{position:relative;width:100%;height:160px;flex-shrink:0;}
   .sea-layer{position:absolute;top:0;left:0;width:100%;height:92px;overflow:hidden;z-index:2;}
   .wave-track{position:absolute;left:0;width:200%;height:100%;display:flex;}
   .wave-track svg{width:50%;height:100%;display:block;flex-shrink:0;}
@@ -82,475 +63,459 @@
 
   .ship{position:absolute;width:70px;height:56px;z-index:3;transform-origin:50% 80%;}
   .ship .hull{position:absolute;bottom:12px;left:4px;width:62px;height:15px;background:linear-gradient(180deg,#8a5a34,#3f2513);clip-path:polygon(10% 0,90% 0,98% 100%,2% 100%);border-radius:0 0 12px 12px;}
-  .ship .hull-shine{position:absolute;bottom:17px;left:12px;width:44px;height:4px;background:rgba(255,255,255,.35);border-radius:6px;}
   .ship .deck{position:absolute;bottom:26px;left:10px;width:48px;height:4px;background:#c99a5c;border-radius:4px;}
   .ship .mast{position:absolute;bottom:28px;left:33px;width:2.2px;height:27px;background:#3a2a18;border-radius:2px;}
-  .ship .sail{position:absolute;bottom:28px;left:34px;width:0;height:0;border-style:solid;border-width:0 17px 22px 0;border-color:transparent transparent #fff9ec transparent;filter:drop-shadow(0 0 2px rgba(0,0,0,.25));border-radius:0 0 0 8px;}
-  .ship .sail2{position:absolute;bottom:28px;left:14px;width:0;height:0;border-style:solid;border-width:22px 15px 0 0;border-color:#ffe3ea transparent transparent transparent;}
-  .ship .flag{position:absolute;top:0;left:33px;width:10px;height:7px;background:var(--coral);clip-path:polygon(0 0,100% 50%,0 100%);border-radius:0 3px 0 0;}
+  .ship .sail{position:absolute;bottom:28px;left:34px;width:0;height:0;border-style:solid;border-width:0 17px 22px 0;border-color:transparent transparent #fff9ec transparent;filter:drop-shadow(0 0 2px rgba(0,0,0,.25));}
+  .ship .flag{position:absolute;top:0;left:33px;width:10px;height:7px;background:var(--coral);clip-path:polygon(0 0,100% 50%,0 100%);}
   .ship1{left:6%;top:6px;transform:scale(.85);animation:shipBob 4.6s ease-in-out infinite;}
   .ship2{left:44%;top:-2px;transform:scale(1.05);animation:shipBob 5.4s ease-in-out infinite .6s;}
   .ship3{left:80%;top:10px;transform:scale(.72);animation:shipBob 3.9s ease-in-out infinite 1.1s;}
   @keyframes shipBob{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-6px) rotate(3deg);}}
 
-  .title-area{position:absolute;top:22px;left:0;width:100%;text-align:center;z-index:5;}
+  .title-area{position:absolute;top:16px;left:0;width:100%;text-align:center;z-index:5;}
   .title-plaque{
-    display:inline-block;position:relative;padding:9px 40px 11px;border-radius:20px;
-    background:linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,.04));
-    border:1.5px solid rgba(255,255,255,.3);backdrop-filter:blur(3px);
+    display:inline-block;position:relative;padding:10px 45px 12px;border-radius:20px;
+    background:linear-gradient(160deg, rgba(255,255,255,.2), rgba(255,255,255,.05));
+    border:1.5px solid rgba(255,255,255,.35);backdrop-filter:blur(4px);
     box-shadow:0 6px 18px rgba(0,0,0,.25);
   }
-  .title-plaque::before,.title-plaque::after{
-    content:'';position:absolute;top:7px;width:0;height:0;border-style:solid;
-  }
-  .title-plaque::before{left:-13px;border-width:8px 13px 8px 0;border-color:transparent rgba(255,255,255,.12) transparent transparent;}
-  .title-plaque::after{right:-13px;border-width:8px 0 8px 13px;border-color:transparent transparent transparent rgba(255,255,255,.12);}
   .main-title{
-    margin:0;font-family:'Gowun Batang',serif;font-size:32px;font-weight:700;letter-spacing:4px;
+    margin:0;font-family:'Gowun Batang',serif;font-size:28px;font-weight:700;letter-spacing:2px;
     background:linear-gradient(180deg,#fff9e0 0%, #ffe9a8 28%, #ffd76b 52%, #c9922b 78%, #ffe9a8 100%);
     -webkit-background-clip:text;background-clip:text;color:transparent;
-    text-shadow:0 1px 0 rgba(255,255,255,.6), 0 3px 3px rgba(0,0,0,.5), 0 6px 14px rgba(0,0,0,.4);
+    text-shadow:0 2px 4px rgba(0,0,0,.5);
   }
-  .sub-title{margin:6px 0 0;font-size:12px;font-weight:400;color:#eaf7ff;letter-spacing:.3px;text-shadow:0 2px 6px rgba(0,0,0,.6);font-family:'Gowun Dodum',sans-serif;}
+  .sub-title{margin:3px 0 0;font-size:11.5px;color:#eaf7ff;font-family:'Gowun Dodum',sans-serif;}
+  .event-date-badge{
+    display:inline-block;margin-top:4px;padding:3px 12px;border-radius:12px;
+    background:rgba(0,0,0,.35);color:var(--gold);font-size:10.5px;font-weight:700;
+  }
+  .demo-link-btn{
+    margin-left:8px;padding:3px 10px;border-radius:12px;background:var(--cyan);
+    color:#02111d;text-decoration:none;font-size:10px;font-weight:700;transition:all .2s;
+  }
+  .demo-link-btn:hover{background:#fff;transform:scale(1.05);}
+
+  /* ===================== BUFF BAR ===================== */
+  #buff-bar{
+    margin:0 20px 8px;padding:8px 16px;border-radius:16px;
+    background:rgba(2,11,24,.6);border:1px solid rgba(201,168,255,.3);
+    display:flex;align-items:center;gap:12px;backdrop-filter:blur(4px);
+  }
+  .buff-label{font-size:11px;font-weight:700;color:var(--violet);white-space:nowrap;display:flex;align-items:center;gap:4px;}
+  .buff-list{display:flex;gap:8px;flex-wrap:wrap;flex:1;}
+  .buff-tag{
+    font-size:10.5px;color:#eafcff;background:rgba(201,168,255,.15);border:1px solid rgba(201,168,255,.4);
+    padding:3px 10px;border-radius:12px;display:flex;align-items:center;gap:5px;
+  }
+  .buff-empty{font-size:11px;color:#7a94a8;font-style:italic;}
 
   /* ===================== DASHBOARD ===================== */
   #dashboard{
-    flex-shrink:0;margin:0 20px;height:68px;border-radius:20px;
+    flex-shrink:0;margin:0 20px 10px;height:62px;border-radius:18px;
     background:linear-gradient(160deg, rgba(255,255,255,.1), rgba(255,255,255,.025));
     border:1.5px solid var(--panel-border);backdrop-filter:blur(6px);
     display:flex;align-items:center;justify-content:space-between;padding:0 18px;
-    box-shadow:0 8px 22px rgba(0,0,0,.35), inset 0 0 0 1px rgba(255,255,255,.04);
-    position:relative;z-index:6;
+    box-shadow:0 8px 22px rgba(0,0,0,.35);
   }
   .stat-block{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:0 12px;border-right:1px dashed rgba(255,255,255,.18);flex:1;}
   .stat-block:last-of-type{border-right:none;}
-  .stat-label{font-size:10.2px;color:#a8e2ff;font-weight:700;letter-spacing:.2px;white-space:nowrap;}
-  .stat-value{font-size:16.5px;font-weight:400;color:#fff;font-family:'Jua',sans-serif;white-space:nowrap;}
+  .stat-label{font-size:10px;color:#a8e2ff;font-weight:700;white-space:nowrap;}
+  .stat-value{font-size:15px;font-weight:400;color:#fff;font-family:'Jua',sans-serif;white-space:nowrap;}
   .stat-value .accent{color:var(--gold);}
   .stat-value .accent-cyan{color:var(--cyan);}
   .stat-value .accent-violet{color:var(--violet);}
-  .weekly-hint{font-size:9.5px;color:var(--emerald);font-weight:700;font-family:'Gowun Dodum',sans-serif;min-height:11px;}
-  #progress-block{min-width:190px;flex:1.4;}
-  .progress-bar-outer{width:100%;max-width:170px;height:9px;border-radius:10px;background:rgba(0,0,0,.35);overflow:hidden;margin-top:4px;border:1px solid rgba(255,255,255,.18);}
-  .progress-bar-inner{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--emerald),var(--cyan));width:0%;transition:width .4s;}
-  .reward-strip{display:flex;gap:4px;margin-top:4px;}
-  .reward-strip-icon{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.2);opacity:.4;transition:all .3s;}
-  .reward-strip-icon.received{opacity:1;background:radial-gradient(circle at 35% 30%, rgba(255,215,107,.6), rgba(255,215,107,.1));border-color:var(--gold);}
 
   /* ===================== STAGE MAIN ===================== */
-  #stage-main{flex:1;position:relative;margin:8px 20px 14px;display:flex;flex-direction:column;overflow:hidden;
-    border-radius:24px;border:1.5px solid rgba(255,255,255,.1);min-height:0;
+  #stage-main{flex:1;position:relative;margin:0 20px 14px;display:flex;flex-direction:column;overflow:hidden;
+    border-radius:24px;border:1.5px solid rgba(255,255,255,.1);
     background:radial-gradient(ellipse at 50% 40%, rgba(30,110,160,.35), rgba(2,10,20,.2) 60%);
   }
   .bubble-layer{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none;}
-  .bubble{position:absolute;bottom:-30px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(180,235,255,.15));box-shadow:0 0 6px rgba(255,255,255,.35);}
-  @keyframes riseBubble{
-    0%{transform:translate(0,0);opacity:0;}
-    10%{opacity:.85;}
-    100%{transform:translate(var(--drift,15px), -520px);opacity:0;}
-  }
+  .bubble{position:absolute;bottom:-30px;border-radius:50%;background:radial-gradient(circle at 30% 30%, rgba(255,255,255,.9), rgba(180,235,255,.15));}
+  @keyframes riseBubble{0%{transform:translate(0,0);opacity:0;}10%{opacity:.85;}100%{transform:translate(var(--drift,15px), -520px);opacity:0;}}
 
-  /* ===================== STAGE UPPER: MISSION (LEFT) + SALVAGE (RIGHT) ===================== */
-  .stage-upper{position:relative;z-index:3;flex:1;display:flex;gap:14px;padding:14px 20px 0;min-height:0;}
+  /* UPPER: MISSION & SALVAGE */
+  .stage-upper{position:relative;z-index:3;flex:1.2;display:flex;gap:14px;padding:12px 18px 0;min-height:0;}
 
+  /* MISSION PANEL (LEFT) */
   .mission-panel{
-    flex:1.35;min-width:0;border-radius:20px;padding:14px 20px;display:flex;flex-direction:column;gap:10px;
+    flex:1.2;min-width:0;border-radius:20px;padding:12px 16px;display:flex;flex-direction:column;gap:8px;
     background:linear-gradient(160deg, rgba(255,255,255,.09), rgba(255,255,255,.015));
     border:1.5px solid rgba(255,255,255,.18);
   }
   .mission-panel-head{display:flex;align-items:center;justify-content:space-between;}
-  .mission-title{font-size:13.5px;font-weight:700;color:#fff6d5;font-family:'Gowun Dodum',sans-serif;display:flex;align-items:center;gap:6px;}
-  .mission-counter-badge{font-size:11.5px;font-weight:700;font-family:'Jua',sans-serif;padding:4px 12px;border-radius:999px;background:linear-gradient(160deg,#ffe9a8,#ffd76b);color:#4a2f00;transition:all .3s;}
+  .mission-title{font-size:13px;font-weight:700;color:#fff6d5;display:flex;align-items:center;gap:6px;}
+  .mission-counter-badge{font-size:11px;font-weight:700;font-family:'Jua',sans-serif;padding:3px 10px;border-radius:999px;background:linear-gradient(160deg,#ffe9a8,#ffd76b);color:#4a2f00;}
   .mission-counter-badge.full{background:linear-gradient(160deg,#c8ffe0,#5be8a5);color:#04210f;}
-  .mission-list{display:flex;flex-direction:column;gap:6px;flex:1;justify-content:flex-start;overflow-y:auto;padding-right:4px;}
-  .mission-list::-webkit-scrollbar{width:5px;}
-  .mission-list::-webkit-scrollbar-track{background:transparent;}
-  .mission-list::-webkit-scrollbar-thumb{background:rgba(255,255,255,.25);border-radius:10px;}
+  .mission-list{display:flex;flex-direction:column;gap:5px;flex:1;overflow-y:auto;padding-right:2px;}
   .mission-item{
-    display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border-radius:14px;padding:8px 14px;
-    border:1.5px solid rgba(255,255,255,.14);transition:all .3s;flex-shrink:0;
+    display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.06);border-radius:12px;padding:6px 10px;
+    border:1px solid rgba(255,255,255,.14);transition:all .3s;flex-shrink:0;
   }
-  .mission-item.done{border-color:var(--emerald);background:rgba(91,232,165,.15);box-shadow:0 0 14px rgba(91,232,165,.25);}
-  .mission-item.locked{opacity:.5;}
-  .mission-icon-circle{
-    width:26px;height:26px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;
-    background:rgba(255,255,255,.09);font-size:12px;border:1.5px solid rgba(255,255,255,.22);transition:all .3s;
-  }
-  .mission-item.done .mission-icon-circle{background:var(--emerald);border-color:var(--emerald);}
-  .mission-name{flex:1;font-size:12px;font-weight:700;color:#eaf6ff;font-family:'Gowun Dodum',sans-serif;line-height:1.3;}
-  .mission-item.done .mission-name{color:#c9ffe4;}
+  .mission-item.done{border-color:var(--emerald);background:rgba(91,232,165,.15);}
+  .mission-item.locked{opacity:.45;}
+  .mission-icon-circle{width:22px;height:22px;flex-shrink:0;border-radius:50%;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.1);font-size:11px;border:1px solid rgba(255,255,255,.2);}
+  .mission-name{flex:1;font-size:11px;font-weight:700;color:#eaf6ff;line-height:1.2;}
   .mission-btn{
-    font-family:'Gowun Dodum',sans-serif;font-size:10px;font-weight:700;padding:6px 12px;border-radius:999px;border:none;
-    cursor:pointer;background:linear-gradient(160deg,#a7f3ff,#5fe6ff);color:#012029;transition:all .18s cubic-bezier(.34,1.56,.64,1);
-    flex-shrink:0;
+    font-size:10px;font-weight:700;padding:4px 10px;border-radius:999px;border:none;cursor:pointer;
+    background:linear-gradient(160deg,#a7f3ff,#5fe6ff);color:#012029;transition:all .18s;
   }
-  .mission-btn:hover:not(:disabled){transform:translateY(-1px) scale(1.06);}
-  .mission-btn:disabled{opacity:.5;cursor:not-allowed;background:#33414d;color:#7c8b96;transform:none;}
-  .mission-done-badge{font-size:10.5px;font-weight:700;color:var(--emerald);font-family:'Gowun Dodum',sans-serif;flex-shrink:0;display:flex;align-items:center;gap:3px;}
-  .mission-locked-badge{font-size:9.5px;font-weight:700;color:#8fa5b8;font-family:'Gowun Dodum',sans-serif;flex-shrink:0;white-space:nowrap;}
-  .mission-panel-foot{font-size:10px;color:#a8e2ff;text-align:center;font-family:'Gowun Dodum',sans-serif;}
+  .mission-btn:hover:not(:disabled){transform:scale(1.05);}
+  .mission-btn:disabled{opacity:.5;cursor:not-allowed;background:#33414d;color:#7c8b96;}
+  .mission-done-badge{font-size:10px;font-weight:700;color:var(--emerald);}
+  .mission-panel-foot{font-size:9.5px;color:#a8e2ff;text-align:center;margin:0;}
 
-  /* ===================== SALVAGE PANEL (RIGHT) ===================== */
-  .salvage-panel{flex:1;min-width:0;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
-  .salvage-deco{position:absolute;z-index:0;opacity:.5;pointer-events:none;filter:drop-shadow(0 2px 4px rgba(0,0,0,.3));animation:decoFloat 6s ease-in-out infinite;}
-  @keyframes decoFloat{0%,100%{transform:translateY(0) rotate(-4deg);}50%{transform:translateY(-12px) rotate(4deg);}}
-  .deco1{left:4%;top:4%;font-size:20px;animation-duration:6.5s;}
-  .deco2{right:6%;top:8%;font-size:18px;animation-duration:5.5s;animation-delay:.8s;}
-  .deco3{left:6%;bottom:10%;font-size:18px;animation-duration:6s;animation-delay:1.2s;}
+  /* SALVAGE PANEL (RIGHT) */
+  .salvage-panel{flex:1;min-width:0;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;}
+  
+  /* 잠수함 CSS */
+  .submarine-scene {
+    position: relative; width: 100%; height: 130px; display: flex; align-items: center; justify-content: center;
+  }
+  .searchlight-beam {
+    position: absolute; top: 55%; left: 50%; width: 170px; height: 100px; transform: translateX(-50%);
+    background: linear-gradient(180deg, rgba(255,255,230,0.4) 0%, rgba(95,230,255,0.15) 50%, transparent 100%);
+    clip-path: polygon(35% 0%, 65% 0%, 100% 100%, 0% 100%); z-index: 1; pointer-events: none;
+  }
+  .submarine {
+    position: relative; width: 200px; height: 100px; z-index: 2; animation: subFloat 4.8s ease-in-out infinite;
+  }
+  @keyframes subFloat { 0%, 100% { transform: translateY(0) rotate(-1deg); } 50% { transform: translateY(-7px) rotate(1deg); } }
+  .sub-fin-top { position: absolute; top: 2px; left: 50%; transform: translateX(-50%); width: 20px; height: 25px; background: linear-gradient(180deg, #ffe082, #d4a037); border-radius: 10px 10px 0 0; z-index: 1; }
+  .sub-body { position: absolute; left: 15px; top: 16px; width: 168px; height: 68px; background: linear-gradient(180deg, #fff2a3 0%, #f4c442 45%, #b87b14 100%); border-radius: 34px; box-shadow: 0 0 25px rgba(95, 230, 255, 0.4), inset 0 3px 6px rgba(255, 255, 255, 0.8), inset 0 -4px 8px rgba(0, 0, 0, 0.25); z-index: 2; }
+  .sub-fin-side { position: absolute; left: 4px; top: 50px; width: 26px; height: 10px; background: #aa7519; border-radius: 0 0 10px 10px; z-index: 3; }
+  .sub-fin-side2 { position: absolute; right: 26px; top: 50px; width: 20px; height: 9px; background: #aa7519; border-radius: 0 0 8px 8px; z-index: 3; }
+  .sub-window-wrap { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: 54px; height: 54px; border-radius: 50%; background: radial-gradient(circle, rgba(95,230,255,0.7) 0%, rgba(95,230,255,0) 70%); display: flex; align-items: center; justify-content: center; z-index: 4; }
+  .sub-window { position: relative; width: 42px; height: 42px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #ffffff 0%, #76e1ff 35%, #0e5b7a 100%); border: 4px solid #4a3418; box-shadow: inset 0 0 8px rgba(0,0,0,0.4); }
+  .sub-window::after { content: ''; position: absolute; top: 15%; left: 20%; width: 30%; height: 20%; background: rgba(255, 255, 255, 0.85); border-radius: 50%; transform: rotate(-30deg); }
+  .sub-sparkle { position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-size: 13px; color: #fff4ba; text-shadow: 0 0 6px #ffe082; animation: sparkleTwinkle 1.8s ease-in-out infinite; z-index: 5; }
+  @keyframes sparkleTwinkle { 0%, 100% { opacity: 0.4; transform: translateX(-50%) scale(0.8); } 50% { opacity: 1; transform: translateX(-50%) scale(1.2); } }
+  .sub-blush { position: absolute; top: 48px; width: 13px; height: 7px; background: rgba(255, 120, 130, 0.65); border-radius: 50%; filter: blur(0.8px); z-index: 3; }
+  .sub-blush-l { left: 24px; } .sub-blush-r { right: 40px; }
+  .sub-tail { position: absolute; right: 12px; top: 34px; width: 20px; height: 32px; background: linear-gradient(180deg, #ffe082, #be8824); border-radius: 0 16px 16px 0; z-index: 1; }
+  .sub-prop-wave { position: absolute; right: 3px; top: 45px; width: 8px; height: 10px; border-right: 2.5px solid rgba(255, 244, 186, 0.8); border-radius: 50%; z-index: 1; }
+  .sub-light { position: absolute; left: 50%; bottom: 12px; transform: translateX(-50%); width: 14px; height: 9px; background: #ffffdf; border-radius: 50%; box-shadow: 0 0 12px 4px #ffffb0; z-index: 3; }
 
-  .submarine-scene{position:relative;width:100%;height:150px;display:flex;align-items:center;justify-content:center;overflow:visible;}
-  .searchlight-beam{
-    position:absolute;top:28%;left:50%;width:190px;height:220px;transform:translateX(-50%);
-    background:linear-gradient(180deg, rgba(255,255,255,.32), rgba(95,230,255,.16) 45%, transparent 85%);
-    clip-path:polygon(46% 0%, 54% 0%, 100% 100%, 0% 100%);
-    animation:beamPulse 3.4s ease-in-out infinite;z-index:1;
-  }
-  @keyframes beamPulse{0%,100%{opacity:.55;}50%{opacity:.95;}}
-  .depth-glow{position:absolute;width:300px;height:300px;border-radius:50%;background:radial-gradient(circle, rgba(95,230,255,.2), transparent 70%);z-index:0;animation:glowPulse 4s ease-in-out infinite;}
-  @keyframes glowPulse{0%,100%{transform:scale(1);opacity:.7;}50%{transform:scale(1.12);opacity:1;}}
-
-  .submarine{position:relative;width:200px;height:106px;z-index:2;animation:subFloat 5s ease-in-out infinite;}
-  @keyframes subFloat{0%,100%{transform:translateY(0) rotate(-1deg);}50%{transform:translateY(-9px) rotate(1deg);}}
-  @keyframes subDiveKick{
-    0%{transform:translateY(0) rotate(-1deg) scale(1);}
-    28%{transform:translateY(22px) rotate(-5deg) scale(.95);}
-    55%{transform:translateY(-10px) rotate(4deg) scale(1.05);}
-    80%{transform:translateY(4px) rotate(-2deg) scale(.99);}
-    100%{transform:translateY(0) rotate(-1deg) scale(1);}
-  }
-  .submarine.diving{animation:subDiveKick .9s ease-in-out;}
-  .submarine.diving .sub-body{box-shadow:0 0 50px 14px rgba(95,230,255,.85), inset 0 -10px 18px rgba(0,0,0,.3), inset 0 8px 10px rgba(255,255,255,.4);}
-  .sub-body{
-    position:absolute;left:15px;top:19px;width:170px;height:68px;
-    background:linear-gradient(160deg,#fff6d5,#ffd76b 35%,#c9922b 75%,#8a641c 100%);
-    border-radius:50px 56px 40px 40px/56px 56px 36px 36px;
-    box-shadow:0 0 30px 7px rgba(95,230,255,.4), inset 0 -10px 18px rgba(0,0,0,.3), inset 0 8px 10px rgba(255,255,255,.4);
-    transition:box-shadow .3s;
-  }
-  .sub-window{
-    position:absolute;left:50%;top:50%;transform:translate(-50%,-52%);width:50px;height:50px;border-radius:50%;
-    background:radial-gradient(circle at 35% 30%, #eafcff, #8fe9ff 42%, #0a3a4a 100%);
-    border:5px solid #4a3a1f;box-shadow:0 0 18px 4px rgba(95,230,255,.8), inset 0 0 10px rgba(0,0,0,.4);
-    z-index:2;
-  }
-  .sub-window::after{content:'';position:absolute;left:14%;top:12%;width:30%;height:18%;background:rgba(255,255,255,.75);border-radius:50%;filter:blur(1px);}
-  .sub-blush{position:absolute;top:62%;width:13px;height:8px;border-radius:50%;background:rgba(255,142,168,.55);filter:blur(1px);z-index:1;}
-  .sub-blush-l{left:34px;}
-  .sub-blush-r{right:34px;}
-  .sub-sparkle{position:absolute;left:50%;top:10px;transform:translateX(-50%);font-size:13px;animation:sparkleTwinkle 2s ease-in-out infinite;}
-  @keyframes sparkleTwinkle{0%,100%{opacity:.3;transform:translateX(-50%) scale(.8);}50%{opacity:1;transform:translateX(-50%) scale(1.15);}}
-  .sub-fin-top{position:absolute;left:50%;top:2px;transform:translateX(-50%);width:15px;height:24px;background:linear-gradient(160deg,#ffedb0,#a67c2c);border-radius:8px 8px 0 0;}
-  .sub-fin-side{position:absolute;left:5px;top:58px;width:32px;height:10px;background:#a67c2c;border-radius:0 0 12px 12px;transform:skewX(-15deg);}
-  .sub-fin-side2{position:absolute;right:0px;top:58px;width:32px;height:10px;background:#a67c2c;border-radius:0 0 12px 12px;transform:skewX(15deg);}
-  .sub-tail{position:absolute;right:-6px;top:32px;width:24px;height:34px;background:linear-gradient(160deg,#ffedb0,#a67c2c);border-radius:0 22px 22px 0;}
-  .sub-prop{position:absolute;right:-15px;top:44px;width:15px;height:15px;border:3px solid #e6d19a;border-radius:50%;border-left-color:transparent;border-right-color:transparent;animation:propSpin 1s linear infinite;}
-  @keyframes propSpin{from{transform:rotate(0);}to{transform:rotate(360deg);}}
-  .sub-light{position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);width:14px;height:10px;background:#fffbe0;border-radius:50%;box-shadow:0 0 14px 6px rgba(255,255,180,.9);}
-
-  .daily-chest-wrap{
-    position:relative;display:flex;align-items:center;gap:8px;background:rgba(255,255,255,.09);border-radius:999px;
-    padding:7px 16px 7px 10px;border:1.5px solid rgba(255,255,255,.22);z-index:4;
-  }
-  @keyframes chestPop{
-    0%{transform:scale(1) rotate(0);}
-    22%{transform:scale(1.18) rotate(-9deg);}
-    46%{transform:scale(.94) rotate(7deg);}
-    70%{transform:scale(1.1) rotate(-4deg);}
-    100%{transform:scale(1) rotate(0);}
-  }
-  .daily-chest-wrap.pop{animation:chestPop .6s ease;}
-  .daily-chest-icon{font-size:22px;position:relative;}
-  .daily-chest-count{
-    position:absolute;top:-6px;right:-6px;font-size:9px;font-weight:800;background:var(--coral);color:#3a0011;
-    padding:1px 5px;border-radius:20px;font-family:'Jua',sans-serif;border:1px solid rgba(255,255,255,.6);
-  }
-  .daily-chest-label{font-size:11px;color:#eaf6ff;font-weight:700;font-family:'Gowun Dodum',sans-serif;white-space:nowrap;}
-  .burst-particle{position:absolute;left:50%;top:50%;font-size:15px;pointer-events:none;animation:sparkleBurst .9s ease-out forwards;z-index:5;}
-  @keyframes sparkleBurst{
-    0%{opacity:1;transform:translate(-50%,-50%) scale(.5);}
-    100%{opacity:0;transform:translate(calc(-50% + var(--bx)), calc(-50% + var(--by))) scale(1.3);}
-  }
-
+  .salvage-btn-group{display:flex;gap:8px;z-index:4;}
   .btn-salvage{
-    font-family:'Gowun Dodum',sans-serif;font-weight:700;font-size:14px;cursor:pointer;
-    border-radius:999px;padding:13px 30px;border:none;white-space:nowrap;letter-spacing:.3px;
-    background:linear-gradient(160deg,#a7f3ff,#5fe6ff 55%,#1aa8c9);color:#012029;box-shadow:0 4px 16px rgba(95,230,255,.45);
-    transition:all .18s cubic-bezier(.34,1.56,.64,1);z-index:4;
+    font-weight:700;font-size:12.5px;cursor:pointer;border-radius:999px;padding:9px 20px;border:none;
+    background:linear-gradient(160deg,#a7f3ff,#5fe6ff 55%,#1aa8c9);color:#012029;
+    box-shadow:0 4px 14px rgba(95,230,255,.4);transition:all .18s;
   }
-  .btn-salvage:hover:not(:disabled){transform:translateY(-2px) scale(1.05);box-shadow:0 6px 20px rgba(95,230,255,.65);}
-  .btn-salvage:disabled{background:#33414d;color:#7c8b96;cursor:not-allowed;box-shadow:none;transform:none;}
+  .btn-salvage:hover:not(:disabled){transform:translateY(-2px) scale(1.04);}
+  .btn-salvage:disabled{background:#33414d;color:#7c8b96;cursor:not-allowed;box-shadow:none;}
+  .btn-salvage.all{background:linear-gradient(160deg,#ffe9a8,#ffd76b);color:#4a2f00;}
 
-  /* ===================== BOTTOM: WEEKLY ARTIFACT STORAGE ===================== */
-  .storage-section{position:relative;z-index:3;flex-shrink:0;padding:8px 20px 14px;}
-  .storage-head-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:10px;}
-  .section-head{
-    display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;color:#0e3350;
-    letter-spacing:.2px;font-family:'Gowun Dodum',sans-serif;
-    background:linear-gradient(160deg,#fff6d5,#ffe9a8);padding:5px 14px;border-radius:999px;
-    box-shadow:0 3px 8px rgba(0,0,0,.25);white-space:nowrap;
-  }
-  .storage-sub-label{font-size:11px;color:#a8e2ff;font-family:'Gowun Dodum',sans-serif;font-weight:600;}
-  .btn-appraise{
-    font-family:'Gowun Dodum',sans-serif;font-weight:700;font-size:12.5px;cursor:pointer;
-    border-radius:999px;padding:9px 18px;border:none;white-space:nowrap;letter-spacing:.2px;
-    background:linear-gradient(160deg,#e6d4ff,#c9a8ff 55%,#8a5fd6);color:#2a1550;box-shadow:0 4px 12px rgba(201,168,255,.4);
-    transition:all .18s cubic-bezier(.34,1.56,.64,1);
-  }
-  .btn-appraise:hover:not(:disabled){transform:translateY(-2px) scale(1.04);box-shadow:0 6px 16px rgba(201,168,255,.6);}
-  .btn-appraise:disabled{background:#33414d;color:#7c8b96;cursor:not-allowed;box-shadow:none;transform:none;}
+  /* LOWER: ARTIFACT SECTION & 3x2 GRID */
+  .artifact-section{position:relative;z-index:3;flex:1.4;padding:8px 18px 12px;display:flex;flex-direction:column;gap:8px;}
+  .artifact-head-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
+  .progress-wrap{display:flex;align-items:center;gap:10px;flex:1;}
+  .progress-label{font-size:11px;font-weight:700;color:#fff;white-space:nowrap;}
+  .progress-outer{flex:1;max-width:260px;height:10px;border-radius:10px;background:rgba(0,0,0,.4);overflow:hidden;border:1px solid rgba(255,255,255,.2);}
+  .progress-inner{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--emerald),var(--cyan));width:0%;transition:width .4s;}
 
-  .storage-slots-row{display:flex;gap:10px;}
-  .storage-slot{
-    flex:1;min-width:0;height:70px;border-radius:16px;display:flex;flex-direction:column;align-items:center;justify-content:center;
-    gap:3px;background:rgba(255,255,255,.045);border:1.5px dashed rgba(255,255,255,.25);transition:all .3s;
+  .artifact-grid-container{display:flex;flex-direction:column;gap:8px;flex:1;}
+  .artifact-grid-head{display:flex;align-items:center;justify-content:space-between;}
+  .grid-title{font-size:12px;font-weight:700;color:var(--gold);display:flex;align-items:center;gap:6px;}
+
+  /* 3x2 Tile Grid */
+  .tile-grid{display:grid;grid-template-columns:repeat(3, 1fr);grid-template-rows:repeat(2, 1fr);gap:10px;flex:1;}
+  .artifact-tile{
+    background:linear-gradient(160deg, rgba(255,255,255,.08), rgba(255,255,255,.02));
+    border:1.5px solid rgba(255,255,255,.18);border-radius:14px;padding:8px;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;
+    position:relative;cursor:pointer;transition:all .25s cubic-bezier(.34,1.56,.64,1);
   }
-  .storage-slot.filled{
-    border-style:solid;border-color:var(--violet);background:linear-gradient(160deg, rgba(201,168,255,.28), rgba(255,255,255,.02));
-    box-shadow:0 0 16px rgba(201,168,255,.4);animation:slotPopIn .4s ease;
+  .artifact-tile.owned{
+    border-color:var(--gold);background:linear-gradient(160deg, rgba(255,215,107,.15), rgba(255,255,255,.03));
   }
-  @keyframes slotPopIn{0%{transform:scale(.5);opacity:0;}100%{transform:scale(1);opacity:1;}}
-  .storage-slot .slot-icon{font-size:22px;opacity:.22;transition:all .3s;}
-  .storage-slot.filled .slot-icon{opacity:1;}
-  .storage-slot .slot-label{font-size:9px;color:#a8e2ff;font-weight:700;font-family:'Gowun Dodum',sans-serif;}
+  .artifact-tile.owned:hover:not(.appraised){
+    transform:translateY(-3px) scale(1.02);
+    box-shadow:0 6px 16px rgba(255,215,107,.3);
+  }
+  .artifact-tile.locked{opacity:.4;cursor:not-allowed;filter:grayscale(0.8);}
+  .artifact-tile.appraised{border-color:var(--emerald);background:rgba(91,232,165,.1);cursor:default;}
+  .tile-icon{font-size:24px;transition:all .3s;}
+  .artifact-tile.locked .tile-icon{opacity:.4;}
+  .tile-name{font-size:10.5px;font-weight:700;color:#eafcff;text-align:center;}
+  .tile-desc{font-size:8.5px;color:#a8e2ff;text-align:center;line-height:1.15;opacity:.85;}
+  .tile-status-badge{
+    position:absolute;top:5px;right:6px;font-size:8.5px;font-weight:700;padding:2px 6px;border-radius:8px;
+    background:rgba(0,0,0,.5);color:#fff;
+  }
+  .artifact-tile.owned .tile-status-badge{background:var(--gold);color:#4a2f00;}
+  .artifact-tile.appraised .tile-status-badge{background:var(--emerald);color:#04210f;}
 
   /* ===================== POPUPS ===================== */
   .modal-overlay{
-    position:absolute;inset:0;background:rgba(1,6,14,.75);display:flex;align-items:center;justify-content:center;
-    z-index:800;backdrop-filter:blur(3px);opacity:0;pointer-events:none;transition:opacity .25s;
+    position:absolute;inset:0;background:rgba(1,6,14,.8);display:flex;align-items:center;justify-content:center;
+    z-index:800;backdrop-filter:blur(4px);opacity:0;pointer-events:none;transition:opacity .25s;
   }
   .modal-overlay.active{opacity:1;pointer-events:auto;}
   .modal-card{
-    width:440px;background:linear-gradient(160deg,#10395c,#03101c 70%);border:2px solid rgba(95,230,255,.45);
-    border-radius:30px;padding:30px 32px 26px;text-align:center;position:relative;
-    box-shadow:0 0 70px rgba(95,230,255,.3), 0 20px 50px rgba(0,0,0,.6);
-    transform:scale(.88) translateY(10px);transition:transform .3s;
+    width:450px;background:linear-gradient(160deg,#10395c,#03101c 70%);border:2px solid rgba(95,230,255,.45);
+    border-radius:26px;padding:26px 28px 22px;text-align:center;position:relative;
+    box-shadow:0 0 60px rgba(95,230,255,.3);transform:scale(.9);transition:transform .3s;
   }
-  .modal-overlay.active .modal-card{transform:scale(1) translateY(0);}
-  .modal-close{position:absolute;top:14px;right:16px;font-size:16px;color:#a8e2ff;cursor:pointer;background:rgba(255,255,255,.08);border:none;font-weight:700;width:26px;height:26px;border-radius:50%;line-height:1;}
-  .modal-close:hover{color:#fff;background:rgba(255,255,255,.2);}
-  .modal-eyebrow{font-size:12px;color:var(--cyan);font-weight:700;letter-spacing:1px;margin-bottom:6px;font-family:'Gowun Dodum',sans-serif;}
-  .depth-number{font-family:'Jua',sans-serif;font-size:50px;font-weight:400;margin:6px 0 4px;
-    background:linear-gradient(180deg,#d6f7ff,#5fe6ff 45%,#1aa8c9);-webkit-background-clip:text;background-clip:text;color:transparent;
-    text-shadow:0 2px 10px rgba(95,230,255,.5);}
-  .depth-unit{font-size:14px;color:#a8e2ff;margin-bottom:6px;font-family:'Gowun Dodum',sans-serif;}
-  .modal-divider{height:1px;background:rgba(255,255,255,.15);margin:14px 0;}
-  .reward-line{display:flex;align-items:center;justify-content:center;gap:8px;font-size:14.5px;color:#eafcff;font-weight:700;margin:8px 0;font-family:'Gowun Dodum',sans-serif;}
-  .reward-line .icon-big{font-size:22px;}
-  .weekly-count-line{font-size:13px;color:#a8e2ff;font-weight:600;font-family:'Gowun Dodum',sans-serif;}
-  .legendary-success{font-family:'Jua',sans-serif;font-size:22px;margin:10px 0 2px;
-    background:linear-gradient(180deg,#fff9e0,#ffd76b 50%,#c9922b);-webkit-background-clip:text;background-clip:text;color:transparent;
-    text-shadow:0 2px 12px rgba(255,215,107,.5);}
-  .artifact-icon-pop{font-size:46px;margin:6px 0;animation:artifactPopBounce .6s ease;filter:drop-shadow(0 4px 8px rgba(0,0,0,.4));}
-  @keyframes artifactPopBounce{0%{transform:scale(.3) rotate(-15deg);}60%{transform:scale(1.15) rotate(8deg);}100%{transform:scale(1) rotate(0);}}
+  .modal-overlay.active .modal-card{transform:scale(1);}
+  .modal-close{position:absolute;top:14px;right:16px;font-size:14px;color:#a8e2ff;cursor:pointer;background:rgba(255,255,255,.08);border:none;font-weight:700;width:24px;height:24px;border-radius:50%;}
+  .modal-eyebrow{font-size:11.5px;color:var(--cyan);font-weight:700;letter-spacing:1px;margin-bottom:4px;}
+  .depth-number{font-family:'Jua',sans-serif;font-size:46px;margin:4px 0 2px;
+    background:linear-gradient(180deg,#d6f7ff,#5fe6ff);-webkit-background-clip:text;background-clip:text;color:transparent;
+  }
+  .modal-divider{height:1px;background:rgba(255,255,255,.15);margin:12px 0;}
   .modal-btn{
-    margin-top:16px;padding:13px 28px;border:none;border-radius:999px;font-weight:700;font-size:14px;cursor:pointer;
-    background:linear-gradient(160deg,#a7f3ff,#5fe6ff 60%,#1aa8c9);color:#012029;box-shadow:0 4px 14px rgba(95,230,255,.45);
-    font-family:'Gowun Dodum',sans-serif;transition:all .18s cubic-bezier(.34,1.56,.64,1);
+    margin-top:14px;padding:10px 24px;border:none;border-radius:999px;font-weight:700;font-size:13px;cursor:pointer;
+    background:linear-gradient(160deg,#a7f3ff,#5fe6ff 60%,#1aa8c9);color:#012029;transition:all .18s;
   }
-  .modal-btn:hover{transform:translateY(-2px) scale(1.04);}
-  .modal-btn.violet{background:linear-gradient(160deg,#e6d4ff,#c9a8ff 55%,#8a5fd6);color:#2a1550;box-shadow:0 4px 14px rgba(201,168,255,.45);}
-  .modal-sub{font-size:12px;color:#a8e2ff;margin-top:2px;font-family:'Gowun Dodum',sans-serif;}
+  .modal-btn:hover{transform:scale(1.04);}
+
+  /* Glass Bottle Choice Modal */
+  .choice-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-top:10px;}
+  .choice-card{
+    background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:8px;
+    cursor:pointer;text-align:left;transition:all .2s;
+  }
+  .choice-card:hover{border-color:var(--gold);background:rgba(255,215,107,.15);}
 
   #toast{
-    position:absolute;bottom:18px;left:50%;transform:translateX(-50%) translateY(20px);z-index:900;
-    background:rgba(6,20,38,.94);border:1.5px solid var(--cyan);color:#eafcff;padding:11px 22px;border-radius:999px;
-    font-size:13px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none;font-family:'Gowun Dodum',sans-serif;
+    position:absolute;bottom:16px;left:50%;transform:translateX(-50%) translateY(20px);z-index:900;
+    background:rgba(6,20,38,.95);border:1.5px solid var(--cyan);color:#eafcff;padding:10px 20px;border-radius:999px;
+    font-size:12px;font-weight:600;opacity:0;transition:all .3s;pointer-events:none;
   }
   #toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 </style>
 </head>
 <body>
-<div id="event-wrap">
+<div id="event-wrap" class="">
 
   <!-- TOOLBAR -->
   <div id="toolbar">
     <button class="tb-btn" id="btn-edit-mode">✏️ 명칭 편집 모드</button>
-    <button class="tb-btn publish" id="btn-publish">📢 편집 저장·발행</button>
     <button class="tb-btn download" id="btn-download">⬇️ HTML 다운로드</button>
     <button class="tb-btn" id="btn-next-day">⏩ 다음날 넘기기</button>
     <button class="tb-btn" id="btn-weekly-reset">🔄 주간 초기화</button>
     <button class="tb-btn danger" id="btn-full-reset">⚠️ 전체 초기화</button>
   </div>
-  <span id="publish-status"></span>
 
-  <!-- TOP SECTION: SEA + TITLE -->
+  <!-- TOP SECTION -->
   <div id="top-section">
     <div class="sea-layer">
       <div class="wave-track wave-back">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,50 C150,110 300,-10 450,50 C600,110 750,-10 900,50 C1050,110 1200,-10 1350,50 L1350,120 L0,120 Z" fill="rgba(255,255,255,0.28)"/></svg>
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,50 C150,110 300,-10 450,50 C600,110 750,-10 900,50 C1050,110 1200,-10 1350,50 L1350,120 L0,120 Z" fill="rgba(255,255,255,0.28)"/></svg>
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,50 C150,110 300,-10 450,50 C600,110 750,-10 900,50 C1050,110 1200,-10 1350,50 L1350,120 L0,120 Z" fill="rgba(255,255,255,0.28)"></path></svg>
       </div>
       <div class="wave-track wave-front">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C200,10 400,110 600,55 C800,0 1000,100 1200,50 L1200,120 L0,120 Z" fill="rgba(140,210,240,0.55)"/></svg>
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C200,10 400,110 600,55 C800,0 1000,100 1200,50 L1200,120 L0,120 Z" fill="rgba(140,210,240,0.55)"/></svg>
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C200,10 400,110 600,55 C800,0 1000,100 1200,50 L1200,120 L0,120 Z" fill="rgba(140,210,240,0.55)"></path></svg>
       </div>
-
-      <div class="ship ship1"><div class="flag"></div><div class="mast"></div><div class="sail"></div><div class="sail2"></div><div class="deck"></div><div class="hull"></div><div class="hull-shine"></div></div>
-      <div class="ship ship2"><div class="flag"></div><div class="mast"></div><div class="sail"></div><div class="sail2"></div><div class="deck"></div><div class="hull"></div><div class="hull-shine"></div></div>
-      <div class="ship ship3"><div class="flag"></div><div class="mast"></div><div class="sail"></div><div class="sail2"></div><div class="deck"></div><div class="hull"></div><div class="hull-shine"></div></div>
+      <div class="ship ship1"><div class="flag"></div><div class="mast"></div><div class="sail"></div><div class="deck"></div><div class="hull"></div></div>
+      <div class="ship ship2"><div class="flag"></div><div class="mast"></div><div class="sail"></div><div class="deck"></div><div class="hull"></div></div>
+      <div class="ship ship3"><div class="flag"></div><div class="mast"></div><div class="sail"></div><div class="deck"></div><div class="hull"></div></div>
     </div>
 
     <div class="title-area">
       <div class="title-plaque">
-        <h1 class="main-title" id="main-title" contenteditable="false">해저 보물 탐사</h1>
-        <p class="sub-title" id="sub-title" contenteditable="false">일일 미션을 완수하고 심해 속 보물과 침몰선의 유물을 인양하세요!</p>
+        <h1 class="main-title" id="main-title" contenteditable="false" data-type="main-title">해저 탐사 이벤트</h1>
+        <p class="sub-title" id="sub-title" contenteditable="false" data-type="sub-title">심해 잠수정을 타고 침몰선의 보물을 인양하고 유물을 감정하세요!</p>
+        <div>
+          <span class="event-date-badge">📅 이벤트 기간: 2026. 10. 21. ~ 2026. 12. 16. (8주간)</span>
+          <a href="#" class="demo-link-btn" onclick="alert('프로토타입 시연 링크 연동 구역입니다.');return false;">🔗 프로토타입 시연</a>
+        </div>
       </div>
     </div>
+  </div>
+
+  <!-- BUFF STATUS BAR -->
+  <div id="buff-bar">
+    <span class="buff-label">✨ 현재 보유/적용 중인 유물 버프:</span>
+    <div class="buff-list" id="buff-list"><span class="buff-empty">현재 획득하여 활성화된 유물 특수 효과가 없습니다.</span></div>
   </div>
 
   <!-- DASHBOARD -->
   <div id="dashboard">
     <div class="stat-block">
       <span class="stat-label">📅 이벤트 진행</span>
-      <span class="stat-value">Day <span class="accent" id="stat-day">1</span> / 56</span>
+      <span class="stat-value">Day <span class="accent" id="stat-day">1</span> / 56 (주차: <span id="stat-week">1</span>/8)</span>
     </div>
     <div class="stat-block">
       <span class="stat-label">🥽 보유 인양 횟수</span>
-      <span class="stat-value"><span class="accent-cyan" id="stat-tickets">0</span>회</span>
+      <span class="stat-value"><span class="accent-cyan" id="stat-tickets">0</span>회 (누적 인양: <span id="stat-total-salvage">0</span>/56)</span>
     </div>
     <div class="stat-block">
-      <span class="stat-label">🏆 이번 주 인양</span>
-      <span class="stat-value"><span id="stat-weekly-rescue">0</span> / 4회</span>
-      <span class="weekly-hint" id="weekly-hint"></span>
+      <span class="stat-label">🏆 이번 주 누적 인양</span>
+      <span class="stat-value"><span id="stat-weekly-rescue">0</span> / <span id="stat-weekly-target">4</span>회</span>
     </div>
     <div class="stat-block">
-      <span class="stat-label">🔮 보유 유물</span>
-      <span class="stat-value"><span class="accent-violet" id="stat-artifacts">0</span>개</span>
-    </div>
-    <div class="stat-block" id="progress-block">
-      <span class="stat-label">📊 전체 감정 완료율 (<span id="stat-progress-count">0</span>/5)</span>
-      <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar-inner"></div></div>
-      <div class="reward-strip" id="reward-strip"></div>
+      <span class="stat-label">🔮 보유 / 감정 완료 유물</span>
+      <span class="stat-value"><span class="accent-violet" id="stat-artifacts-owned">0</span> / <span id="stat-artifacts-appraised">0</span> (총 6개)</span>
     </div>
   </div>
 
   <!-- STAGE MAIN -->
   <div id="stage-main">
-    <div class="bubble-layer" id="bubble-layer"></div>
+    <div class="bubble-layer" id="bubble-layer"><span class="bubble" style="width: 9.7807px; height: 9.7807px; left: 49.4283%; --drift: 8.689702451762102px; animation: 10.743s linear 2.6933s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.34023px; height: 9.34023px; left: 2.64355%; --drift: 5.007824177880117px; animation: 9.84645s linear 2.19911s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.17237px; height: 9.17237px; left: 19.2972%; --drift: -7.110542442631049px; animation: 5.21401s linear 3.98985s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.97041px; height: 8.97041px; left: 48.7622%; --drift: -5.286865200859074px; animation: 9.32502s linear 3.90189s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.55426px; height: 4.55426px; left: 18.6689%; --drift: -12.49624990663819px; animation: 6.80403s linear 3.76388s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 11.6877px; height: 11.6877px; left: 83.7459%; --drift: 2.3088925061727927px; animation: 9.98779s linear 5.10034s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.96809px; height: 4.96809px; left: 68.4157%; --drift: 0.7837839327953819px; animation: 6.61172s linear 6.75841s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.42366px; height: 7.42366px; left: 68.8364%; --drift: 3.3300340367943626px; animation: 7.9874s linear 7.13813s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.07472px; height: 4.07472px; left: 38.6989%; --drift: 1.5327411186383308px; animation: 5.62548s linear 1.20763s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.79583px; height: 5.79583px; left: 2.20134%; --drift: 7.309378602159917px; animation: 9.43953s linear 4.76055s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.24509px; height: 8.24509px; left: 30.1245%; --drift: -13.389227708360991px; animation: 10.9838s linear 2.97007s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.56587px; height: 7.56587px; left: 47.7202%; --drift: -3.4121250501573304px; animation: 6.50144s linear 1.44293s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.08368px; height: 8.08368px; left: 10.3503%; --drift: 12.379352435029933px; animation: 9.17077s linear 6.62653s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 10.6255px; height: 10.6255px; left: 19.6393%; --drift: 1.410667434857082px; animation: 6.47538s linear 4.02221s infinite normal none running riseBubble;"></span></div>
 
+    <!-- UPPER: MISSION & SALVAGE -->
     <div class="stage-upper">
-      <!-- LEFT: 일일 미션 -->
+      <!-- LEFT: MISSION PANEL -->
       <div class="mission-panel">
         <div class="mission-panel-head">
-          <span class="mission-title">📋 일일 미션</span>
+          <span class="mission-title">📋 일일 미션 현황</span>
           <span class="mission-counter-badge" id="mission-counter-badge">0/2 완료</span>
         </div>
-        <div class="mission-list" id="mission-list"></div>
-        <p class="mission-panel-foot">여러 미션 중 <b>2개만 클리어</b>하면 보물 인양 기회 1회가 부여됩니다 (이월/누적 가능)</p>
+        <div class="mission-list" id="mission-list"><div class="mission-item"><span class="mission-icon-circle">1</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="0">게임 플레이 30분 달성</span><button class="mission-btn" data-idx="0">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">2</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="1">카오스 던전 / 쿠르잔 전선 / 혼돈의 균열 클리어 1회</span><button class="mission-btn" data-idx="1">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">3</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="2">가디언 토벌 1회 클리어</span><button class="mission-btn" data-idx="2">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">4</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="3">영지 활동력 누적 3,000 소모</span><button class="mission-btn" data-idx="3">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">5</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="4">생명의 기운 누적 3,000 소모</span><button class="mission-btn" data-idx="4">완료하기</button></div></div>
+        <p class="mission-panel-foot">5개 미션 중 <b id="foot-req-count">2개</b> 완료 시 인양 기회 +1 (일 최대 1회, 총 56회 한정)</p>
       </div>
 
-      <!-- RIGHT: 보물 인양 & 잠수정 -->
+      <!-- RIGHT: SALVAGE PANEL -->
       <div class="salvage-panel">
-        <span class="salvage-deco deco1">🐠</span>
-        <span class="salvage-deco deco2">🪼</span>
-        <span class="salvage-deco deco3">⭐</span>
-
         <div class="submarine-scene">
-          <div class="depth-glow"></div>
           <div class="searchlight-beam"></div>
           <div class="submarine" id="submarine-el">
             <div class="sub-fin-top"></div>
-            <div class="sub-body"></div>
-            <div class="sub-blush sub-blush-l"></div>
-            <div class="sub-blush sub-blush-r"></div>
-            <div class="sub-window"></div>
-            <div class="sub-sparkle">✨</div>
+            <div class="sub-body">
+              <div class="sub-blush sub-blush-l"></div>
+              <div class="sub-window-wrap">
+                <div class="sub-sparkle">✦</div>
+                <div class="sub-window"></div>
+              </div>
+              <div class="sub-blush sub-blush-r"></div>
+              <div class="sub-light"></div>
+            </div>
             <div class="sub-fin-side"></div>
             <div class="sub-fin-side2"></div>
             <div class="sub-tail"></div>
-            <div class="sub-prop"></div>
-            <div class="sub-light"></div>
+            <div class="sub-prop-wave"></div>
           </div>
         </div>
 
-        <div class="daily-chest-wrap" id="daily-chest-wrap">
-          <span class="daily-chest-icon">🎁<span class="daily-chest-count">1</span></span>
-          <span class="daily-chest-label">일일 탐사 보상 상자</span>
+        <div class="salvage-btn-group">
+          <button class="btn-salvage" id="btn-salvage" disabled="">⚓ 보물 인양하기</button>
+          <button class="btn-salvage all" id="btn-salvage-all" disabled="">⚓ 모두 인양하기</button>
         </div>
-
-        <button class="btn-salvage" id="btn-salvage">⚓ 보물 인양하기</button>
       </div>
     </div>
 
-    <!-- BOTTOM: 주간 유물 보관함 -->
-    <div class="storage-section">
-      <div class="storage-head-row">
-        <span class="section-head">🔮 주간 유물 보관함</span>
-        <span class="storage-sub-label">보관 중인 유물 <b id="storage-count-label">0</b>개 — 언제든 감정하여 보상을 받을 수 있어요</span>
-        <button class="btn-appraise" id="btn-appraise">🔍 상시 감정하기</button>
+    <!-- LOWER: ARTIFACT & 3x2 TILE GRID -->
+    <div class="artifact-section">
+      <div class="artifact-head-row">
+        <div class="progress-wrap">
+          <span class="progress-label">📊 주간 유물 획득 진행도:</span>
+          <div class="progress-outer"><div class="progress-inner" id="artifact-progress-bar" style="width: 0%;"></div></div>
+          <span class="progress-label" id="artifact-progress-text">0 / 4회</span>
+        </div>
+        <button class="btn-salvage all" id="btn-appraise-all" style="padding:6px 16px;font-size:11px;">🔍 한 번에 감정하기</button>
       </div>
-      <div class="storage-slots-row" id="storage-slots-row"></div>
+
+      <div class="artifact-grid-container">
+        <div class="artifact-grid-head">
+          <span class="grid-title">🔮 유물 3x2 타일 구역 (획득 즉시 특수 버프 발동 / 클릭 시 감정 보상 수령)</span>
+        </div>
+        <div class="tile-grid" id="tile-grid"><div class="artifact-tile locked" data-id="1"><span class="tile-status-badge">미획득</span><span class="tile-icon">🧭</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="0">고대의 나침반</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="0">다음 인양 시 보너스 상자 1개 추가 (1회)</span></div><div class="artifact-tile locked" data-id="2"><span class="tile-status-badge">미획득</span><span class="tile-icon">📜</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="1">프로키온 바다의 오래된 해도</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="1">다음 일자 미션 완료 조건 완화 (2회→1회)</span></div><div class="artifact-tile locked" data-id="3"><span class="tile-status-badge">미획득</span><span class="tile-icon">🗿</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="2">고대의 신 조각상</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="2">주간 인양 요구 횟수 감축 (4회→3회)</span></div><div class="artifact-tile locked" data-id="4"><span class="tile-status-badge">미획득</span><span class="tile-icon">📖</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="3">신관의 서</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="3">수심 1,000m 이상 인양 시 보너스 보상 1회 추가</span></div><div class="artifact-tile locked" data-id="5"><span class="tile-status-badge">미획득</span><span class="tile-icon">📕</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="4">잊혀진 영웅의 전기</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="4">유물 감정 시 보상 1+1 추가 지급</span></div><div class="artifact-tile locked" data-id="6"><span class="tile-status-badge">미획득</span><span class="tile-icon">🍾</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="5">고대 환영 유리 술병</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="5">다음 등장 유물 확정 선택 선택</span></div></div>
+      </div>
     </div>
   </div>
 
-  <!-- POPUP 1: 보물 인양 안내 -->
+  <!-- MODAL 1: SALVAGE RESULT -->
   <div class="modal-overlay" id="modal-salvage">
     <div class="modal-card">
       <button class="modal-close" data-close="modal-salvage">✕</button>
       <div class="modal-eyebrow">⚓ 보물 인양 결과</div>
-      <div class="depth-number" id="salvage-depth">2,350</div>
-      <div class="depth-unit">m 수심에서 보물을 성공적으로 인양했습니다!</div>
+      <div class="depth-number" id="salvage-depth">2,350m</div>
       <div class="modal-divider"></div>
-      <div class="reward-line"><span class="icon-big">🎁</span> 일일 탐사 보상 상자 즉시 수령 완료!</div>
-      <div class="weekly-count-line">이번 주 누적 인양 <b id="salvage-weekly-count">1</b> / 4회</div>
-      <div class="legendary-success" id="salvage-legendary-msg" style="display:none;">✨ 이번 주 전설 유물 획득 성공!</div>
+      <div id="salvage-reward-lines"></div>
       <button class="modal-btn" data-close="modal-salvage">확인</button>
     </div>
   </div>
 
-  <!-- POPUP 2: 주간 유물 감정 -->
-  <div class="modal-overlay" id="modal-appraise">
+  <!-- MODAL 2: GLASS BOTTLE CHOICE -->
+  <div class="modal-overlay" id="modal-bottle-choice">
     <div class="modal-card">
-      <button class="modal-close" data-close="modal-appraise">✕</button>
-      <div class="modal-eyebrow">🔍 유물 감정 중...</div>
-      <div class="artifact-icon-pop">🔮</div>
-      <div class="modal-sub">보유 유물 1개를 감정하여 보상을 확인합니다</div>
-      <div class="modal-divider"></div>
-      <div class="reward-line"><span class="icon-big" id="appraise-reward-icon">🎁</span> <span id="appraise-reward-text">보물 상자 획득</span></div>
-      <button class="modal-btn violet" id="btn-appraise-confirm">보상 수령 완료</button>
+      <div class="modal-eyebrow">🍾 고대 환영 유리 술병 효과</div>
+      <div style="font-size:14px;color:#fff;font-weight:700;margin:6px 0;">다음 등장(획득)시킬 유물을 확정 선택하세요!</div>
+      <div class="choice-grid" id="bottle-choice-grid"></div>
     </div>
   </div>
 
-  <div id="toast"></div>
+  <div id="toast" class="">편집 모드 OFF — 명칭 수정이 완료되었습니다.</div>
 </div>
 
 <script>
 (function(){
   "use strict";
 
-  /* ============ 기본 데이터 ============ */
-  var REWARD_ICONS = ['🖼️','🎁','💠','💰','🧪'];
-  var WEEKLY_ARTIFACT_TARGET = 4; // 이번 주 인양 4회 도달 시 전설 유물 1종 확정 획득 (주간 1회 제한)
-  var DEPTH_MIN = 100, DEPTH_MAX = 5000;
-  var STORAGE_SLOT_MIN = 6; // 유물 보관함 최소 표시 슬롯 수
-  var MISSION_CLEAR_REQUIRED = 2; // 여러 미션 중 2개만 클리어하면 인양 기회 지급
+  /* ============ ARTIFACT DATA (6 TYPES) ============ */
+  var ARTIFACTS_DATA = [
+    {
+        "id": 1,
+        "name": "고대의 나침반",
+        "icon": "🧭",
+        "desc": "다음 인양 시 보너스 상자 1개 추가 (1회)"
+    },
+    {
+        "id": 2,
+        "name": "프로키온 바다의 오래된 해도",
+        "icon": "📜",
+        "desc": "다음 일자 미션 완료 조건 완화 (2회→1회)"
+    },
+    {
+        "id": 3,
+        "name": "고대의 신 조각상",
+        "icon": "🗿",
+        "desc": "주간 인양 요구 횟수 감축 (4회→3회)"
+    },
+    {
+        "id": 4,
+        "name": "신관의 서",
+        "icon": "📖",
+        "desc": "수심 1,000m 이상 인양 시 보너스 보상 1회 추가"
+    },
+    {
+        "id": 5,
+        "name": "잊혀진 영웅의 전기",
+        "icon": "📕",
+        "desc": "유물 감정 시 보상 1+1 추가 지급"
+    },
+    {
+        "id": 6,
+        "name": "고대 환영 유리 술병",
+        "icon": "🍾",
+        "desc": "다음 등장 유물 확정 선택 선택"
+    }
+];
 
-  var DEFAULT_NAMES = {
-    mainTitle: '해저 보물 탐사',
-    subTitle: '일일 미션을 완수하고 심해 속 보물과 침몰선의 유물을 인양하세요!',
-    rewardGrades: ['S등급','S등급','S등급','S등급','S등급'],
-    rewards: ['전설 아바타','보물 상자','고급 강화석','골드 주머니','회복 소모품'],
-    missions: ['오늘의 접속 보상 수령하기','심해 몬스터 10마리 처치하기','일일 퀘스트 3회 완료하기','친구와 함께 탐사하기','상점에서 아이템 구매하기','길드 채팅 참여하기']
-  };
+  var DEFAULT_MISSIONS = [
+    "게임 플레이 30분 달성",
+    "카오스 던전 / 쿠르잔 전선 / 혼돈의 균열 클리어 1회",
+    "가디언 토벌 1회 클리어",
+    "영지 활동력 누적 3,000 소모",
+    "생명의 기운 누적 3,000 소모"
+];
 
-  var STORAGE_KEY = 'seaTreasureEventState_v5';
+  var DEFAULT_TITLES = {
+    "mainTitle": "해저 탐사 이벤트",
+    "subTitle": "심해 잠수정을 타고 침몰선의 보물을 인양하고 유물을 감정하세요!"
+};
+
+  var REWARD_POOL = ['🖼️ 전설 아바타', '🎁 보물 상자', '💠 고급 강화석', '💰 골드 주머니', '🧪 회복 소모품'];
+  var STORAGE_KEY = 'cuteSeaTreasureState_v3';
 
   function defaultState(){
     return {
-      day:1,
-      tickets:0,               // 보유 인양 횟수
-      missions:[{completed:false},{completed:false},{completed:false},{completed:false},{completed:false},{completed:false}], // 일일 미션 최대 6종 (2개만 클리어하면 됨)
-      dailyTicketGranted:false, // 오늘 미션 완수로 이미 인양 기회를 지급했는지
-      weeklyRescue:0,          // 이번 주 인양 횟수 (0~4)
-      weeklyArtifactObtained:false, // 이번 주 전설 유물 획득 여부 (주간 1회 제한)
-      artifactsOwned:0,        // 보유 유물 개수 (감정 대기)
-      rewardPool:[0,1,2,3,4],  // 미수령 주간 보상 인덱스 풀 (비복원)
-      rewardsReceived:[false,false,false,false,false],
-      completedAppraisals:0,   // 완료한 감정 횟수 (0~5)
-      names: JSON.parse(JSON.stringify(DEFAULT_NAMES)),
-      editMode:false,
-      lastPublishedAt:null,    // 명칭 편집 내용을 마지막으로 "발행"한 시각 (timestamp, ms)
-      hasUnpublishedEdits:false // 발행 이후 편집이 발생했는지 여부
+      day: 1,
+      tickets: 0,
+      totalSalvageCount: 0,
+      dailyTicketGranted: false,
+      missions: [false, false, false, false, false],
+      weeklyRescue: 0,
+      weeklyTarget: 4,
+      ownedArtifacts: [],
+      appraisedArtifacts: [],
+      nextBottleChoiceId: null,
+      customTitles: JSON.parse(JSON.stringify(DEFAULT_TITLES)),
+      customMissions: JSON.parse(JSON.stringify(DEFAULT_MISSIONS)),
+      customArtifacts: JSON.parse(JSON.stringify(ARTIFACTS_DATA)),
+      editMode: false
     };
   }
 
@@ -563,428 +528,414 @@
       var parsed = JSON.parse(raw);
       var d = defaultState();
       for(var k in d){ if(parsed[k]===undefined) parsed[k]=d[k]; }
-      if(!parsed.names.missions) parsed.names.missions = d.names.missions;
-      if(!parsed.missions) parsed.missions = d.missions;
       return parsed;
     }catch(e){ return defaultState(); }
   }
   function saveState(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }
 
-  /* ============ DOM refs ============ */
+  /* ============ DOM REFS ============ */
   var $ = function(id){ return document.getElementById(id); };
-  var wrap = $('event-wrap');
-  var mainTitleEl = $('main-title');
-  var subTitleEl = $('sub-title');
-  var rewardRow = $('storage-slots-row');
-  var missionListEl = $('mission-list');
-  var rewardStripEl = $('reward-strip');
 
-  /* ============ Render ============ */
+  /* ============ RENDER ============ */
   function render(){
-    mainTitleEl.textContent = state.names.mainTitle;
-    subTitleEl.textContent = state.names.subTitle;
+    var currentWeek = Math.min(8, Math.floor((state.day - 1) / 7) + 1);
+
+    $('main-title').textContent = state.customTitles.mainTitle;
+    $('sub-title').textContent = state.customTitles.subTitle;
 
     $('stat-day').textContent = state.day;
+    $('stat-week').textContent = currentWeek;
     $('stat-tickets').textContent = state.tickets;
-    $('stat-weekly-rescue').textContent = Math.min(state.weeklyRescue, WEEKLY_ARTIFACT_TARGET);
-    $('stat-artifacts').textContent = state.artifactsOwned;
-    $('stat-progress-count').textContent = state.completedAppraisals;
-    $('progress-bar-inner').style.width = (state.completedAppraisals/5*100)+'%';
-    $('weekly-hint').textContent = state.weeklyArtifactObtained ? '✨ 이번 주 유물 획득 완료' : '';
-    $('storage-count-label').textContent = state.artifactsOwned;
+    $('stat-total-salvage').textContent = state.totalSalvageCount;
+    $('stat-weekly-rescue').textContent = state.weeklyRescue;
+    
+    var hasStatue = state.ownedArtifacts.indexOf(3) !== -1;
+    state.weeklyTarget = hasStatue ? 3 : 4;
+    $('stat-weekly-target').textContent = state.weeklyTarget;
 
-    // 인양 버튼
-    var btnSalvage = $('btn-salvage');
-    btnSalvage.disabled = state.tickets<=0;
-    btnSalvage.title = state.tickets<=0 ? '보유 인양 횟수가 없습니다. 일일 미션 '+MISSION_CLEAR_REQUIRED+'개를 완료하세요.' : '';
+    $('stat-artifacts-owned').textContent = state.ownedArtifacts.length;
+    $('stat-artifacts-appraised').textContent = state.appraisedArtifacts.length;
 
-    // 감정 버튼
-    var btnAppraise = $('btn-appraise');
-    var canAppraise = state.artifactsOwned>0 && state.rewardPool.length>0;
-    btnAppraise.disabled = !canAppraise;
-    if(state.artifactsOwned<=0) btnAppraise.title = '보관함에 유물이 없습니다. 이번 주 인양 4회를 달성해 유물을 획득하세요.';
-    else if(state.rewardPool.length<=0) btnAppraise.title = '모든 주간 보상을 이미 감정으로 획득했습니다.';
-    else btnAppraise.title = '';
-
+    renderBuffBar();
     renderMissions();
-    renderStorageSlots();
-    renderRewardStrip();
-    renderPublishStatus();
+    renderTiles();
+    renderProgress();
+
+    $('btn-salvage').disabled = state.tickets <= 0 || state.totalSalvageCount >= 56;
+    $('btn-salvage-all').disabled = state.tickets <= 0 || state.totalSalvageCount >= 56;
   }
 
-  /* ============ 발행 상태 표시 ============ */
-  function renderPublishStatus(){
-    var el = $('publish-status');
-    if(state.editMode){
-      // 편집 모드 중에는 상태 뱃지를 숨겨 혼란을 방지(편집 후 발행 버튼으로 확정)
-      el.style.display = 'none';
-      return;
+  function renderBuffBar(){
+    var listEl = $('buff-list');
+    listEl.innerHTML = '';
+    var hasBuff = false;
+
+    if(state.ownedArtifacts.indexOf(1) !== -1){
+      hasBuff = true;
+      listEl.innerHTML += '<span class="buff-tag">🧭 나침반: 다음 인양 시 보너스 상자</span>';
     }
-    if(!state.lastPublishedAt){
-      el.style.display = 'none';
-      return;
+    if(state.ownedArtifacts.indexOf(2) !== -1){
+      hasBuff = true;
+      listEl.innerHTML += '<span class="buff-tag">📜 해도: 미션 완료 조건 1회로 완화</span>';
     }
-    el.style.display = 'inline-flex';
-    var d = new Date(state.lastPublishedAt);
-    var hh = String(d.getHours()).padStart(2,'0');
-    var mm = String(d.getMinutes()).padStart(2,'0');
-    if(state.hasUnpublishedEdits){
-      el.className = '';
-      el.textContent = '⚠️ 미발행 수정사항 있음';
-    } else {
-      el.className = 'published';
-      el.textContent = '✅ 발행됨 ('+hh+':'+mm+')';
+    if(state.ownedArtifacts.indexOf(3) !== -1){
+      hasBuff = true;
+      listEl.innerHTML += '<span class="buff-tag">🗿 조각상: 주간 인양 목표 3회 감축 적용 중</span>';
+    }
+    if(state.ownedArtifacts.indexOf(4) !== -1){
+      hasBuff = true;
+      listEl.innerHTML += '<span class="buff-tag">📖 신관의 서: 1,000m↑ 보너스 보상</span>';
+    }
+    if(state.ownedArtifacts.indexOf(5) !== -1){
+      hasBuff = true;
+      listEl.innerHTML += '<span class="buff-tag">📕 전기: 유물 감정 시 보상 1+1 지급</span>';
+    }
+    if(state.ownedArtifacts.indexOf(6) !== -1){
+      hasBuff = true;
+      listEl.innerHTML += '<span class="buff-tag">🍾 유리 술병: 등장 유물 지정 가능</span>';
+    }
+
+    if(!hasBuff){
+      listEl.innerHTML = '<span class="buff-empty">현재 획득하여 활성화된 유물 특수 효과가 없습니다.</span>';
     }
   }
 
   function renderMissions(){
-    missionListEl.innerHTML = '';
-    var doneCount = 0;
-    for(var i=0;i<state.missions.length;i++){
-      if(state.missions[i].completed) doneCount++;
-    }
-    var goalReached = doneCount >= MISSION_CLEAR_REQUIRED;
-    for(var i=0;i<state.missions.length;i++){
-      var m = state.missions[i];
-      var locked = goalReached && !m.completed;
+    var listEl = $('mission-list');
+    listEl.innerHTML = '';
+    
+    var hasMap = state.ownedArtifacts.indexOf(2) !== -1;
+    var reqCount = hasMap ? 1 : 2;
+    $('foot-req-count').textContent = reqCount + '개';
+
+    var doneCount = state.missions.filter(Boolean).length;
+    var goalReached = doneCount >= reqCount;
+
+    for(var i=0; i<state.customMissions.length; i++){
+      var isDone = state.missions[i];
+      var isLocked = goalReached && !isDone;
       var item = document.createElement('div');
-      item.className = 'mission-item' + (m.completed?' done':'') + (locked?' locked':'');
+      item.className = 'mission-item' + (isDone?' done':'') + (isLocked?' locked':'');
       item.innerHTML =
-        '<span class="mission-icon-circle">'+(m.completed?'✔':(i+1))+'</span>' +
-        '<span class="mission-name" contenteditable="'+state.editMode+'" data-type="mission" data-idx="'+i+'">'+state.names.missions[i]+'</span>' +
-        (m.completed
-          ? '<span class="mission-done-badge">✔ 완료됨</span>'
-          : (locked
-              ? '<span class="mission-locked-badge">🔒 마감</span>'
-              : '<button class="mission-btn" data-mission-idx="'+i+'">완료하기</button>'));
-      missionListEl.appendChild(item);
+        '<span class="mission-icon-circle">'+(isDone?'✔':(i+1))+'</span>' +
+        '<span class="mission-name" contenteditable="'+state.editMode+'" data-type="mission" data-idx="'+i+'">'+state.customMissions[i]+'</span>' +
+        (isDone ? '<span class="mission-done-badge">완료됨</span>' :
+          (isLocked ? '<span class="mission-done-badge" style="color:#7a94a8">마감</span>' :
+            '<button class="mission-btn" data-idx="'+i+'">완료하기</button>'));
+      listEl.appendChild(item);
     }
+
     var badge = $('mission-counter-badge');
-    badge.textContent = Math.min(doneCount,MISSION_CLEAR_REQUIRED)+'/'+MISSION_CLEAR_REQUIRED+' 완료';
+    badge.textContent = Math.min(doneCount, reqCount) + '/' + reqCount + ' 완료';
     badge.classList.toggle('full', goalReached);
 
-    // 완료하기 버튼 이벤트 바인딩 (잠기지 않은 버튼만)
-    missionListEl.querySelectorAll('[data-mission-idx]').forEach(function(btn){
+    listEl.querySelectorAll('.mission-btn').forEach(function(btn){
       btn.addEventListener('click', function(){
-        var idx = parseInt(this.getAttribute('data-mission-idx'),10);
-        state.missions[idx].completed = true;
-        saveState();
-        grantTicketIfEligible();
-        render();
+        var idx = parseInt(this.getAttribute('data-idx'), 10);
+        state.missions[idx] = true;
+        checkMissionTicketGrant();
+        saveState(); render();
       });
     });
 
-    bindEditableNames();
+    bindEditableEvents();
   }
 
-  function grantTicketIfEligible(){
-    var doneCount = state.missions.filter(function(m){ return m.completed; }).length;
-    var goalDone = doneCount >= MISSION_CLEAR_REQUIRED;
-    if(goalDone && !state.dailyTicketGranted){
-      state.tickets += 1;
-      state.dailyTicketGranted = true;
-      saveState();
-      showToast('일일 미션 '+MISSION_CLEAR_REQUIRED+'개 완료! 보물 인양 기회 +1 획득 ⚓');
+  function checkMissionTicketGrant(){
+    var hasMap = state.ownedArtifacts.indexOf(2) !== -1;
+    var reqCount = hasMap ? 1 : 2;
+    var doneCount = state.missions.filter(Boolean).length;
+    if(doneCount >= reqCount && !state.dailyTicketGranted){
+      if(state.totalSalvageCount + state.tickets < 56){
+        state.tickets += 1;
+        state.dailyTicketGranted = true;
+        showToast('일일 미션 완료! 보물 인양 기회 +1 획득 ⚓');
+      }
     }
   }
 
-  function renderStorageSlots(){
-    rewardRow.innerHTML = '';
-    var slotCount = Math.max(STORAGE_SLOT_MIN, state.artifactsOwned);
-    for(var i=0;i<slotCount;i++){
-      var filled = i < state.artifactsOwned;
-      var slot = document.createElement('div');
-      slot.className = 'storage-slot' + (filled?' filled':'');
-      slot.innerHTML =
-        '<span class="slot-icon">🔮</span>' +
-        '<span class="slot-label">'+(filled ? '유물 보관 중' : '빈 슬롯')+'</span>';
-      rewardRow.appendChild(slot);
+  function renderTiles(){
+    var gridEl = $('tile-grid');
+    gridEl.innerHTML = '';
+
+    for(var i=0; i<6; i++){
+      var art = state.customArtifacts[i];
+      var isOwned = state.ownedArtifacts.indexOf(art.id) !== -1;
+      var isAppraised = state.appraisedArtifacts.indexOf(art.id) !== -1;
+
+      var tile = document.createElement('div');
+      tile.className = 'artifact-tile' + (!isOwned ? ' locked' : (isAppraised ? ' appraised' : ' owned'));
+      tile.setAttribute('data-id', art.id);
+
+      var statusText = !isOwned ? '미획득' : (isAppraised ? '감정완료' : '감정가능');
+      tile.innerHTML =
+        '<span class="tile-status-badge">'+statusText+'</span>' +
+        '<span class="tile-icon">'+art.icon+'</span>' +
+        '<span class="tile-name" contenteditable="'+state.editMode+'" data-type="art-name" data-idx="'+i+'">'+art.name+'</span>' +
+        '<span class="tile-desc" contenteditable="'+state.editMode+'" data-type="art-desc" data-idx="'+i+'">'+art.desc+'</span>';
+
+      if(isOwned && !isAppraised && !state.editMode){
+        tile.addEventListener('click', (function(id){
+          return function(){ appraiseArtifact(id); };
+        })(art.id));
+      }
+      gridEl.appendChild(tile);
     }
+
+    bindEditableEvents();
   }
 
-  function renderRewardStrip(){
-    rewardStripEl.innerHTML = '';
-    for(var i=0;i<5;i++){
-      var received = state.rewardsReceived[i];
-      var dot = document.createElement('span');
-      dot.className = 'reward-strip-icon' + (received?' received':'');
-      dot.textContent = REWARD_ICONS[i];
-      dot.title = state.names.rewardGrades[i] + ' · ' + state.names.rewards[i] + (received ? ' (수령완료)' : ' (미수령)');
-      rewardStripEl.appendChild(dot);
-    }
+  function renderProgress(){
+    var pct = Math.min(100, (state.weeklyRescue / state.weeklyTarget) * 100);
+    $('artifact-progress-bar').style.width = pct + '%';
+    $('artifact-progress-text').textContent = state.weeklyRescue + ' / ' + state.weeklyTarget + '회';
   }
 
-  function bindEditableNames(){
-    var els = document.querySelectorAll('[data-type]');
-    els.forEach(function(el){
+  function bindEditableEvents(){
+    document.querySelectorAll('[contenteditable="true"]').forEach(function(el){
       el.onblur = function(){
         var type = this.getAttribute('data-type');
-        var idx = parseInt(this.getAttribute('data-idx'),10);
-        var text = this.textContent.trim() || '(이름 없음)';
-        if(type==='reward') state.names.rewards[idx] = text;
-        else if(type==='grade') state.names.rewardGrades[idx] = text;
-        else if(type==='mission') state.names.missions[idx] = text;
-        state.hasUnpublishedEdits = true;
+        var idx = parseInt(this.getAttribute('data-idx'), 10);
+        var text = this.textContent.trim();
+
+        if(type === 'main-title') state.customTitles.mainTitle = text || DEFAULT_TITLES.mainTitle;
+        else if(type === 'sub-title') state.customTitles.subTitle = text || DEFAULT_TITLES.subTitle;
+        else if(type === 'mission') state.customMissions[idx] = text || DEFAULT_MISSIONS[idx];
+        else if(type === 'art-name') state.customArtifacts[idx].name = text || ARTIFACTS_DATA[idx].name;
+        else if(type === 'art-desc') state.customArtifacts[idx].desc = text || ARTIFACTS_DATA[idx].desc;
+
         saveState();
       };
     });
   }
 
-  /* ============ 편집 모드 ============ */
+  /* ============ EDIT MODE & DOWNLOAD ============ */
   $('btn-edit-mode').addEventListener('click', function(){
     state.editMode = !state.editMode;
-    wrap.classList.toggle('edit-mode', state.editMode);
+    $('event-wrap').classList.toggle('edit-mode', state.editMode);
     this.classList.toggle('on', state.editMode);
     this.textContent = state.editMode ? '✅ 편집 완료' : '✏️ 명칭 편집 모드';
-    mainTitleEl.setAttribute('contenteditable', state.editMode);
-    subTitleEl.setAttribute('contenteditable', state.editMode);
+
+    $('main-title').setAttribute('contenteditable', state.editMode);
+    $('main-title').setAttribute('data-type', 'main-title');
+    $('sub-title').setAttribute('contenteditable', state.editMode);
+    $('sub-title').setAttribute('data-type', 'sub-title');
+
     renderMissions();
-    if(!state.editMode){
-      state.names.mainTitle = mainTitleEl.textContent.trim() || DEFAULT_NAMES.mainTitle;
-      state.names.subTitle = subTitleEl.textContent.trim() || DEFAULT_NAMES.subTitle;
-      state.hasUnpublishedEdits = true;
-      saveState();
-      render();
-      showToast('명칭 편집 내용이 임시 저장되었습니다. [📢 편집 저장·발행] 버튼을 눌러야 실제로 발행됩니다.');
-    } else {
-      showToast('편집 모드 ON — 텍스트를 클릭해 수정하세요.');
-    }
-  });
+    renderTiles();
 
-  /* ============ 편집 저장·발행 ============ */
-  $('btn-publish').addEventListener('click', function(){
-    // 편집 모드가 켜져 있으면 먼저 편집을 종료(현재 입력 중인 타이틀/미션명을 확정)해서 발행
     if(state.editMode){
-      state.editMode = false;
-      wrap.classList.remove('edit-mode');
-      $('btn-edit-mode').classList.remove('on');
-      $('btn-edit-mode').textContent = '✏️ 명칭 편집 모드';
-      mainTitleEl.setAttribute('contenteditable', false);
-      subTitleEl.setAttribute('contenteditable', false);
-      state.names.mainTitle = mainTitleEl.textContent.trim() || DEFAULT_NAMES.mainTitle;
-      state.names.subTitle = subTitleEl.textContent.trim() || DEFAULT_NAMES.subTitle;
+      showToast('편집 모드 ON — 텍스트를 클릭해 명칭을 수정하세요.');
+    } else {
+      showToast('편집 모드 OFF — 명칭 수정이 완료되었습니다.');
     }
-    state.lastPublishedAt = Date.now();
-    state.hasUnpublishedEdits = false;
-    saveState();
-    render();
-    showToast('✅ 편집 내용이 이 브라우저에 저장·발행 확정되었습니다.');
   });
 
-  /* ============ HTML 다운로드 (현재 편집 내용이 기본값으로 반영된 단일 파일) ============ */
+  $('btn-download').addEventListener('click', function(){
+    if(state.editMode) $('btn-edit-mode').click();
+
+    fetch(location.href, {cache: 'no-store'})
+      .then(function(res){ return res.text(); })
+      .then(function(html){ triggerDownload(buildExportHtml(html)); })
+      .catch(function(){
+        var raw = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
+        triggerDownload(buildExportHtml(raw));
+      });
+  });
+
   function buildExportHtml(sourceHtml){
-    // 현재 편집된 명칭(state.names)을 파일의 DEFAULT_NAMES로 치환 → 다운로드한 파일을 열면
-    // 처음부터(localStorage 없이도) 지금 편집한 문구가 그대로 보임
-    var namesJson = JSON.stringify(state.names, null, 4);
-    return sourceHtml.replace(/var DEFAULT_NAMES = \{[\s\S]*?\};/, 'var DEFAULT_NAMES = ' + namesJson + ';');
+    var titlesJson = JSON.stringify(state.customTitles, null, 4);
+    var missionsJson = JSON.stringify(state.customMissions, null, 4);
+    var artifactsJson = JSON.stringify(state.customArtifacts, null, 4);
+
+    var res = sourceHtml;
+    res = res.replace(/var DEFAULT_TITLES = \{[\s\S]*?\};/, 'var DEFAULT_TITLES = ' + titlesJson + ';');
+    res = res.replace(/var DEFAULT_MISSIONS = \[[\s\S]*?\];/, 'var DEFAULT_MISSIONS = ' + missionsJson + ';');
+    res = res.replace(/var ARTIFACTS_DATA = \[[\s\S]*?\];/, 'var ARTIFACTS_DATA = ' + artifactsJson + ';');
+    return res;
   }
-  function triggerHtmlDownload(html){
-    var blob = new Blob([html], {type:'text/html;charset=utf-8'});
+
+  function triggerDownload(htmlContent){
+    var blob = new Blob([htmlContent], {type: 'text/html;charset=utf-8'});
     var url = URL.createObjectURL(blob);
     var a = document.createElement('a');
     var d = new Date();
-    var stamp = d.getFullYear()+String(d.getMonth()+1).padStart(2,'0')+String(d.getDate()).padStart(2,'0')+'_'+String(d.getHours()).padStart(2,'0')+String(d.getMinutes()).padStart(2,'0');
+    var stamp = d.getFullYear() + String(d.getMonth()+1).padStart(2,'0') + String(d.getDate()).padStart(2,'0');
     a.href = url;
-    a.download = '해저보물탐사_이벤트페이지_'+stamp+'.html';
+    a.download = '해양탐사_이벤트페이지_' + stamp + '.html';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     setTimeout(function(){ URL.revokeObjectURL(url); }, 1500);
-  }
-  $('btn-download').addEventListener('click', function(){
-    var btn = this;
-    btn.disabled = true;
-    // 편집 모드가 켜져 있으면 먼저 확정(발행)하고 다운로드
-    if(state.editMode){
-      $('btn-publish').click();
-    }
-    fetch(location.href, {cache:'no-store'})
-      .then(function(res){
-        if(!res.ok) throw new Error('fetch failed');
-        return res.text();
-      })
-      .then(function(html){
-        triggerHtmlDownload(buildExportHtml(html));
-        showToast('⬇️ 현재 편집 내용이 반영된 HTML 파일을 다운로드했습니다.');
-      })
-      .catch(function(){
-        // 폴백: 원본을 fetch할 수 없는 환경(예: file:// 보안 제약)에서는 현재 문서를 그대로 직렬화
-        // (스크립트 태그의 원본 소스 텍스트는 그대로 유지되므로 동일한 치환이 적용됨)
-        var raw = '<!DOCTYPE html>\n' + document.documentElement.outerHTML;
-        triggerHtmlDownload(buildExportHtml(raw));
-        showToast('⬇️ 현재 편집 내용이 반영된 HTML 파일을 다운로드했습니다.');
-      })
-      .finally(function(){ btn.disabled = false; });
-  });
-
-  /* ============ 디버그: 다음날 넘기기 ============ */
-  $('btn-next-day').addEventListener('click', function(){
-    state.day += 1;
-    // 일일 미션은 하루 최대 2회(MISSION_CLEAR_REQUIRED)까지만 클리어 가능 → 다음 날로 넘어가면
-    // 모든 미션의 완료 상태와 "오늘 인양 기회 지급 여부"를 반드시 초기화해서 매일 새로 2개를 클리어해야 함
-    state.missions.forEach(function(m){ m.completed = false; });
-    state.dailyTicketGranted = false;
-    saveState(); render();
-    showToast('Day '+state.day+' 진입! 일일 미션 달성도가 초기화되었습니다. 오늘 다시 '+MISSION_CLEAR_REQUIRED+'개를 클리어하세요 🌅');
-  });
-
-  /* ============ 디버그: 주간 초기화 ============ */
-  $('btn-weekly-reset').addEventListener('click', function(){
-    state.weeklyRescue = 0;
-    state.weeklyArtifactObtained = false;
-    saveState(); render();
-    showToast('이번 주 인양 횟수와 유물 획득 상태가 초기화되었습니다.');
-  });
-
-  /* ============ 디버그: 전체 초기화 ============ */
-  $('btn-full-reset').addEventListener('click', function(){
-    if(!confirm('모든 진행 데이터를 초기화합니다. 계속하시겠습니까?')) return;
-    state = defaultState();
-    wrap.classList.remove('edit-mode');
-    $('btn-edit-mode').classList.remove('on');
-    $('btn-edit-mode').textContent = '✏️ 명칭 편집 모드';
-    mainTitleEl.setAttribute('contenteditable', false);
-    subTitleEl.setAttribute('contenteditable', false);
-    saveState(); render();
-    showToast('모든 데이터가 최초 상태로 초기화되었습니다.');
-  });
-
-  /* ============ 보물 인양하기 (애니메이션 연출 포함) ============ */
-  var salvageInProgress = false;
-  $('btn-salvage').addEventListener('click', function(){
-    if(state.tickets<=0 || salvageInProgress) return;
-    salvageInProgress = true;
-    var btn = this;
-    btn.disabled = true;
-
-    // 1) 잠수정 다이빙 킥 애니메이션
-    var subEl = $('submarine-el');
-    subEl.classList.add('diving');
-
-    // 2) 보상 상자 팝 애니메이션 + 스파클 버스트
-    var chestWrap = $('daily-chest-wrap');
-    chestWrap.classList.add('pop');
-    spawnSparkleBurst(chestWrap);
-
-    setTimeout(function(){
-      subEl.classList.remove('diving');
-      chestWrap.classList.remove('pop');
-      salvageInProgress = false;
-      performSalvage();
-      render();
-      btn.disabled = state.tickets<=0;
-    }, 900);
-  });
-
-  function spawnSparkleBurst(container){
-    var icons = ['✨','💰','🔮','⭐','🎁'];
-    for(var i=0;i<7;i++){
-      var span = document.createElement('span');
-      span.className = 'burst-particle';
-      span.textContent = icons[Math.floor(Math.random()*icons.length)];
-      var angle = (Math.PI*2*i/7) + (Math.random()*0.6-0.3);
-      var dist = 40 + Math.random()*30;
-      span.style.setProperty('--bx', (Math.cos(angle)*dist)+'px');
-      span.style.setProperty('--by', (Math.sin(angle)*dist - 20)+'px');
-      container.appendChild(span);
-      (function(el){ setTimeout(function(){ el.remove(); }, 950); })(span);
-    }
+    showToast('⬇️ 편집한 내용이 반영된 HTML 파일을 다운로드했습니다.');
   }
 
-  function performSalvage(){
-    state.tickets -= 1;
-    state.weeklyRescue = Math.min(WEEKLY_ARTIFACT_TARGET, state.weeklyRescue+1);
+  /* ============ SALVAGE LOGIC ============ */
+  $('btn-salvage').addEventListener('click', function(){ performSalvage(1); });
+  $('btn-salvage-all').addEventListener('click', function(){ performSalvage(state.tickets); });
 
-    // 100m ~ 5000m 랜덤 수심 연출
-    var depth = Math.floor(Math.random()*(DEPTH_MAX-DEPTH_MIN+1))+DEPTH_MIN;
+  function performSalvage(count){
+    if(state.tickets <= 0) return;
+    var actualCount = Math.min(count, state.tickets);
+    state.tickets -= actualCount;
+    state.totalSalvageCount += actualCount;
 
-    // 이번 주 인양 4회 도달 시 전설 유물 1종 확정 획득 (주간 1회 제한)
-    var justEarnedArtifact = false;
-    if(state.weeklyRescue>=WEEKLY_ARTIFACT_TARGET && !state.weeklyArtifactObtained){
-      state.artifactsOwned += 1;
-      state.weeklyArtifactObtained = true;
-      justEarnedArtifact = true;
+    var rewardLinesHtml = '';
+
+    for(var c=0; c<actualCount; c++){
+      state.weeklyRescue += 1;
+      var depth = Math.floor(Math.random() * 4900) + 100;
+      var line = '✨ 수심 ' + depth.toLocaleString() + 'm 인양 성공!';
+
+      if(state.ownedArtifacts.indexOf(1) !== -1){
+        line += ' (🧭나침반 보너스 상자 +1)';
+      }
+      if(state.ownedArtifacts.indexOf(4) !== -1 && depth >= 1000){
+        line += ' (📖신관의서 1000m↑ 보너스 +1)';
+      }
+      rewardLinesHtml += '<div style="font-size:12.5px;color:#eafcff;margin:3px 0;">'+line+'</div>';
+
+      if(state.weeklyRescue >= state.weeklyTarget && state.ownedArtifacts.length < 6){
+        state.weeklyRescue = 0;
+        
+        var nextId = state.nextBottleChoiceId;
+        if(!nextId || state.ownedArtifacts.indexOf(nextId) !== -1){
+          var unowned = state.customArtifacts.filter(function(a){ return state.ownedArtifacts.indexOf(a.id) === -1; });
+          nextId = unowned[0].id;
+        }
+        
+        state.ownedArtifacts.push(nextId);
+        state.nextBottleChoiceId = null;
+
+        var earnedArt = state.customArtifacts.find(function(a){ return a.id === nextId; });
+        rewardLinesHtml += '<div style="color:var(--gold);font-weight:700;margin-top:6px;">🔮 주간 인양 목표 달성! ['+earnedArt.name+'] 획득! (특수 버프 즉시 활성화)</div>';
+
+        if(state.ownedArtifacts.length === 6){
+          state.tickets += 1;
+          rewardLinesHtml += '<div style="color:var(--cyan);font-weight:700;">✨ 마지막 유물 획득 기념 즉시 인양 기회 +1 보너스!</div>';
+        }
+
+        if(nextId === 6){
+          setTimeout(triggerBottleChoice, 500);
+        }
+      }
     }
 
-    saveState();
-
-    $('salvage-depth').textContent = depth.toLocaleString();
-    $('salvage-weekly-count').textContent = Math.min(state.weeklyRescue, WEEKLY_ARTIFACT_TARGET);
-    $('salvage-legendary-msg').style.display = justEarnedArtifact ? 'block' : 'none';
-
+    saveState(); render();
+    $('salvage-depth').textContent = actualCount > 1 ? actualCount + '회 연속 인양 완료' : '수심 ' + depth.toLocaleString() + 'm';
+    $('salvage-reward-lines').innerHTML = rewardLinesHtml;
     openModal('modal-salvage');
   }
 
-  /* ============ 상시 감정하기 ============ */
-  var pendingAppraiseRewardIdx = null;
-  $('btn-appraise').addEventListener('click', function(){
-    if(!(state.artifactsOwned>0 && state.rewardPool.length>0)) return;
+  /* ============ APPRAISE LOGIC ============ */
+  function appraiseArtifact(id){
+    if(state.ownedArtifacts.indexOf(id) === -1 || state.appraisedArtifacts.indexOf(id) !== -1) return;
 
-    if(state.rewardPool.length>0){
-      var idx = Math.floor(Math.random()*state.rewardPool.length);
-      pendingAppraiseRewardIdx = state.rewardPool[idx];
-      $('appraise-reward-icon').textContent = REWARD_ICONS[pendingAppraiseRewardIdx];
-      $('appraise-reward-text').textContent = state.names.rewardGrades[pendingAppraiseRewardIdx] + ' · ' + state.names.rewards[pendingAppraiseRewardIdx] + ' 획득';
-    }
-    openModal('modal-appraise');
-  });
+    state.appraisedArtifacts.push(id);
+    var art = state.customArtifacts.find(function(a){ return a.id === id; });
 
-  $('btn-appraise-confirm').addEventListener('click', function(){
-    if(pendingAppraiseRewardIdx!==null){
-      var poolIdx = state.rewardPool.indexOf(pendingAppraiseRewardIdx);
-      if(poolIdx>-1) state.rewardPool.splice(poolIdx,1);
-      state.rewardsReceived[pendingAppraiseRewardIdx] = true;
-      state.artifactsOwned = Math.max(0, state.artifactsOwned-1);
-      state.completedAppraisals += 1;
+    var reward = REWARD_POOL[Math.floor(Math.random() * REWARD_POOL.length)];
+    var msg = '🔮 [' + art.name + '] 감정 완료! ➔ 보상: ' + reward;
+
+    if(state.ownedArtifacts.indexOf(5) !== -1){
+      var bonusReward = REWARD_POOL[Math.floor(Math.random() * REWARD_POOL.length)];
+      msg += ' + 📕(전기 1+1 보너스: ' + bonusReward + ')';
     }
-    pendingAppraiseRewardIdx = null;
+
     saveState(); render();
-    closeModal('modal-appraise');
-    showToast('유물 감정 완료! 보상을 수령했습니다.');
+    showToast(msg);
+  }
+
+  $('btn-appraise-all').addEventListener('click', function(){
+    var toAppraise = state.ownedArtifacts.filter(function(id){
+      return state.appraisedArtifacts.indexOf(id) === -1;
+    });
+
+    if(toAppraise.length === 0){
+      showToast('현재 감정 가능한 보유 유물이 없습니다.');
+      return;
+    }
+    toAppraise.forEach(function(id){ appraiseArtifact(id); });
   });
 
-  /* ============ 모달 유틸 ============ */
+  function triggerBottleChoice(){
+    var gridEl = $('bottle-choice-grid');
+    gridEl.innerHTML = '';
+    
+    var unowned = state.customArtifacts.filter(function(a){ return state.ownedArtifacts.indexOf(a.id) === -1; });
+    if(unowned.length === 0) return;
+
+    unowned.forEach(function(art){
+      var card = document.createElement('div');
+      card.className = 'choice-card';
+      card.innerHTML = '<div style="font-weight:700;color:var(--gold);">'+art.icon+' '+art.name+'</div><div style="font-size:10px;color:#a8e2ff;">'+art.desc+'</div>';
+      card.addEventListener('click', function(){
+        state.nextBottleChoiceId = art.id;
+        closeModal('modal-bottle-choice');
+        saveState(); render();
+        showToast('🍾 ['+art.name+'] 유물이 다음 주차 등장 유물로 확정 선택되었습니다!');
+      });
+      gridEl.appendChild(card);
+    });
+    openModal('modal-bottle-choice');
+  }
+
+  /* ============ DEBUG / TOOLBAR ============ */
+  $('btn-next-day').addEventListener('click', function(){
+    state.day += 1;
+    state.missions = [false, false, false, false, false];
+    state.dailyTicketGranted = false;
+    saveState(); render();
+    showToast('Day '+state.day+' 진입! 일일 미션이 초기화되었습니다.');
+  });
+
+  $('btn-weekly-reset').addEventListener('click', function(){
+    state.weeklyRescue = 0;
+    saveState(); render();
+    showToast('이번 주 인양 누적 횟수가 초기화되었습니다.');
+  });
+
+  $('btn-full-reset').addEventListener('click', function(){
+    if(!confirm('모든 데이터 및 보유 유물 상태를 초기화하시겠습니까?')) return;
+    state = defaultState();
+    saveState(); render();
+    showToast('모든 진행 데이터가 최초 상태로 초기화되었습니다.');
+  });
+
+  /* ============ MODAL / UTILS ============ */
   function openModal(id){ $(id).classList.add('active'); }
   function closeModal(id){ $(id).classList.remove('active'); }
   document.querySelectorAll('[data-close]').forEach(function(btn){
     btn.addEventListener('click', function(){ closeModal(this.getAttribute('data-close')); });
   });
 
-  /* ============ 토스트 ============ */
   var toastTimer = null;
   function showToast(msg){
     var t = $('toast');
     t.textContent = msg;
     t.classList.add('show');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 2600);
+    toastTimer = setTimeout(function(){ t.classList.remove('show'); }, 3200);
   }
 
-  /* ============ 기포 생성 ============ */
+  /* ============ BUBBLE ANIMATION ============ */
   function spawnBubbles(){
     var layer = $('bubble-layer');
-    var count = 16;
-    for(var i=0;i<count;i++){
+    for(var i=0; i<14; i++){
       var b = document.createElement('span');
       b.className = 'bubble';
-      var size = 4 + Math.random()*10;
-      var left = Math.random()*100;
-      var duration = 5 + Math.random()*7;
-      var delay = Math.random()*10;
-      var drift = (Math.random()*40-20)+'px';
-      b.style.width = size+'px';
-      b.style.height = size+'px';
-      b.style.left = left+'%';
-      b.style.setProperty('--drift', drift);
-      b.style.animation = 'riseBubble '+duration+'s linear '+delay+'s infinite';
+      var size = 4 + Math.random()*8;
+      b.style.width = size+'px'; b.style.height = size+'px';
+      b.style.left = (Math.random()*100)+'%';
+      b.style.setProperty('--drift', (Math.random()*30-15)+'px');
+      b.style.animation = 'riseBubble '+(5+Math.random()*6)+'s linear '+(Math.random()*8)+'s infinite';
       layer.appendChild(b);
     }
   }
 
-  /* ============ 초기화 ============ */
   spawnBubbles();
   render();
 })();
 </script>
-</body>
-</html>
+
+</body></html>
