@@ -1,10 +1,11 @@
 <!DOCTYPE html>
-<html lang="ko"><head>
+<html lang="ko">
+<head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>해저 보물 탐사</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&amp;family=Gowun+Dodum&amp;family=Jua&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
 <style>
   :root{
     --gold:#ffd76b;
@@ -359,29 +360,29 @@
 </style>
 </head>
 <body>
-<div id="event-wrap" class="">
+<div id="event-wrap">
 
   <!-- TOOLBAR -->
   <div id="toolbar">
     <button class="tb-btn" id="btn-edit-mode">✏️ 명칭 편집 모드</button>
     <button class="tb-btn publish" id="btn-publish">📢 편집 저장·발행</button>
-    <button class="tb-btn download" id="btn-download" disabled="">⬇️ HTML 다운로드</button>
+    <button class="tb-btn download" id="btn-download">⬇️ HTML 다운로드</button>
     <button class="tb-btn" id="btn-next-day">⏩ 다음날 넘기기</button>
     <button class="tb-btn" id="btn-weekly-reset">🔄 주간 초기화</button>
     <button class="tb-btn danger" id="btn-full-reset">⚠️ 전체 초기화</button>
   </div>
-  <span id="publish-status" class="published" style="display: inline-flex;">✅ 발행됨 (11:27)</span>
+  <span id="publish-status"></span>
 
   <!-- TOP SECTION: SEA + TITLE -->
   <div id="top-section">
     <div class="sea-layer">
       <div class="wave-track wave-back">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,50 C150,110 300,-10 450,50 C600,110 750,-10 900,50 C1050,110 1200,-10 1350,50 L1350,120 L0,120 Z" fill="rgba(255,255,255,0.28)"></path></svg>
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,50 C150,110 300,-10 450,50 C600,110 750,-10 900,50 C1050,110 1200,-10 1350,50 L1350,120 L0,120 Z" fill="rgba(255,255,255,0.28)"></path></svg>
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,50 C150,110 300,-10 450,50 C600,110 750,-10 900,50 C1050,110 1200,-10 1350,50 L1350,120 L0,120 Z" fill="rgba(255,255,255,0.28)"/></svg>
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,50 C150,110 300,-10 450,50 C600,110 750,-10 900,50 C1050,110 1200,-10 1350,50 L1350,120 L0,120 Z" fill="rgba(255,255,255,0.28)"/></svg>
       </div>
       <div class="wave-track wave-front">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C200,10 400,110 600,55 C800,0 1000,100 1200,50 L1200,120 L0,120 Z" fill="rgba(140,210,240,0.55)"></path></svg>
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C200,10 400,110 600,55 C800,0 1000,100 1200,50 L1200,120 L0,120 Z" fill="rgba(140,210,240,0.55)"></path></svg>
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C200,10 400,110 600,55 C800,0 1000,100 1200,50 L1200,120 L0,120 Z" fill="rgba(140,210,240,0.55)"/></svg>
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C200,10 400,110 600,55 C800,0 1000,100 1200,50 L1200,120 L0,120 Z" fill="rgba(140,210,240,0.55)"/></svg>
       </div>
 
       <div class="ship ship1"><div class="flag"></div><div class="mast"></div><div class="sail"></div><div class="sail2"></div><div class="deck"></div><div class="hull"></div><div class="hull-shine"></div></div>
@@ -418,14 +419,14 @@
     </div>
     <div class="stat-block" id="progress-block">
       <span class="stat-label">📊 전체 감정 완료율 (<span id="stat-progress-count">0</span>/5)</span>
-      <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar-inner" style="width: 0%;"></div></div>
-      <div class="reward-strip" id="reward-strip"><span class="reward-strip-icon" title="S등급 · 전설 아바타 (미수령)">🖼️</span><span class="reward-strip-icon" title="S등급 · 보물 상자 (미수령)">🎁</span><span class="reward-strip-icon" title="S등급 · 고급 강화석 (미수령)">💠</span><span class="reward-strip-icon" title="S등급 · 골드 주머니 (미수령)">💰</span><span class="reward-strip-icon" title="S등급 · 회복 소모품 (미수령)">🧪</span></div>
+      <div class="progress-bar-outer"><div class="progress-bar-inner" id="progress-bar-inner"></div></div>
+      <div class="reward-strip" id="reward-strip"></div>
     </div>
   </div>
 
   <!-- STAGE MAIN -->
   <div id="stage-main">
-    <div class="bubble-layer" id="bubble-layer"><span class="bubble" style="width: 11.4242px; height: 11.4242px; left: 77.4619%; --drift: 8.418898981798598px; animation: 9.65471s linear 8.93253s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.62351px; height: 5.62351px; left: 36.1793%; --drift: -2.3295194429974444px; animation: 10.6333s linear 3.22351s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.20794px; height: 4.20794px; left: 19.3023%; --drift: 14.067336649629567px; animation: 9.94225s linear 5.41532s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 10.2984px; height: 10.2984px; left: 48.0644%; --drift: 12.252299967046632px; animation: 5.08265s linear 5.48115s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.97022px; height: 7.97022px; left: 6.82162%; --drift: 3.3984590065213496px; animation: 6.31205s linear 8.66834s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 12.6365px; height: 12.6365px; left: 76.0638%; --drift: 18.983487575452074px; animation: 7.24202s linear 2.20943s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.12357px; height: 5.12357px; left: 0.0163179%; --drift: 11.745445369388744px; animation: 11.9007s linear 1.32573s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.38366px; height: 6.38366px; left: 99.6477%; --drift: 3.6124794307351493px; animation: 8.24043s linear 0.742936s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 11.0668px; height: 11.0668px; left: 21.5374%; --drift: -8.772936304119021px; animation: 6.46639s linear 2.52678s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.43425px; height: 5.43425px; left: 77.1015%; --drift: -1.5116268108087958px; animation: 7.43381s linear 0.455977s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.08168px; height: 5.08168px; left: 54.6679%; --drift: 16.433938724894787px; animation: 9.09893s linear 3.44797s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 10.5261px; height: 10.5261px; left: 98.7293%; --drift: 9.007500177511183px; animation: 6.67413s linear 8.2487s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.79307px; height: 4.79307px; left: 49.2852%; --drift: -2.6798472993215974px; animation: 6.15795s linear 9.74232s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.68818px; height: 6.68818px; left: 7.74421%; --drift: 12.935031428677405px; animation: 5.06054s linear 7.33778s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.54169px; height: 7.54169px; left: 95.2603%; --drift: 17.374930787615px; animation: 10.8564s linear 1.84029s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 13.4335px; height: 13.4335px; left: 90.8237%; --drift: 19.596267698609992px; animation: 6.83046s linear 3.11682s infinite normal none running riseBubble;"></span></div>
+    <div class="bubble-layer" id="bubble-layer"></div>
 
     <div class="stage-upper">
       <!-- LEFT: 일일 미션 -->
@@ -434,7 +435,7 @@
           <span class="mission-title">📋 일일 미션</span>
           <span class="mission-counter-badge" id="mission-counter-badge">0/2 완료</span>
         </div>
-        <div class="mission-list" id="mission-list"><div class="mission-item"><span class="mission-icon-circle">1</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="0">게임 플레이 30분 달성 시</span><button class="mission-btn" data-mission-idx="0">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">2</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="1">카오스 던전/쿠르잔 전선/혼돈의 균열 클리어 -1 회</span><button class="mission-btn" data-mission-idx="1">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">3</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="2">가디언 토벌 (가디언의 의지 수집) - 1회</span><button class="mission-btn" data-mission-idx="2">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">4</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="3">영지 활동력 3,000 이상 사용 (누적) - 1회</span><button class="mission-btn" data-mission-idx="3">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">5</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="4">생명의 기운 3,000 이상 사용 (누적) - 1회</span><button class="mission-btn" data-mission-idx="4">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">6</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="5">길드 채팅 참여하기</span><button class="mission-btn" data-mission-idx="5">완료하기</button></div></div>
+        <div class="mission-list" id="mission-list"></div>
         <p class="mission-panel-foot">여러 미션 중 <b>2개만 클리어</b>하면 보물 인양 기회 1회가 부여됩니다 (이월/누적 가능)</p>
       </div>
 
@@ -467,7 +468,7 @@
           <span class="daily-chest-label">일일 탐사 보상 상자</span>
         </div>
 
-        <button class="btn-salvage" id="btn-salvage" disabled="" title="보유 인양 횟수가 없습니다. 일일 미션 2개를 완료하세요.">⚓ 보물 인양하기</button>
+        <button class="btn-salvage" id="btn-salvage">⚓ 보물 인양하기</button>
       </div>
     </div>
 
@@ -476,9 +477,9 @@
       <div class="storage-head-row">
         <span class="section-head">🔮 주간 유물 보관함</span>
         <span class="storage-sub-label">보관 중인 유물 <b id="storage-count-label">0</b>개 — 언제든 감정하여 보상을 받을 수 있어요</span>
-        <button class="btn-appraise" id="btn-appraise" disabled="" title="보관함에 유물이 없습니다. 이번 주 인양 4회를 달성해 유물을 획득하세요.">🔍 상시 감정하기</button>
+        <button class="btn-appraise" id="btn-appraise">🔍 상시 감정하기</button>
       </div>
-      <div class="storage-slots-row" id="storage-slots-row"><div class="storage-slot"><span class="slot-icon">🔮</span><span class="slot-label">빈 슬롯</span></div><div class="storage-slot"><span class="slot-icon">🔮</span><span class="slot-label">빈 슬롯</span></div><div class="storage-slot"><span class="slot-icon">🔮</span><span class="slot-label">빈 슬롯</span></div><div class="storage-slot"><span class="slot-icon">🔮</span><span class="slot-label">빈 슬롯</span></div><div class="storage-slot"><span class="slot-icon">🔮</span><span class="slot-label">빈 슬롯</span></div><div class="storage-slot"><span class="slot-icon">🔮</span><span class="slot-label">빈 슬롯</span></div></div>
+      <div class="storage-slots-row" id="storage-slots-row"></div>
     </div>
   </div>
 
@@ -510,7 +511,7 @@
     </div>
   </div>
 
-  <div id="toast" class="">✅ 편집 내용이 이 브라우저에 저장·발행 확정되었습니다.</div>
+  <div id="toast"></div>
 </div>
 
 <script>
@@ -525,31 +526,12 @@
   var MISSION_CLEAR_REQUIRED = 2; // 여러 미션 중 2개만 클리어하면 인양 기회 지급
 
   var DEFAULT_NAMES = {
-    "mainTitle": "해저 보물 탐사",
-    "subTitle": "일일 미션을 완수하고 심해 속 보물과 침몰선의 유물을 인양하세요!",
-    "rewardGrades": [
-        "S등급",
-        "S등급",
-        "S등급",
-        "S등급",
-        "S등급"
-    ],
-    "rewards": [
-        "전설 아바타",
-        "보물 상자",
-        "고급 강화석",
-        "골드 주머니",
-        "회복 소모품"
-    ],
-    "missions": [
-        "게임 플레이 30분 달성 시",
-        "카오스 던전/쿠르잔 전선/혼돈의 균열 클리어 -1 회",
-        "가디언 토벌 (가디언의 의지 수집) - 1회",
-        "영지 활동력 3,000 이상 사용 (누적) - 1회",
-        "생명의 기운 3,000 이상 사용 (누적) - 1회",
-        "길드 채팅 참여하기"
-    ]
-};
+    mainTitle: '해저 보물 탐사',
+    subTitle: '일일 미션을 완수하고 심해 속 보물과 침몰선의 유물을 인양하세요!',
+    rewardGrades: ['S등급','S등급','S등급','S등급','S등급'],
+    rewards: ['전설 아바타','보물 상자','고급 강화석','골드 주머니','회복 소모품'],
+    missions: ['오늘의 접속 보상 수령하기','심해 몬스터 10마리 처치하기','일일 퀘스트 3회 완료하기','친구와 함께 탐사하기','상점에서 아이템 구매하기','길드 채팅 참여하기']
+  };
 
   var STORAGE_KEY = 'seaTreasureEventState_v5';
 
@@ -838,15 +820,12 @@
   /* ============ 디버그: 다음날 넘기기 ============ */
   $('btn-next-day').addEventListener('click', function(){
     state.day += 1;
+    // 일일 미션은 하루 최대 2회(MISSION_CLEAR_REQUIRED)까지만 클리어 가능 → 다음 날로 넘어가면
+    // 모든 미션의 완료 상태와 "오늘 인양 기회 지급 여부"를 반드시 초기화해서 매일 새로 2개를 클리어해야 함
     state.missions.forEach(function(m){ m.completed = false; });
     state.dailyTicketGranted = false;
-    // 디버그 단축: 일일 미션 중 필요 개수만큼 자동으로 클리어 처리하여 즉시 인양 기회 지급
-    for(var di=0; di<state.missions.length && di<MISSION_CLEAR_REQUIRED; di++){
-      state.missions[di].completed = true;
-    }
-    grantTicketIfEligible();
     saveState(); render();
-    showToast('Day '+state.day+' 진입! 일일 미션 '+MISSION_CLEAR_REQUIRED+'개가 자동 완료되어 인양 기회 +1 획득 🥽');
+    showToast('Day '+state.day+' 진입! 일일 미션 달성도가 초기화되었습니다. 오늘 다시 '+MISSION_CLEAR_REQUIRED+'개를 클리어하세요 🌅');
   });
 
   /* ============ 디버그: 주간 초기화 ============ */
@@ -1007,6 +986,5 @@
   render();
 })();
 </script>
-
-
-</body></html>
+</body>
+</html>
