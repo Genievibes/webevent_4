@@ -211,11 +211,6 @@
 
   /* LOWER: ARTIFACT SECTION & 3x2 GRID */
   .artifact-section{position:relative;z-index:3;flex:1.4;padding:8px 18px 12px;display:flex;flex-direction:column;gap:8px;}
-  .artifact-head-row{display:flex;align-items:center;justify-content:space-between;gap:10px;}
-  .progress-wrap{display:flex;align-items:center;gap:10px;flex:1;}
-  .progress-label{font-size:11px;font-weight:700;color:#fff;white-space:nowrap;}
-  .progress-outer{flex:1;max-width:260px;height:10px;border-radius:10px;background:rgba(0,0,0,.4);overflow:hidden;border:1px solid rgba(255,255,255,.2);}
-  .progress-inner{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--emerald),var(--cyan));width:0%;transition:width .4s;}
 
   .artifact-grid-container{display:flex;flex-direction:column;gap:8px;flex:1;}
   .artifact-grid-head{display:flex;align-items:center;justify-content:space-between;}
@@ -317,7 +312,7 @@
 
     <div class="title-area">
       <div class="title-plaque">
-        <h1 class="main-title" id="main-title" contenteditable="false" data-type="main-title">무제</h1>
+        <h1 class="main-title" id="main-title" contenteditable="false" data-type="main-title">타이틀/유의사항/진행가이드/보상안내</h1>
         <p class="sub-title" id="sub-title" contenteditable="false" data-type="sub-title">심해 잠수정을 타고 침몰선의 보물을 인양하고 유물을 감정하세요!</p>
         <div>
           <span class="event-date-badge">📅 이벤트 기간: 2026. 10. 21. ~ 2026. 12. 16. (8주간)</span>
@@ -333,29 +328,29 @@
     <div class="buff-list" id="buff-list"><span class="buff-empty">현재 활성화되어 유효한 유물 특수 효과가 없습니다.</span></div>
   </div>
 
-  <!-- DASHBOARD -->
+  <!-- DASHBOARD (개편된 4종 표시 항목) -->
   <div id="dashboard">
     <div class="stat-block">
-      <span class="stat-label">📅 이벤트 진행</span>
-      <span class="stat-value">Day <span class="accent" id="stat-day">1</span> / 56 (주차: <span id="stat-week">1</span>/8)</span>
+      <span class="stat-label">🎮 접속 시간</span>
+      <span class="stat-value"><span class="accent" id="stat-playtime">0</span>/30분</span>
     </div>
     <div class="stat-block">
-      <span class="stat-label">🥽 보유 인양 횟수</span>
-      <span class="stat-value"><span class="accent-cyan" id="stat-tickets">0</span>회 (누적 인양: <span id="stat-total-salvage">0</span>/56)</span>
+      <span class="stat-label">📋 일일 미션</span>
+      <span class="stat-value"><span class="accent-cyan" id="stat-daily-mission">0</span>/<span id="stat-daily-target">2</span>회</span>
     </div>
     <div class="stat-block">
-      <span class="stat-label">🏆 이번 주 누적 인양</span>
-      <span class="stat-value"><span id="stat-weekly-rescue">0</span> / <span id="stat-weekly-target">4</span>회</span>
+      <span class="stat-label">⚓ 주간 인양</span>
+      <span class="stat-value"><span id="stat-weekly-rescue">0</span>/<span id="stat-weekly-target">4</span>회</span>
     </div>
     <div class="stat-block">
-      <span class="stat-label">🔮 보유 / 감정 완료 유물</span>
-      <span class="stat-value"><span class="accent-violet" id="stat-artifacts-owned">0</span> / <span id="stat-artifacts-appraised">0</span> (총 6개)</span>
+      <span class="stat-label">🔮 유물 감정</span>
+      <span class="stat-value"><span class="accent-violet" id="stat-appraised-count">0</span>/6회</span>
     </div>
   </div>
 
   <!-- STAGE MAIN -->
   <div id="stage-main">
-    <div class="bubble-layer" id="bubble-layer"><span class="bubble" style="width: 10.4937px; height: 10.4937px; left: 56.3407%; --drift: -9.98896183858214px; animation: 10.8806s linear 0.0811007s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 11.8486px; height: 11.8486px; left: 91.6984%; --drift: 12.966771992564372px; animation: 9.74444s linear 0.808587s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.48151px; height: 8.48151px; left: 44.0923%; --drift: -7.649433386633204px; animation: 5.05966s linear 2.9165s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.32489px; height: 9.32489px; left: 53.4927%; --drift: -0.7865671194554906px; animation: 10.5239s linear 4.96377s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.74447px; height: 8.74447px; left: 48.5071%; --drift: 4.528225709801045px; animation: 8.25383s linear 2.30978s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.50723px; height: 5.50723px; left: 65.0412%; --drift: 6.302482987969935px; animation: 5.65731s linear 2.90766s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 11.4133px; height: 11.4133px; left: 77.3121%; --drift: -12.357040124105113px; animation: 10.1362s linear 3.6036s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.4938px; height: 8.4938px; left: 32.1621%; --drift: 5.812353984382657px; animation: 9.46315s linear 0.167593s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.24482px; height: 7.24482px; left: 85.8811%; --drift: -2.7730329905679127px; animation: 7.04623s linear 5.73479s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.06484px; height: 8.06484px; left: 44.654%; --drift: 14.31271958579612px; animation: 5.67234s linear 5.34524s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 10.5391px; height: 10.5391px; left: 8.16003%; --drift: -2.5125018564617676px; animation: 5.81788s linear 3.26384s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.54381px; height: 6.54381px; left: 26.6134%; --drift: 8.531036682103096px; animation: 5.08933s linear 7.79697s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.4395px; height: 5.4395px; left: 35.8011%; --drift: -3.3178718753711713px; animation: 5.02849s linear 6.66535s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.64734px; height: 7.64734px; left: 11.1725%; --drift: -4.708263528999749px; animation: 9.65372s linear 6.68448s infinite normal none running riseBubble;"></span></div>
+    <div class="bubble-layer" id="bubble-layer"><span class="bubble" style="width: 6.91244px; height: 6.91244px; left: 30.8794%; --drift: -7.230814429941534px; animation: 5.80361s linear 1.21779s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.372px; height: 9.372px; left: 63.4136%; --drift: 13.752703081615667px; animation: 7.6855s linear 6.76615s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.41132px; height: 7.41132px; left: 91.2377%; --drift: -2.8830507504393523px; animation: 6.77631s linear 2.74882s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 11.1455px; height: 11.1455px; left: 91.8007%; --drift: -13.020577218791903px; animation: 8.20822s linear 1.93444s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.63835px; height: 8.63835px; left: 78.1237%; --drift: -12.770890858241858px; animation: 10.5008s linear 5.99416s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.89635px; height: 5.89635px; left: 95.6668%; --drift: 0.5763313785927799px; animation: 9.30557s linear 3.11587s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.33772px; height: 6.33772px; left: 10.2482%; --drift: 1.1764397950284256px; animation: 5.4367s linear 7.55793s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.27433px; height: 4.27433px; left: 61.3648%; --drift: 9.750044875882601px; animation: 9.59597s linear 2.33837s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.94815px; height: 5.94815px; left: 30.6346%; --drift: 1.8378886535563552px; animation: 10.1777s linear 5.2366s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.42804px; height: 9.42804px; left: 89.4946%; --drift: 1.2457143923454588px; animation: 5.17027s linear 3.9448s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.13864px; height: 7.13864px; left: 61.7994%; --drift: -13.682216598436751px; animation: 6.66654s linear 2.43301s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.48721px; height: 8.48721px; left: 48.1728%; --drift: 12.662921868869951px; animation: 5.3203s linear 4.83084s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.06974px; height: 7.06974px; left: 17.1215%; --drift: 5.885185688166249px; animation: 9.6371s linear 3.08152s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.86658px; height: 4.86658px; left: 18.6377%; --drift: -5.176261991564493px; animation: 10.4271s linear 2.78356s infinite normal none running riseBubble;"></span></div>
 
     <!-- UPPER: MISSION & SALVAGE -->
     <div class="stage-upper">
@@ -398,20 +393,12 @@
       </div>
     </div>
 
-    <!-- LOWER: ARTIFACT & 3x2 GRID -->
+    <!-- LOWER: ARTIFACT SECTION & 3x2 GRID -->
     <div class="artifact-section">
-      <div class="artifact-head-row">
-        <div class="progress-wrap">
-          <span class="progress-label">📊 주간 유물 획득 진행도:</span>
-          <div class="progress-outer"><div class="progress-inner" id="artifact-progress-bar" style="width: 0%;"></div></div>
-          <span class="progress-label" id="artifact-progress-text">0 / 4회</span>
-        </div>
-        <button class="btn-salvage all" id="btn-appraise-all" style="padding:6px 16px;font-size:11px;">🔍 한 번에 감정하기</button>
-      </div>
-
       <div class="artifact-grid-container">
         <div class="artifact-grid-head">
           <span class="grid-title">🔮 유물 3x2 무작위 그리드 (획득 즉시 특수 버프 발동 / 비복원 랜덤 추출)</span>
+          <button class="btn-salvage all" id="btn-appraise-all" style="padding:5px 14px;font-size:11px;">🔍 한 번에 감정하기</button>
         </div>
         <div class="tile-grid" id="tile-grid"><div class="artifact-tile locked" data-id="1"><span class="tile-status-badge">미획득</span><span class="tile-icon">🧭</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="0">고대의 나침반</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="0">다음 인양 시 보너스 상자 1개 추가 (1회 소모)</span></div><div class="artifact-tile locked" data-id="2"><span class="tile-status-badge">미획득</span><span class="tile-icon">📜</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="1">프로키온 바다의 오래된 해도</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="1">다음 일자 미션 완료 조건 완화 (2회→1회)</span></div><div class="artifact-tile locked" data-id="3"><span class="tile-status-badge">미획득</span><span class="tile-icon">🗿</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="2">고대의 신 조각상</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="2">주간 인양 요구 횟수 감축 (4회→3회)</span></div><div class="artifact-tile locked" data-id="4"><span class="tile-status-badge">미획득</span><span class="tile-icon">📖</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="3">신관의 서</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="3">수심 1,000m 이상 인양 성공 시 보너스 보상 (1회 소모)</span></div><div class="artifact-tile locked" data-id="5"><span class="tile-status-badge">미획득</span><span class="tile-icon">📕</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="4">잊혀진 영웅의 전기</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="4">유물 감정 시 보상 1+1 추가 지급</span></div><div class="artifact-tile locked" data-id="6"><span class="tile-status-badge">미획득</span><span class="tile-icon">🍾</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="5">고대 환영 유리 술병</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="5">다음 등장 유물 확정 지정</span></div></div>
       </div>
@@ -495,14 +482,13 @@
 ];
 
   var DEFAULT_TITLES = {
-    "mainTitle": "무제",
+    "mainTitle": "타이틀/유의사항/진행가이드/보상안내",
     "subTitle": "심해 잠수정을 타고 침몰선의 보물을 인양하고 유물을 감정하세요!"
 };
 
   var REWARD_POOL = ['🖼️ 전설 아바타', '🎁 보물 상자', '💠 고급 강화석', '💰 골드 주머니', '🧪 회복 소모품'];
-  var STORAGE_KEY = 'cuteSeaTreasureState_v5';
+  var STORAGE_KEY = 'cuteSeaTreasureState_v6';
 
-  /* Fisher-Yates 셔플 함수 (유저별 고유 유물 획득 순서 생성) */
   function shuffleArray(arr) {
     var array = arr.slice();
     for (var i = array.length - 1; i > 0; i--) {
@@ -524,10 +510,9 @@
       weeklyRescue: 0,
       weeklyTarget: 4,
       
-      // 유저별 비복원 무작위 유물 획득 덱 [예: 3, 1, 6, 2, 5, 4]
       artifactOrderDeck: shuffleArray([1, 2, 3, 4, 5, 6]),
-      ownedArtifacts: [],      // 획득(보유)한 유물 ID 목록
-      appraisedArtifacts: [],  // 감정 완료된 유물 ID 목록
+      ownedArtifacts: [],      
+      appraisedArtifacts: [],  
       
       activeCompassCount: 0,
       activeScrollCount: 0,
@@ -563,28 +548,27 @@
 
   /* ============ RENDER ============ */
   function render(){
-    var currentWeek = Math.min(8, Math.floor((state.day - 1) / 7) + 1);
+    // 1. 게임 접속 시간 (미션 0번 완료 여부 연동)
+    $('stat-playtime').textContent = state.missions[0] ? 30 : 0;
 
-    $('main-title').textContent = state.customTitles.mainTitle;
-    $('sub-title').textContent = state.customTitles.subTitle;
+    // 2. 일일 미션 클리어 횟수
+    var doneMissionsCount = state.missions.filter(Boolean).length;
+    var dailyTarget = state.activeMapBuff ? 1 : 2;
+    $('stat-daily-mission').textContent = Math.min(doneMissionsCount, dailyTarget);
+    $('stat-daily-target').textContent = dailyTarget;
 
-    $('stat-day').textContent = state.day;
-    $('stat-week').textContent = currentWeek;
-    $('stat-tickets').textContent = state.tickets;
-    $('stat-total-salvage').textContent = state.totalSalvageCount;
-    $('stat-weekly-rescue').textContent = state.weeklyRescue;
-    
+    // 3. 주간 보물 인양 횟수
     var hasStatue = state.ownedArtifacts.indexOf(3) !== -1;
     state.weeklyTarget = hasStatue ? 3 : 4;
+    $('stat-weekly-rescue').textContent = state.weeklyRescue;
     $('stat-weekly-target').textContent = state.weeklyTarget;
 
-    $('stat-artifacts-owned').textContent = state.ownedArtifacts.length;
-    $('stat-artifacts-appraised').textContent = state.appraisedArtifacts.length;
+    // 4. 감정 완료된 유물 횟수
+    $('stat-appraised-count').textContent = state.appraisedArtifacts.length;
 
     renderBuffBar();
     renderMissions();
     renderTiles();
-    renderProgress();
 
     $('btn-salvage').disabled = state.tickets <= 0 || state.totalSalvageCount >= 56;
     $('btn-salvage-all').disabled = state.tickets <= 0 || state.totalSalvageCount >= 56;
@@ -711,12 +695,6 @@
     bindEditableEvents();
   }
 
-  function renderProgress(){
-    var pct = Math.min(100, (state.weeklyRescue / state.weeklyTarget) * 100);
-    $('artifact-progress-bar').style.width = pct + '%';
-    $('artifact-progress-text').textContent = state.weeklyRescue + ' / ' + state.weeklyTarget + '회';
-  }
-
   function bindEditableEvents(){
     document.querySelectorAll('[contenteditable="true"]').forEach(function(el){
       el.onblur = function(){
@@ -796,7 +774,7 @@
     showToast('⬇️ 편집한 내용이 반영된 HTML 파일을 다운로드했습니다.');
   }
 
-  /* ============ SALVAGE LOGIC (비복원 무작위 추출 적용) ============ */
+  /* ============ SALVAGE LOGIC ============ */
   $('btn-salvage').addEventListener('click', function(){ performSalvage(1); });
   $('btn-salvage-all').addEventListener('click', function(){ performSalvage(state.tickets); });
 
@@ -824,18 +802,15 @@
 
       rewardLinesHtml += '<div style="font-size:12.5px;color:#eafcff;margin:3px 0;">'+line+'</div>';
 
-      // 주간 목표 달성 시 비복원 랜덤 추출 방식으로 유물 획득
       if(state.weeklyRescue >= state.weeklyTarget && state.ownedArtifacts.length < 6){
         state.weeklyRescue = 0;
         
         var nextId = null;
 
-        // 1. 유리 술병 지정 유물이 있다면 우선 획득
         if(state.nextBottleChoiceId && state.ownedArtifacts.indexOf(state.nextBottleChoiceId) === -1){
           nextId = state.nextBottleChoiceId;
-          state.nextBottleChoiceId = null; // 지정 효과 소비
+          state.nextBottleChoiceId = null;
         } else {
-          // 2. 비복원 무작위 덱(artifactOrderDeck)에서 미획득한 첫번째 유물 차례대로 뽑기
           for(var dIdx=0; dIdx<state.artifactOrderDeck.length; dIdx++){
             var candidateId = state.artifactOrderDeck[dIdx];
             if(state.ownedArtifacts.indexOf(candidateId) === -1){
