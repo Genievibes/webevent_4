@@ -107,7 +107,9 @@
   .buff-tag{
     font-size:10.5px;color:#eafcff;background:rgba(201,168,255,.15);border:1px solid rgba(201,168,255,.4);
     padding:3px 10px;border-radius:12px;display:flex;align-items:center;gap:5px;
+    animation:buffPop .3s cubic-bezier(.34,1.56,.64,1);
   }
+  @keyframes buffPop { 0%{transform:scale(.8);opacity:0;} 100%{transform:scale(1);opacity:1;} }
   .buff-empty{font-size:11px;color:#7a94a8;font-style:italic;}
 
   /* ===================== DASHBOARD ===================== */
@@ -315,7 +317,7 @@
 
     <div class="title-area">
       <div class="title-plaque">
-        <h1 class="main-title" id="main-title" contenteditable="false" data-type="main-title">해저 탐사 이벤트</h1>
+        <h1 class="main-title" id="main-title" contenteditable="false" data-type="main-title">무제</h1>
         <p class="sub-title" id="sub-title" contenteditable="false" data-type="sub-title">심해 잠수정을 타고 침몰선의 보물을 인양하고 유물을 감정하세요!</p>
         <div>
           <span class="event-date-badge">📅 이벤트 기간: 2026. 10. 21. ~ 2026. 12. 16. (8주간)</span>
@@ -327,8 +329,8 @@
 
   <!-- BUFF STATUS BAR -->
   <div id="buff-bar">
-    <span class="buff-label">✨ 현재 보유/적용 중인 유물 버프:</span>
-    <div class="buff-list" id="buff-list"><span class="buff-empty">현재 획득하여 활성화된 유물 특수 효과가 없습니다.</span></div>
+    <span class="buff-label">✨ 현재 활성화된 유물 버프:</span>
+    <div class="buff-list" id="buff-list"><span class="buff-empty">현재 활성화되어 유효한 유물 특수 효과가 없습니다.</span></div>
   </div>
 
   <!-- DASHBOARD -->
@@ -353,7 +355,7 @@
 
   <!-- STAGE MAIN -->
   <div id="stage-main">
-    <div class="bubble-layer" id="bubble-layer"><span class="bubble" style="width: 9.7807px; height: 9.7807px; left: 49.4283%; --drift: 8.689702451762102px; animation: 10.743s linear 2.6933s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.34023px; height: 9.34023px; left: 2.64355%; --drift: 5.007824177880117px; animation: 9.84645s linear 2.19911s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.17237px; height: 9.17237px; left: 19.2972%; --drift: -7.110542442631049px; animation: 5.21401s linear 3.98985s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.97041px; height: 8.97041px; left: 48.7622%; --drift: -5.286865200859074px; animation: 9.32502s linear 3.90189s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.55426px; height: 4.55426px; left: 18.6689%; --drift: -12.49624990663819px; animation: 6.80403s linear 3.76388s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 11.6877px; height: 11.6877px; left: 83.7459%; --drift: 2.3088925061727927px; animation: 9.98779s linear 5.10034s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.96809px; height: 4.96809px; left: 68.4157%; --drift: 0.7837839327953819px; animation: 6.61172s linear 6.75841s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.42366px; height: 7.42366px; left: 68.8364%; --drift: 3.3300340367943626px; animation: 7.9874s linear 7.13813s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.07472px; height: 4.07472px; left: 38.6989%; --drift: 1.5327411186383308px; animation: 5.62548s linear 1.20763s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.79583px; height: 5.79583px; left: 2.20134%; --drift: 7.309378602159917px; animation: 9.43953s linear 4.76055s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.24509px; height: 8.24509px; left: 30.1245%; --drift: -13.389227708360991px; animation: 10.9838s linear 2.97007s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.56587px; height: 7.56587px; left: 47.7202%; --drift: -3.4121250501573304px; animation: 6.50144s linear 1.44293s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.08368px; height: 8.08368px; left: 10.3503%; --drift: 12.379352435029933px; animation: 9.17077s linear 6.62653s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 10.6255px; height: 10.6255px; left: 19.6393%; --drift: 1.410667434857082px; animation: 6.47538s linear 4.02221s infinite normal none running riseBubble;"></span></div>
+    <div class="bubble-layer" id="bubble-layer"><span class="bubble" style="width: 10.4937px; height: 10.4937px; left: 56.3407%; --drift: -9.98896183858214px; animation: 10.8806s linear 0.0811007s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 11.8486px; height: 11.8486px; left: 91.6984%; --drift: 12.966771992564372px; animation: 9.74444s linear 0.808587s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.48151px; height: 8.48151px; left: 44.0923%; --drift: -7.649433386633204px; animation: 5.05966s linear 2.9165s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.32489px; height: 9.32489px; left: 53.4927%; --drift: -0.7865671194554906px; animation: 10.5239s linear 4.96377s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.74447px; height: 8.74447px; left: 48.5071%; --drift: 4.528225709801045px; animation: 8.25383s linear 2.30978s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.50723px; height: 5.50723px; left: 65.0412%; --drift: 6.302482987969935px; animation: 5.65731s linear 2.90766s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 11.4133px; height: 11.4133px; left: 77.3121%; --drift: -12.357040124105113px; animation: 10.1362s linear 3.6036s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.4938px; height: 8.4938px; left: 32.1621%; --drift: 5.812353984382657px; animation: 9.46315s linear 0.167593s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.24482px; height: 7.24482px; left: 85.8811%; --drift: -2.7730329905679127px; animation: 7.04623s linear 5.73479s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.06484px; height: 8.06484px; left: 44.654%; --drift: 14.31271958579612px; animation: 5.67234s linear 5.34524s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 10.5391px; height: 10.5391px; left: 8.16003%; --drift: -2.5125018564617676px; animation: 5.81788s linear 3.26384s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.54381px; height: 6.54381px; left: 26.6134%; --drift: 8.531036682103096px; animation: 5.08933s linear 7.79697s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.4395px; height: 5.4395px; left: 35.8011%; --drift: -3.3178718753711713px; animation: 5.02849s linear 6.66535s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.64734px; height: 7.64734px; left: 11.1725%; --drift: -4.708263528999749px; animation: 9.65372s linear 6.68448s infinite normal none running riseBubble;"></span></div>
 
     <!-- UPPER: MISSION & SALVAGE -->
     <div class="stage-upper">
@@ -396,7 +398,7 @@
       </div>
     </div>
 
-    <!-- LOWER: ARTIFACT & 3x2 TILE GRID -->
+    <!-- LOWER: ARTIFACT & 3x2 GRID -->
     <div class="artifact-section">
       <div class="artifact-head-row">
         <div class="progress-wrap">
@@ -409,9 +411,9 @@
 
       <div class="artifact-grid-container">
         <div class="artifact-grid-head">
-          <span class="grid-title">🔮 유물 3x2 타일 구역 (획득 즉시 특수 버프 발동 / 클릭 시 감정 보상 수령)</span>
+          <span class="grid-title">🔮 유물 3x2 무작위 그리드 (획득 즉시 특수 버프 발동 / 비복원 랜덤 추출)</span>
         </div>
-        <div class="tile-grid" id="tile-grid"><div class="artifact-tile locked" data-id="1"><span class="tile-status-badge">미획득</span><span class="tile-icon">🧭</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="0">고대의 나침반</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="0">다음 인양 시 보너스 상자 1개 추가 (1회)</span></div><div class="artifact-tile locked" data-id="2"><span class="tile-status-badge">미획득</span><span class="tile-icon">📜</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="1">프로키온 바다의 오래된 해도</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="1">다음 일자 미션 완료 조건 완화 (2회→1회)</span></div><div class="artifact-tile locked" data-id="3"><span class="tile-status-badge">미획득</span><span class="tile-icon">🗿</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="2">고대의 신 조각상</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="2">주간 인양 요구 횟수 감축 (4회→3회)</span></div><div class="artifact-tile locked" data-id="4"><span class="tile-status-badge">미획득</span><span class="tile-icon">📖</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="3">신관의 서</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="3">수심 1,000m 이상 인양 시 보너스 보상 1회 추가</span></div><div class="artifact-tile locked" data-id="5"><span class="tile-status-badge">미획득</span><span class="tile-icon">📕</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="4">잊혀진 영웅의 전기</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="4">유물 감정 시 보상 1+1 추가 지급</span></div><div class="artifact-tile locked" data-id="6"><span class="tile-status-badge">미획득</span><span class="tile-icon">🍾</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="5">고대 환영 유리 술병</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="5">다음 등장 유물 확정 선택 선택</span></div></div>
+        <div class="tile-grid" id="tile-grid"><div class="artifact-tile locked" data-id="1"><span class="tile-status-badge">미획득</span><span class="tile-icon">🧭</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="0">고대의 나침반</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="0">다음 인양 시 보너스 상자 1개 추가 (1회 소모)</span></div><div class="artifact-tile locked" data-id="2"><span class="tile-status-badge">미획득</span><span class="tile-icon">📜</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="1">프로키온 바다의 오래된 해도</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="1">다음 일자 미션 완료 조건 완화 (2회→1회)</span></div><div class="artifact-tile locked" data-id="3"><span class="tile-status-badge">미획득</span><span class="tile-icon">🗿</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="2">고대의 신 조각상</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="2">주간 인양 요구 횟수 감축 (4회→3회)</span></div><div class="artifact-tile locked" data-id="4"><span class="tile-status-badge">미획득</span><span class="tile-icon">📖</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="3">신관의 서</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="3">수심 1,000m 이상 인양 성공 시 보너스 보상 (1회 소모)</span></div><div class="artifact-tile locked" data-id="5"><span class="tile-status-badge">미획득</span><span class="tile-icon">📕</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="4">잊혀진 영웅의 전기</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="4">유물 감정 시 보상 1+1 추가 지급</span></div><div class="artifact-tile locked" data-id="6"><span class="tile-status-badge">미획득</span><span class="tile-icon">🍾</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="5">고대 환영 유리 술병</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="5">다음 등장 유물 확정 지정</span></div></div>
       </div>
     </div>
   </div>
@@ -444,13 +446,13 @@
 (function(){
   "use strict";
 
-  /* ============ ARTIFACT DATA (6 TYPES) ============ */
+  /* ============ ARTIFACT DATA ============ */
   var ARTIFACTS_DATA = [
     {
         "id": 1,
         "name": "고대의 나침반",
         "icon": "🧭",
-        "desc": "다음 인양 시 보너스 상자 1개 추가 (1회)"
+        "desc": "다음 인양 시 보너스 상자 1개 추가 (1회 소모)"
     },
     {
         "id": 2,
@@ -468,7 +470,7 @@
         "id": 4,
         "name": "신관의 서",
         "icon": "📖",
-        "desc": "수심 1,000m 이상 인양 시 보너스 보상 1회 추가"
+        "desc": "수심 1,000m 이상 인양 성공 시 보너스 보상 (1회 소모)"
     },
     {
         "id": 5,
@@ -480,7 +482,7 @@
         "id": 6,
         "name": "고대 환영 유리 술병",
         "icon": "🍾",
-        "desc": "다음 등장 유물 확정 선택 선택"
+        "desc": "다음 등장 유물 확정 지정"
     }
 ];
 
@@ -493,12 +495,24 @@
 ];
 
   var DEFAULT_TITLES = {
-    "mainTitle": "해저 탐사 이벤트",
+    "mainTitle": "무제",
     "subTitle": "심해 잠수정을 타고 침몰선의 보물을 인양하고 유물을 감정하세요!"
 };
 
   var REWARD_POOL = ['🖼️ 전설 아바타', '🎁 보물 상자', '💠 고급 강화석', '💰 골드 주머니', '🧪 회복 소모품'];
-  var STORAGE_KEY = 'cuteSeaTreasureState_v3';
+  var STORAGE_KEY = 'cuteSeaTreasureState_v5';
+
+  /* Fisher-Yates 셔플 함수 (유저별 고유 유물 획득 순서 생성) */
+  function shuffleArray(arr) {
+    var array = arr.slice();
+    for (var i = array.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var temp = array[i];
+      array[i] = array[j];
+      array[j] = temp;
+    }
+    return array;
+  }
 
   function defaultState(){
     return {
@@ -509,9 +523,17 @@
       missions: [false, false, false, false, false],
       weeklyRescue: 0,
       weeklyTarget: 4,
-      ownedArtifacts: [],
-      appraisedArtifacts: [],
+      
+      // 유저별 비복원 무작위 유물 획득 덱 [예: 3, 1, 6, 2, 5, 4]
+      artifactOrderDeck: shuffleArray([1, 2, 3, 4, 5, 6]),
+      ownedArtifacts: [],      // 획득(보유)한 유물 ID 목록
+      appraisedArtifacts: [],  // 감정 완료된 유물 ID 목록
+      
+      activeCompassCount: 0,
+      activeScrollCount: 0,
+      activeMapBuff: false,
       nextBottleChoiceId: null,
+      
       customTitles: JSON.parse(JSON.stringify(DEFAULT_TITLES)),
       customMissions: JSON.parse(JSON.stringify(DEFAULT_MISSIONS)),
       customArtifacts: JSON.parse(JSON.stringify(ARTIFACTS_DATA)),
@@ -528,6 +550,9 @@
       var parsed = JSON.parse(raw);
       var d = defaultState();
       for(var k in d){ if(parsed[k]===undefined) parsed[k]=d[k]; }
+      if(!parsed.artifactOrderDeck || parsed.artifactOrderDeck.length === 0){
+        parsed.artifactOrderDeck = shuffleArray([1, 2, 3, 4, 5, 6]);
+      }
       return parsed;
     }catch(e){ return defaultState(); }
   }
@@ -568,35 +593,38 @@
   function renderBuffBar(){
     var listEl = $('buff-list');
     listEl.innerHTML = '';
-    var hasBuff = false;
+    var activeCount = 0;
 
-    if(state.ownedArtifacts.indexOf(1) !== -1){
-      hasBuff = true;
-      listEl.innerHTML += '<span class="buff-tag">🧭 나침반: 다음 인양 시 보너스 상자</span>';
+    if(state.activeCompassCount > 0){
+      activeCount++;
+      listEl.innerHTML += '<span class="buff-tag">🧭 나침반: 다음 인양 보너스 상자 <b style="color:var(--gold);">('+state.activeCompassCount+'회 가능)</b></span>';
     }
-    if(state.ownedArtifacts.indexOf(2) !== -1){
-      hasBuff = true;
-      listEl.innerHTML += '<span class="buff-tag">📜 해도: 미션 완료 조건 1회로 완화</span>';
+    if(state.activeMapBuff){
+      activeCount++;
+      listEl.innerHTML += '<span class="buff-tag">📜 해도: 오늘 미션 완료 조건 1회 완화 적용 중</span>';
     }
     if(state.ownedArtifacts.indexOf(3) !== -1){
-      hasBuff = true;
-      listEl.innerHTML += '<span class="buff-tag">🗿 조각상: 주간 인양 목표 3회 감축 적용 중</span>';
+      activeCount++;
+      listEl.innerHTML += '<span class="buff-tag">🗿 조각상: 주간 인양 목표 3회 감축 중</span>';
     }
-    if(state.ownedArtifacts.indexOf(4) !== -1){
-      hasBuff = true;
-      listEl.innerHTML += '<span class="buff-tag">📖 신관의 서: 1,000m↑ 보너스 보상</span>';
+    if(state.activeScrollCount > 0){
+      activeCount++;
+      listEl.innerHTML += '<span class="buff-tag">📖 신관의 서: 1,000m↑ 인양 시 보너스 <b style="color:var(--gold);">('+state.activeScrollCount+'회 대기)</b></span>';
     }
-    if(state.ownedArtifacts.indexOf(5) !== -1){
-      hasBuff = true;
-      listEl.innerHTML += '<span class="buff-tag">📕 전기: 유물 감정 시 보상 1+1 지급</span>';
+    var hasBiography = state.ownedArtifacts.indexOf(5) !== -1;
+    var unappraisedCount = state.ownedArtifacts.length - state.appraisedArtifacts.length;
+    if(hasBiography && unappraisedCount > 0){
+      activeCount++;
+      listEl.innerHTML += '<span class="buff-tag">📕 전기: 유물 감정 시 보상 1+1 혜택 적용 중</span>';
     }
-    if(state.ownedArtifacts.indexOf(6) !== -1){
-      hasBuff = true;
-      listEl.innerHTML += '<span class="buff-tag">🍾 유리 술병: 등장 유물 지정 가능</span>';
+    if(state.nextBottleChoiceId){
+      activeCount++;
+      var targetArt = state.customArtifacts.find(function(a){ return a.id === state.nextBottleChoiceId; });
+      listEl.innerHTML += '<span class="buff-tag">🍾 유리 술병: 다음 유물 ['+(targetArt ? targetArt.name : '')+'] 확정 등장 대기</span>';
     }
 
-    if(!hasBuff){
-      listEl.innerHTML = '<span class="buff-empty">현재 획득하여 활성화된 유물 특수 효과가 없습니다.</span>';
+    if(activeCount === 0){
+      listEl.innerHTML = '<span class="buff-empty">현재 활성화되어 유효한 유물 특수 효과가 없습니다.</span>';
     }
   }
 
@@ -604,8 +632,7 @@
     var listEl = $('mission-list');
     listEl.innerHTML = '';
     
-    var hasMap = state.ownedArtifacts.indexOf(2) !== -1;
-    var reqCount = hasMap ? 1 : 2;
+    var reqCount = state.activeMapBuff ? 1 : 2;
     $('foot-req-count').textContent = reqCount + '개';
 
     var doneCount = state.missions.filter(Boolean).length;
@@ -642,8 +669,7 @@
   }
 
   function checkMissionTicketGrant(){
-    var hasMap = state.ownedArtifacts.indexOf(2) !== -1;
-    var reqCount = hasMap ? 1 : 2;
+    var reqCount = state.activeMapBuff ? 1 : 2;
     var doneCount = state.missions.filter(Boolean).length;
     if(doneCount >= reqCount && !state.dailyTicketGranted){
       if(state.totalSalvageCount + state.tickets < 56){
@@ -770,7 +796,7 @@
     showToast('⬇️ 편집한 내용이 반영된 HTML 파일을 다운로드했습니다.');
   }
 
-  /* ============ SALVAGE LOGIC ============ */
+  /* ============ SALVAGE LOGIC (비복원 무작위 추출 적용) ============ */
   $('btn-salvage').addEventListener('click', function(){ performSalvage(1); });
   $('btn-salvage-all').addEventListener('click', function(){ performSalvage(state.tickets); });
 
@@ -787,36 +813,56 @@
       var depth = Math.floor(Math.random() * 4900) + 100;
       var line = '✨ 수심 ' + depth.toLocaleString() + 'm 인양 성공!';
 
-      if(state.ownedArtifacts.indexOf(1) !== -1){
-        line += ' (🧭나침반 보너스 상자 +1)';
+      if(state.activeCompassCount > 0){
+        state.activeCompassCount -= 1;
+        line += ' (🧭나침반 보너스 상자 +1 소모!)';
       }
-      if(state.ownedArtifacts.indexOf(4) !== -1 && depth >= 1000){
-        line += ' (📖신관의서 1000m↑ 보너스 +1)';
+      if(state.activeScrollCount > 0 && depth >= 1000){
+        state.activeScrollCount -= 1;
+        line += ' (📖신관의서 1000m↑ 보너스 +1 소모!)';
       }
+
       rewardLinesHtml += '<div style="font-size:12.5px;color:#eafcff;margin:3px 0;">'+line+'</div>';
 
+      // 주간 목표 달성 시 비복원 랜덤 추출 방식으로 유물 획득
       if(state.weeklyRescue >= state.weeklyTarget && state.ownedArtifacts.length < 6){
         state.weeklyRescue = 0;
         
-        var nextId = state.nextBottleChoiceId;
-        if(!nextId || state.ownedArtifacts.indexOf(nextId) !== -1){
-          var unowned = state.customArtifacts.filter(function(a){ return state.ownedArtifacts.indexOf(a.id) === -1; });
-          nextId = unowned[0].id;
+        var nextId = null;
+
+        // 1. 유리 술병 지정 유물이 있다면 우선 획득
+        if(state.nextBottleChoiceId && state.ownedArtifacts.indexOf(state.nextBottleChoiceId) === -1){
+          nextId = state.nextBottleChoiceId;
+          state.nextBottleChoiceId = null; // 지정 효과 소비
+        } else {
+          // 2. 비복원 무작위 덱(artifactOrderDeck)에서 미획득한 첫번째 유물 차례대로 뽑기
+          for(var dIdx=0; dIdx<state.artifactOrderDeck.length; dIdx++){
+            var candidateId = state.artifactOrderDeck[dIdx];
+            if(state.ownedArtifacts.indexOf(candidateId) === -1){
+              nextId = candidateId;
+              break;
+            }
+          }
         }
         
-        state.ownedArtifacts.push(nextId);
-        state.nextBottleChoiceId = null;
+        if(nextId){
+          state.ownedArtifacts.push(nextId);
 
-        var earnedArt = state.customArtifacts.find(function(a){ return a.id === nextId; });
-        rewardLinesHtml += '<div style="color:var(--gold);font-weight:700;margin-top:6px;">🔮 주간 인양 목표 달성! ['+earnedArt.name+'] 획득! (특수 버프 즉시 활성화)</div>';
+          if(nextId === 1) state.activeCompassCount += 1;
+          if(nextId === 2) state.activeMapBuff = true;
+          if(nextId === 4) state.activeScrollCount += 1;
 
-        if(state.ownedArtifacts.length === 6){
-          state.tickets += 1;
-          rewardLinesHtml += '<div style="color:var(--cyan);font-weight:700;">✨ 마지막 유물 획득 기념 즉시 인양 기회 +1 보너스!</div>';
-        }
+          var earnedArt = state.customArtifacts.find(function(a){ return a.id === nextId; });
+          rewardLinesHtml += '<div style="color:var(--gold);font-weight:700;margin-top:6px;">🔮 주간 인양 목표 달성! 무작위 유물 ['+earnedArt.name+'] 획득! (버프 활성화)</div>';
 
-        if(nextId === 6){
-          setTimeout(triggerBottleChoice, 500);
+          if(state.ownedArtifacts.length === 6){
+            state.tickets += 1;
+            rewardLinesHtml += '<div style="color:var(--cyan);font-weight:700;">✨ 마지막 6번째 유물 획득 기념 즉시 인양 기회 +1 보너스!</div>';
+          }
+
+          if(nextId === 6){
+            setTimeout(triggerBottleChoice, 500);
+          }
         }
       }
     }
@@ -873,7 +919,7 @@
         state.nextBottleChoiceId = art.id;
         closeModal('modal-bottle-choice');
         saveState(); render();
-        showToast('🍾 ['+art.name+'] 유물이 다음 주차 등장 유물로 확정 선택되었습니다!');
+        showToast('🍾 ['+art.name+'] 유물이 다음 등장 유물로 확정 지정되었습니다!');
       });
       gridEl.appendChild(card);
     });
@@ -885,6 +931,7 @@
     state.day += 1;
     state.missions = [false, false, false, false, false];
     state.dailyTicketGranted = false;
+    state.activeMapBuff = false;
     saveState(); render();
     showToast('Day '+state.day+' 진입! 일일 미션이 초기화되었습니다.');
   });
