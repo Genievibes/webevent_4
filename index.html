@@ -35,24 +35,24 @@
     outline:2px dashed var(--cyan); outline-offset:2px; cursor:text; border-radius:4px; background:rgba(95,230,255,.12);
   }
 
-  /* ===================== TOOLBAR ===================== */
+  /* ===================== TOOLBAR (타이틀과 겹치지 않도록 조정) ===================== */
   #toolbar{
-    position:absolute;top:10px;right:12px;z-index:500;
+    position:absolute;top:6px;right:12px;z-index:600;
     display:flex;gap:6px;
   }
   .tb-btn{
-    font-family:'Gowun Dodum',sans-serif;font-size:11.5px;font-weight:700;color:#eaf6ff;
-    background:rgba(6,20,38,.62);border:1.5px solid rgba(255,255,255,.28);
-    padding:7px 12px;border-radius:20px;cursor:pointer;white-space:nowrap;
-    transition:all .18s cubic-bezier(.34,1.56,.64,1);backdrop-filter:blur(4px);
+    font-family:'Gowun Dodum',sans-serif;font-size:11px;font-weight:700;color:#eaf6ff;
+    background:rgba(6,20,38,.75);border:1.5px solid rgba(255,255,255,.32);
+    padding:5px 11px;border-radius:20px;cursor:pointer;white-space:nowrap;
+    transition:all .18s cubic-bezier(.34,1.56,.64,1);backdrop-filter:blur(6px);
   }
-  .tb-btn:hover{background:rgba(95,230,255,.22);border-color:var(--cyan);transform:translateY(-2px) scale(1.04);}
+  .tb-btn:hover{background:rgba(95,230,255,.25);border-color:var(--cyan);transform:translateY(-2px) scale(1.04);}
   .tb-btn.on{background:linear-gradient(160deg,#ffe9a8,#ffd76b);color:#4a2f00;border-color:#fff3c9;}
   .tb-btn.download{background:linear-gradient(160deg,#cdeeff,#5fe6ff);color:#012029;border-color:#eafcff;}
   .tb-btn.danger:hover{background:rgba(255,158,176,.28);border-color:var(--coral);}
 
   /* ===================== TOP SECTION ===================== */
-  #top-section{position:relative;width:100%;height:160px;flex-shrink:0;}
+  #top-section{position:relative;width:100%;height:175px;flex-shrink:0;}
   .sea-layer{position:absolute;top:0;left:0;width:100%;height:92px;overflow:hidden;z-index:2;}
   .wave-track{position:absolute;left:0;width:200%;height:100%;display:flex;}
   .wave-track svg{width:50%;height:100%;display:block;flex-shrink:0;}
@@ -72,7 +72,8 @@
   .ship3{left:80%;top:10px;transform:scale(.72);animation:shipBob 3.9s ease-in-out infinite 1.1s;}
   @keyframes shipBob{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-6px) rotate(3deg);}}
 
-  .title-area{position:absolute;top:16px;left:0;width:100%;text-align:center;z-index:5;}
+  /* 타이틀 위치를 내려서 툴바와 분리 */
+  .title-area{position:absolute;top:36px;left:0;width:100%;text-align:center;z-index:5;}
   .title-plaque{
     display:inline-block;position:relative;padding:10px 45px 12px;border-radius:20px;
     background:linear-gradient(160deg, rgba(255,255,255,.2), rgba(255,255,255,.05));
@@ -312,7 +313,53 @@
 
     <div class="title-area">
       <div class="title-plaque">
-        <h1 class="main-title" id="main-title" contenteditable="false" data-type="main-title">타이틀/유의사항/진행가이드/보상안내</h1>
+        <h1 class="main-title" id="main-title" contenteditable="false" data-type="main-title"><p style="margin-top: 0pt; margin-bottom: 0pt; margin-left: 0in; direction: ltr; unicode-bidi: embed;"><span style="font-size:
+14.0pt;font-family:&quot;맑은 고딕&quot;;mso-ascii-font-family:&quot;맑은 고딕&quot;;mso-fareast-font-family:
+&quot;맑은 고딕&quot;;mso-bidi-font-family:+mn-cs;mso-ascii-theme-font:minor-latin;
+mso-fareast-theme-font:minor-fareast;mso-bidi-theme-font:minor-bidi;color:black;
+mso-color-index:1;mso-font-kerning:12.0pt;language:ko;mso-style-textfill-type:
+solid;mso-style-textfill-fill-themecolor:text1;mso-style-textfill-fill-color:
+black;mso-style-textfill-fill-alpha:100.0%">타이틀</span><span style="font-size:
+14.0pt;font-family:&quot;맑은 고딕&quot;;mso-ascii-font-family:&quot;맑은 고딕&quot;;mso-fareast-font-family:
+&quot;맑은 고딕&quot;;mso-bidi-font-family:+mn-cs;mso-ascii-theme-font:minor-latin;
+mso-fareast-theme-font:minor-fareast;mso-bidi-theme-font:minor-bidi;color:black;
+mso-color-index:1;mso-font-kerning:12.0pt;language:en-US;mso-style-textfill-type:
+solid;mso-style-textfill-fill-themecolor:text1;mso-style-textfill-fill-color:
+black;mso-style-textfill-fill-alpha:100.0%">/</span><span style="font-size:
+14.0pt;font-family:&quot;맑은 고딕&quot;;mso-ascii-font-family:&quot;맑은 고딕&quot;;mso-fareast-font-family:
+&quot;맑은 고딕&quot;;mso-bidi-font-family:+mn-cs;mso-ascii-theme-font:minor-latin;
+mso-fareast-theme-font:minor-fareast;mso-bidi-theme-font:minor-bidi;color:black;
+mso-color-index:1;mso-font-kerning:12.0pt;language:ko;mso-style-textfill-type:
+solid;mso-style-textfill-fill-themecolor:text1;mso-style-textfill-fill-color:
+black;mso-style-textfill-fill-alpha:100.0%">유의사항</span><span style="font-size:
+14.0pt;font-family:&quot;맑은 고딕&quot;;mso-ascii-font-family:&quot;맑은 고딕&quot;;mso-fareast-font-family:
+&quot;맑은 고딕&quot;;mso-bidi-font-family:+mn-cs;mso-ascii-theme-font:minor-latin;
+mso-fareast-theme-font:minor-fareast;mso-bidi-theme-font:minor-bidi;color:black;
+mso-color-index:1;mso-font-kerning:12.0pt;language:en-US;mso-style-textfill-type:
+solid;mso-style-textfill-fill-themecolor:text1;mso-style-textfill-fill-color:
+black;mso-style-textfill-fill-alpha:100.0%">/</span><span style="font-size:
+14.0pt;font-family:&quot;맑은 고딕&quot;;mso-ascii-font-family:&quot;맑은 고딕&quot;;mso-fareast-font-family:
+&quot;맑은 고딕&quot;;mso-bidi-font-family:+mn-cs;mso-ascii-theme-font:minor-latin;
+mso-fareast-theme-font:minor-fareast;mso-bidi-theme-font:minor-bidi;color:black;
+mso-color-index:1;mso-font-kerning:12.0pt;language:ko;mso-style-textfill-type:
+solid;mso-style-textfill-fill-themecolor:text1;mso-style-textfill-fill-color:
+black;mso-style-textfill-fill-alpha:100.0%">진행 가이드</span><span style="font-size:14.0pt;font-family:&quot;맑은 고딕&quot;;mso-ascii-font-family:&quot;맑은 고딕&quot;;
+mso-fareast-font-family:&quot;맑은 고딕&quot;;mso-bidi-font-family:+mn-cs;mso-ascii-theme-font:
+minor-latin;mso-fareast-theme-font:minor-fareast;mso-bidi-theme-font:minor-bidi;
+color:black;mso-color-index:1;mso-font-kerning:12.0pt;language:en-US;
+mso-style-textfill-type:solid;mso-style-textfill-fill-themecolor:text1;
+mso-style-textfill-fill-color:black;mso-style-textfill-fill-alpha:100.0%">/</span><span style="font-size:14.0pt;font-family:&quot;맑은 고딕&quot;;mso-ascii-font-family:&quot;맑은 고딕&quot;;
+mso-fareast-font-family:&quot;맑은 고딕&quot;;mso-bidi-font-family:+mn-cs;mso-ascii-theme-font:
+minor-latin;mso-fareast-theme-font:minor-fareast;mso-bidi-theme-font:minor-bidi;
+color:black;mso-color-index:1;mso-font-kerning:12.0pt;language:ko;mso-style-textfill-type:
+solid;mso-style-textfill-fill-themecolor:text1;mso-style-textfill-fill-color:
+black;mso-style-textfill-fill-alpha:100.0%">보상안내</span><span style="font-size:
+14.0pt;font-family:&quot;맑은 고딕&quot;;mso-ascii-font-family:&quot;맑은 고딕&quot;;mso-fareast-font-family:
+&quot;맑은 고딕&quot;;mso-bidi-font-family:+mn-cs;mso-ascii-theme-font:minor-latin;
+mso-fareast-theme-font:minor-fareast;mso-bidi-theme-font:minor-bidi;color:black;
+mso-color-index:1;mso-font-kerning:12.0pt;language:en-US;mso-style-textfill-type:
+solid;mso-style-textfill-fill-themecolor:text1;mso-style-textfill-fill-color:
+black;mso-style-textfill-fill-alpha:100.0%"> </span></p></h1>
         <p class="sub-title" id="sub-title" contenteditable="false" data-type="sub-title">심해 잠수정을 타고 침몰선의 보물을 인양하고 유물을 감정하세요!</p>
         <div>
           <span class="event-date-badge">📅 이벤트 기간: 2026. 10. 21. ~ 2026. 12. 16. (8주간)</span>
@@ -328,7 +375,7 @@
     <div class="buff-list" id="buff-list"><span class="buff-empty">현재 활성화되어 유효한 유물 특수 효과가 없습니다.</span></div>
   </div>
 
-  <!-- DASHBOARD (개편된 4종 표시 항목) -->
+  <!-- DASHBOARD -->
   <div id="dashboard">
     <div class="stat-block">
       <span class="stat-label">🎮 접속 시간</span>
@@ -350,7 +397,7 @@
 
   <!-- STAGE MAIN -->
   <div id="stage-main">
-    <div class="bubble-layer" id="bubble-layer"><span class="bubble" style="width: 6.91244px; height: 6.91244px; left: 30.8794%; --drift: -7.230814429941534px; animation: 5.80361s linear 1.21779s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.372px; height: 9.372px; left: 63.4136%; --drift: 13.752703081615667px; animation: 7.6855s linear 6.76615s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.41132px; height: 7.41132px; left: 91.2377%; --drift: -2.8830507504393523px; animation: 6.77631s linear 2.74882s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 11.1455px; height: 11.1455px; left: 91.8007%; --drift: -13.020577218791903px; animation: 8.20822s linear 1.93444s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.63835px; height: 8.63835px; left: 78.1237%; --drift: -12.770890858241858px; animation: 10.5008s linear 5.99416s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.89635px; height: 5.89635px; left: 95.6668%; --drift: 0.5763313785927799px; animation: 9.30557s linear 3.11587s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.33772px; height: 6.33772px; left: 10.2482%; --drift: 1.1764397950284256px; animation: 5.4367s linear 7.55793s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.27433px; height: 4.27433px; left: 61.3648%; --drift: 9.750044875882601px; animation: 9.59597s linear 2.33837s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 5.94815px; height: 5.94815px; left: 30.6346%; --drift: 1.8378886535563552px; animation: 10.1777s linear 5.2366s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.42804px; height: 9.42804px; left: 89.4946%; --drift: 1.2457143923454588px; animation: 5.17027s linear 3.9448s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.13864px; height: 7.13864px; left: 61.7994%; --drift: -13.682216598436751px; animation: 6.66654s linear 2.43301s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.48721px; height: 8.48721px; left: 48.1728%; --drift: 12.662921868869951px; animation: 5.3203s linear 4.83084s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.06974px; height: 7.06974px; left: 17.1215%; --drift: 5.885185688166249px; animation: 9.6371s linear 3.08152s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.86658px; height: 4.86658px; left: 18.6377%; --drift: -5.176261991564493px; animation: 10.4271s linear 2.78356s infinite normal none running riseBubble;"></span></div>
+    <div class="bubble-layer" id="bubble-layer"><span class="bubble" style="width: 11.6825px; height: 11.6825px; left: 54.4387%; --drift: 3.6813652398964365px; animation: 5.09439s linear 7.75355s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.88889px; height: 6.88889px; left: 11.3135%; --drift: -14.955660037326403px; animation: 10.6264s linear 6.66892s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.96853px; height: 8.96853px; left: 11.0282%; --drift: 11.691275922969286px; animation: 7.45714s linear 7.62797s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 11.5135px; height: 11.5135px; left: 87.1099%; --drift: -13.54364265585735px; animation: 7.12321s linear 2.61153s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.71915px; height: 6.71915px; left: 40.3606%; --drift: 0.5632921674300668px; animation: 9.45971s linear 3.04557s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.26925px; height: 8.26925px; left: 82.9053%; --drift: -11.69850613440982px; animation: 7.58945s linear 7.80175s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 10.6483px; height: 10.6483px; left: 79.0212%; --drift: -9.610506026872464px; animation: 6.08812s linear 6.95753s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.10892px; height: 9.10892px; left: 79.7593%; --drift: -11.702775688876038px; animation: 10.9901s linear 1.20783s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 11.8555px; height: 11.8555px; left: 96.3931%; --drift: 12.554751850839619px; animation: 7.21026s linear 1.08123s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 4.19187px; height: 4.19187px; left: 55.6928%; --drift: -13.298446642745633px; animation: 9.51687s linear 3.03196s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.44859px; height: 6.44859px; left: 38.0542%; --drift: 11.000566913728278px; animation: 5.64786s linear 7.57713s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.58496px; height: 7.58496px; left: 5.87274%; --drift: 6.963775524217972px; animation: 10.4957s linear 3.12816s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.49697px; height: 6.49697px; left: 73.1536%; --drift: 6.6664955063511115px; animation: 9.98374s linear 6.8497s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.18894px; height: 8.18894px; left: 61.6228%; --drift: 4.770437592680199px; animation: 7.32012s linear 4.0666s infinite normal none running riseBubble;"></span></div>
 
     <!-- UPPER: MISSION & SALVAGE -->
     <div class="stage-upper">
@@ -482,12 +529,12 @@
 ];
 
   var DEFAULT_TITLES = {
-    "mainTitle": "타이틀/유의사항/진행가이드/보상안내",
+    "mainTitle": "타이틀/유의사항/진행 가이드/보상안내",
     "subTitle": "심해 잠수정을 타고 침몰선의 보물을 인양하고 유물을 감정하세요!"
 };
 
   var REWARD_POOL = ['🖼️ 전설 아바타', '🎁 보물 상자', '💠 고급 강화석', '💰 골드 주머니', '🧪 회복 소모품'];
-  var STORAGE_KEY = 'cuteSeaTreasureState_v6';
+  var STORAGE_KEY = 'cuteSeaTreasureState_v7';
 
   function shuffleArray(arr) {
     var array = arr.slice();
