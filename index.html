@@ -1,11 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
+<html lang="ko"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[웹 이벤트] 귀여운 해양 탐사 & 보물 인양</title>
+<title>[웹 이벤트] 귀여운 해양 탐사 &amp; 보물 인양</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Gowun+Dodum&family=Jua&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&amp;family=Gowun+Dodum&amp;family=Jua&amp;display=swap" rel="stylesheet">
 <style>
   :root{
     --gold:#ffd76b;
@@ -249,6 +248,16 @@
     box-shadow:0 6px 16px rgba(255,215,107,.3);
   }
   .artifact-tile.locked{opacity:.4;cursor:not-allowed;filter:grayscale(0.8);}
+  
+  /* 신관의 서 획득 시: 히든 유물 슬롯 해금(노란색 살짝 하이라이팅) */
+  .artifact-tile.unlocked-slot{
+    opacity:.85;
+    border:1.5px solid #ffe9a8 !important;
+    box-shadow: 0 0 10px rgba(255, 215, 107, 0.45);
+    background: linear-gradient(160deg, rgba(255, 233, 168, 0.12), rgba(255, 255, 255, 0.03));
+    filter: none !important;
+  }
+
   .artifact-tile.appraised{border-color:var(--emerald);background:rgba(91,232,165,.1);cursor:default;}
   .tile-icon{font-size:24px;transition:all .3s;}
   .artifact-tile.locked .tile-icon{opacity:.4;}
@@ -259,6 +268,7 @@
     background:rgba(0,0,0,.5);color:#fff;
   }
   .artifact-tile.owned .tile-status-badge{background:var(--gold);color:#4a2f00;}
+  .artifact-tile.unlocked-slot .tile-status-badge{background:var(--gold);color:#4a2f00;}
   .artifact-tile.appraised .tile-status-badge{background:var(--emerald);color:#04210f;}
 
   /* ===================== POPUPS ===================== */
@@ -310,10 +320,10 @@
   <div id="top-section">
     <div class="sea-layer">
       <div class="wave-track wave-back">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,50 C150,110 300,-10 450,50 C600,110 750,-10 900,50 C1050,110 1200,-10 1350,50 L1350,120 L0,120 Z" fill="rgba(255,255,255,0.28)"/></svg>
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,50 C150,110 300,-10 450,50 C600,110 750,-10 900,50 C1050,110 1200,-10 1350,50 L1350,120 L0,120 Z" fill="rgba(255,255,255,0.28)"></path></svg>
       </div>
       <div class="wave-track wave-front">
-        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C200,10 400,110 600,55 C800,0 1000,100 1200,50 L1200,120 L0,120 Z" fill="rgba(140,210,240,0.55)"/></svg>
+        <svg viewBox="0 0 1200 120" preserveAspectRatio="none"><path d="M0,60 C200,10 400,110 600,55 C800,0 1000,100 1200,50 L1200,120 L0,120 Z" fill="rgba(140,210,240,0.55)"></path></svg>
       </div>
       <div class="ship ship1"><div class="flag"></div><div class="mast"></div><div class="sail"></div><div class="deck"></div><div class="hull"></div></div>
       <div class="ship ship2"><div class="flag"></div><div class="mast"></div><div class="sail"></div><div class="deck"></div><div class="hull"></div></div>
@@ -342,9 +352,7 @@
   <!-- BUFF STATUS BAR -->
   <div id="buff-bar">
     <span class="buff-label">✨ 현재 활성화된 유물 버프:</span>
-    <div class="buff-list" id="buff-list">
-      <span class="buff-empty">현재 획득하여 활성화된 유물 특수 효과가 없습니다.</span>
-    </div>
+    <div class="buff-list" id="buff-list"><span class="buff-empty">현재 활성화되어 유효한 유물 특수 효과가 없습니다.</span></div>
   </div>
 
   <!-- DASHBOARD -->
@@ -371,7 +379,7 @@
 
   <!-- STAGE MAIN -->
   <div id="stage-main">
-    <div class="bubble-layer" id="bubble-layer"></div>
+    <div class="bubble-layer" id="bubble-layer"><span class="bubble" style="width: 8.96274px; height: 8.96274px; left: 37.3947%; --drift: -12.091588089369715px; animation: 6.21828s linear 0.285083s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.96303px; height: 7.96303px; left: 77.5671%; --drift: -12.68577654004222px; animation: 10.7447s linear 1.28657s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.27534px; height: 6.27534px; left: 25.8723%; --drift: 1.695003198671099px; animation: 6.80492s linear 0.0514117s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.43943px; height: 6.43943px; left: 33.3531%; --drift: -8.400676725334124px; animation: 10.3891s linear 1.66625s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 6.33362px; height: 6.33362px; left: 70.0004%; --drift: 11.62125566489988px; animation: 5.97148s linear 1.30101s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 10.9034px; height: 10.9034px; left: 43.6158%; --drift: -0.6491482091629308px; animation: 9.90737s linear 2.80802s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 11.9329px; height: 11.9329px; left: 57.3198%; --drift: -8.15563020094238px; animation: 7.36807s linear 5.51647s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.58376px; height: 9.58376px; left: 16.3296%; --drift: 7.457288210146636px; animation: 10.2459s linear 1.66248s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 10.4903px; height: 10.4903px; left: 38.8785%; --drift: 6.993025477538676px; animation: 8.49056s linear 0.0892436s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.5697px; height: 7.5697px; left: 1.30983%; --drift: -1.256255110526265px; animation: 5.61242s linear 2.03706s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 10.7528px; height: 10.7528px; left: 90.3148%; --drift: -11.66065910915088px; animation: 5.83425s linear 5.34091s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 7.26552px; height: 7.26552px; left: 72.1026%; --drift: 2.208724814392184px; animation: 7.49794s linear 5.00004s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 8.08076px; height: 8.08076px; left: 49.7639%; --drift: -1.0550059346173075px; animation: 10.1565s linear 1.73274s infinite normal none running riseBubble;"></span><span class="bubble" style="width: 9.36233px; height: 9.36233px; left: 56.1949%; --drift: -4.540056055012325px; animation: 7.3871s linear 1.88396s infinite normal none running riseBubble;"></span></div>
 
     <!-- UPPER: MISSION & SALVAGE -->
     <div class="stage-upper">
@@ -381,7 +389,7 @@
           <span class="mission-title">📋 일일 미션 현황</span>
           <span class="mission-counter-badge" id="mission-counter-badge">0/2 완료</span>
         </div>
-        <div class="mission-list" id="mission-list"></div>
+        <div class="mission-list" id="mission-list"><div class="mission-item"><span class="mission-icon-circle">1</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="0">게임 플레이 30분 달성</span><button class="mission-btn" data-idx="0">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">2</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="1">카오스 던전 / 쿠르잔 전선 / 혼돈의 균열 클리어 1회</span><button class="mission-btn" data-idx="1">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">3</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="2">가디언 토벌 1회 클리어</span><button class="mission-btn" data-idx="2">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">4</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="3">영지 활동력 누적 3,000 소모</span><button class="mission-btn" data-idx="3">완료하기</button></div><div class="mission-item"><span class="mission-icon-circle">5</span><span class="mission-name" contenteditable="false" data-type="mission" data-idx="4">생명의 기운 누적 3,000 소모</span><button class="mission-btn" data-idx="4">완료하기</button></div></div>
         <p class="mission-panel-foot">5개 미션 중 <b id="foot-req-count">2개</b> 완료 시 인양 기회 +1 (일 최대 1회, 총 56회 한정)</p>
       </div>
 
@@ -410,8 +418,8 @@
         <div class="salvage-count-badge">⚓ 보물 인양 가능 횟수: <b id="salvage-ticket-count">0</b>회</div>
 
         <div class="salvage-btn-group">
-          <button class="btn-salvage" id="btn-salvage">⚓ 보물 인양하기</button>
-          <button class="btn-salvage all" id="btn-salvage-all">⚓ 모두 인양하기</button>
+          <button class="btn-salvage" id="btn-salvage" disabled="">⚓ 보물 인양하기</button>
+          <button class="btn-salvage all" id="btn-salvage-all" disabled="">⚓ 모두 인양하기</button>
         </div>
       </div>
     </div>
@@ -423,7 +431,7 @@
           <span class="grid-title">🔮 유물 3x2 무작위 그리드 (획득 즉시 특수 버프 발동 / 비복원 랜덤 추출)</span>
           <button class="btn-salvage all" id="btn-appraise-all" style="padding:5px 14px;font-size:11px;">🔍 한 번에 감정하기</button>
         </div>
-        <div class="tile-grid" id="tile-grid"></div>
+        <div class="tile-grid" id="tile-grid"><div class="artifact-tile locked" data-id="1"><span class="tile-status-badge">미획득</span><span class="tile-icon">🧭</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="0">고대의 나침반</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="0">다음 인양 시 보너스 상자 1개 추가 (1회 소모)</span></div><div class="artifact-tile locked" data-id="2"><span class="tile-status-badge">미획득</span><span class="tile-icon">📜</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="1">프로키온 바다의 오래된 해도</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="1">다음 일자 미션 완료 조건 완화 (2회→1회, 1회 소모)</span></div><div class="artifact-tile locked" data-id="3"><span class="tile-status-badge">미획득</span><span class="tile-icon">🗿</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="2">고대의 신 조각상</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="2">다음 1회 주간 인양 요구 횟수 감축 (4회→3회, 1회 소모)</span></div><div class="artifact-tile locked" data-id="4"><span class="tile-status-badge">미획득</span><span class="tile-icon">📖</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="3">신관의 서</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="3">다음 주차에 히든 유물을 획득할 수 있는 슬롯 해금 (1회성)</span></div><div class="artifact-tile locked" data-id="5"><span class="tile-status-badge">미획득</span><span class="tile-icon">📕</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="4">잊혀진 영웅의 전기</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="4">다음 1회 유물 감정 시 보상 1+1 추가 지급 (1회 소모)</span></div><div class="artifact-tile locked" data-id="6"><span class="tile-status-badge">잠김(?)</span><span class="tile-icon">❓</span><span class="tile-name" contenteditable="false" data-type="art-name" data-idx="5">???</span><span class="tile-desc" contenteditable="false" data-type="art-desc" data-idx="5">신관의 서 획득 시 해금 가능한 히든 슬롯입니다.</span></div></div>
       </div>
     </div>
   </div>
@@ -433,14 +441,14 @@
     <div class="modal-card">
       <button class="modal-close" data-close="modal-salvage">✕</button>
       <div class="modal-eyebrow">⚓ 보물 인양 결과</div>
-      <div class="depth-number" id="salvage-depth">2,350m</div>
+      <div class="depth-number" id="salvage-depth">4회 연속 인양 완료</div>
       <div class="modal-divider"></div>
-      <div id="salvage-reward-lines"></div>
+      <div id="salvage-reward-lines"><div style="font-size:13px;color:#eafcff;margin:4px 0;font-weight:700;">✨ 수심 1,522m 인양 성공!</div><div style="font-size:12.5px;color:var(--gold);margin-bottom:8px;font-weight:700;">🎁 일일 보상 획득하였습니다!</div><div style="font-size:13px;color:#eafcff;margin:4px 0;font-weight:700;">✨ 수심 2,736m 인양 성공!</div><div style="font-size:12.5px;color:var(--gold);margin-bottom:8px;font-weight:700;">🎁 일일 보상 획득하였습니다!</div><div style="font-size:13px;color:#eafcff;margin:4px 0;font-weight:700;">✨ 수심 1,920m 인양 성공!</div><div style="font-size:12.5px;color:var(--gold);margin-bottom:8px;font-weight:700;">🎁 일일 보상 획득하였습니다!</div><div style="color:var(--gold);font-weight:700;margin-top:6px;">🔮 주간 인양 목표 달성! 무작위 유물 [프로키온 바다의 오래된 해도] 획득! (버프 활성화)</div><div style="font-size:13px;color:#eafcff;margin:4px 0;font-weight:700;">✨ 수심 4,878m 인양 성공!</div><div style="font-size:12.5px;color:var(--gold);margin-bottom:8px;font-weight:700;">🎁 일일 보상 획득하였습니다!</div></div>
       <button class="modal-btn" data-close="modal-salvage">확인</button>
     </div>
   </div>
 
-  <div id="toast"></div>
+  <div id="toast" class="show">모든 진행 데이터가 최초 상태로 초기화되었습니다.</div>
 </div>
 
 <script>
@@ -456,29 +464,59 @@ function showNavTab(name){
 
   /* ============ ARTIFACT DATA ============ */
   var ARTIFACTS_DATA = [
-    { id: 1, name: '고대의 나침반', icon: '🧭', desc: '다음 인양 시 보너스 상자 1개 추가 (1회 소모)' },
-    { id: 2, name: '프로키온 바다의 오래된 해도', icon: '📜', desc: '다음 일자 미션 완료 조건 완화 (2회→1회, 1회 소모)' },
-    { id: 3, name: '고대의 신 조각상', icon: '🗿', desc: '다음 1회 주간 인양 요구 횟수 감축 (4회→3회, 1회 소모)' },
-    { id: 4, name: '신관의 서', icon: '📖', desc: '다음 주차에 히든 유물을 획득할 수 있는 슬롯 해금 (1회성)' },
-    { id: 5, name: '잊혀진 영웅의 전기', icon: '📕', desc: '다음 1회 유물 감정 시 보상 1+1 추가 지급 (1회 소모)' },
-    { id: 6, name: '히든 유물', icon: '💎', desc: '해금 후 감정 시 보너스 보상 지급 (자체 발동 버프 없음)' }
-  ];
+    {
+        "id": 1,
+        "name": "고대의 나침반",
+        "icon": "🧭",
+        "desc": "다음 인양 시 보너스 상자 1개 추가 (1회 소모)"
+    },
+    {
+        "id": 2,
+        "name": "프로키온 바다의 오래된 해도",
+        "icon": "📜",
+        "desc": "다음 일자 미션 완료 조건 완화 (2회→1회, 1회 소모)"
+    },
+    {
+        "id": 3,
+        "name": "고대의 신 조각상",
+        "icon": "🗿",
+        "desc": "다음 1회 주간 인양 요구 횟수 감축 (4회→3회, 1회 소모)"
+    },
+    {
+        "id": 4,
+        "name": "신관의 서",
+        "icon": "📖",
+        "desc": "다음 주차에 히든 유물을 획득할 수 있는 슬롯 해금 (1회성)"
+    },
+    {
+        "id": 5,
+        "name": "잊혀진 영웅의 전기",
+        "icon": "📕",
+        "desc": "다음 1회 유물 감정 시 보상 1+1 추가 지급 (1회 소모)"
+    },
+    {
+        "id": 6,
+        "name": "히든 유물",
+        "icon": "💎",
+        "desc": "해금 후 감정 시 보너스 보상 지급 (자체 발동 버프 없음)"
+    }
+];
 
   var DEFAULT_MISSIONS = [
-    '게임 플레이 30분 달성',
-    '카오스 던전 / 쿠르잔 전선 / 혼돈의 균열 클리어 1회',
-    '가디언 토벌 1회 클리어',
-    '영지 활동력 누적 3,000 소모',
-    '생명의 기운 누적 3,000 소모'
-  ];
+    "게임 플레이 30분 달성",
+    "카오스 던전 / 쿠르잔 전선 / 혼돈의 균열 클리어 1회",
+    "가디언 토벌 1회 클리어",
+    "영지 활동력 누적 3,000 소모",
+    "생명의 기운 누적 3,000 소모"
+];
 
   var DEFAULT_TITLES = {
-    mainTitle: '타이틀',
-    subTitle: '심해 잠수정을 타고 침몰선의 보물을 인양하고 유물을 감정하세요!'
-  };
+    "mainTitle": "타이틀",
+    "subTitle": "심해 잠수정을 타고 침몰선의 보물을 인양하고 유물을 감정하세요!"
+};
 
   var REWARD_POOL = ['🖼️ 전설 아바타', '🎁 보물 상자', '💠 고급 강화석', '💰 골드 주머니', '🧪 회복 소모품'];
-  var STORAGE_KEY = 'cuteSeaTreasureState_v16';
+  var STORAGE_KEY = 'cuteSeaTreasureState_v19';
 
   function shuffleArray(arr) {
     var array = arr.slice();
@@ -523,7 +561,7 @@ function showNavTab(name){
       activeMapBuff: false,     // 📜 해도
       activeStatueCount: 0,    // 🗿 조각상
       activeBiographyCount: 0, // 📕 전기
-      hiddenArtifactUnlocked: false, // 💎 히든 유물 슬롯 해금 여부 (획득 대기 상태)
+      hiddenArtifactUnlocked: false, // 💎 히든 유물 슬롯 해금 여부
       
       customTitles: JSON.parse(JSON.stringify(DEFAULT_TITLES)),
       customMissions: JSON.parse(JSON.stringify(DEFAULT_MISSIONS)),
@@ -693,23 +731,34 @@ function showNavTab(name){
       
       var isOwned = state.ownedArtifacts.indexOf(art.id) !== -1;
       var isAppraised = state.appraisedArtifacts.indexOf(art.id) !== -1;
+      var isSlotUnlocked = isHidden && state.hiddenArtifactUnlocked && !isOwned;
 
       var tile = document.createElement('div');
-      tile.className = 'artifact-tile' + (!isOwned ? ' locked' : (isAppraised ? ' appraised' : ' owned'));
+      
+      var tileClass = 'artifact-tile';
+      if(isOwned){
+        tileClass += isAppraised ? ' appraised' : ' owned';
+      } else if(isSlotUnlocked){
+        tileClass += ' unlocked-slot';
+      } else {
+        tileClass += ' locked';
+      }
+      
+      tile.className = tileClass;
       tile.setAttribute('data-id', art.id);
 
-      var displayName = (isHidden && !isOwned) ? '???' : art.name;
-      var displayIcon = (isHidden && !isOwned) ? '❓' : art.icon;
+      var displayName = (isHidden && !isOwned && !state.hiddenArtifactUnlocked) ? '???' : art.name;
+      var displayIcon = (isHidden && !isOwned && !state.hiddenArtifactUnlocked) ? '❓' : art.icon;
       var displayDesc = (isHidden && !isOwned) ? 
         (state.hiddenArtifactUnlocked ? '슬롯 해금 완료! 다음 주차 인양 달성 시 획득합니다.' : '신관의 서 획득 시 해금 가능한 히든 슬롯입니다.') : art.desc;
 
-      var statusText = !isOwned ? (isHidden ? (state.hiddenArtifactUnlocked ? '해금됨' : '잠김(?)') : '미획득') : (isAppraised ? '감정완료' : '감정가능');
+      var statusText = isOwned ? (isAppraised ? '감정완료' : '감정가능') : (isHidden ? (state.hiddenArtifactUnlocked ? '슬롯해금' : '잠김(?)') : '미획득');
       
       tile.innerHTML =
         '<span class="tile-status-badge">'+statusText+'</span>' +
         '<span class="tile-icon">'+displayIcon+'</span>' +
-        '<span class="tile-name" contenteditable="'+(state.editMode && (!isHidden || isOwned))+'" data-type="art-name" data-idx="'+i+'">'+displayName+'</span>' +
-        '<span class="tile-desc" contenteditable="'+(state.editMode && (!isHidden || isOwned))+'" data-type="art-desc" data-idx="'+i+'">'+displayDesc+'</span>';
+        '<span class="tile-name" contenteditable="'+(state.editMode && (!isHidden || isOwned || state.hiddenArtifactUnlocked))+'" data-type="art-name" data-idx="'+i+'">'+displayName+'</span>' +
+        '<span class="tile-desc" contenteditable="'+(state.editMode && (!isHidden || isOwned || state.hiddenArtifactUnlocked))+'" data-type="art-desc" data-idx="'+i+'">'+displayDesc+'</span>';
 
       if(isOwned && !isAppraised && !state.editMode){
         tile.addEventListener('click', (function(id){
@@ -825,14 +874,17 @@ function showNavTab(name){
     for(var c=0; c<actualCount; c++){
       state.weeklyRescue += 1;
       var depth = Math.floor(Math.random() * 4900) + 100;
+
       var line = '✨ 수심 ' + depth.toLocaleString() + 'm 인양 성공!';
+      var rewardLine = '🎁 일일 보상 획득하였습니다!';
 
       if(state.activeCompassCount > 0){
         state.activeCompassCount -= 1;
         line += ' (🧭나침반 보너스 상자 +1 소모!)';
       }
 
-      rewardLinesHtml += '<div style="font-size:12.5px;color:#eafcff;margin:3px 0;">'+line+'</div>';
+      rewardLinesHtml += '<div style="font-size:13px;color:#eafcff;margin:4px 0;font-weight:700;">' + line + '</div>';
+      rewardLinesHtml += '<div style="font-size:12.5px;color:var(--gold);margin-bottom:8px;font-weight:700;">' + rewardLine + '</div>';
 
       var currentTarget = state.activeStatueCount > 0 ? 3 : 4;
 
@@ -846,11 +898,9 @@ function showNavTab(name){
 
         var nextId = null;
 
-        /* 슬롯이 해금되었으나 아직 히든 유물(6)을 획득하지 못한 경우, 우선적으로 히든 유물 획득 */
         if(state.hiddenArtifactUnlocked && state.ownedArtifacts.indexOf(6) === -1){
           nextId = 6;
         } else {
-          // 일반 유물(1~5) 덱에서 미획득 유물 추출
           for(var dIdx=0; dIdx<state.artifactOrderDeck.length; dIdx++){
             var candidateId = state.artifactOrderDeck[dIdx];
             if(candidateId !== 6 && state.ownedArtifacts.indexOf(candidateId) === -1){
@@ -868,7 +918,6 @@ function showNavTab(name){
           if(nextId === 3) state.activeStatueCount += 1;
           if(nextId === 5) state.activeBiographyCount += 1;
 
-          /* 📖 신관의 서(4) 획득 시: 히든 유물 슬롯만 해금 (다음 주차에 획득 가능) */
           if(nextId === 4){
             state.hiddenArtifactUnlocked = true;
           }
@@ -981,5 +1030,5 @@ function showNavTab(name){
   render();
 })();
 </script>
-</body>
-</html>
+
+</body></html>
