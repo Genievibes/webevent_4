@@ -261,16 +261,22 @@
   }
   .artifact-tile.locked{opacity:.4;cursor:not-allowed;filter:grayscale(0.8);}
   
-  /* 히든 유물 슬롯 해금 연출 */
+  /* 슬롯 해금(신관의 서 적용 후) 상태: 하이라이팅 및 Glow 제거, 어두운 텍스트/비활성화 유지 */
   .artifact-tile.unlocked-slot{
-    opacity:.95;
-    border:1.5px solid #ffe9a8 !important;
-    box-shadow: 0 0 12px rgba(255, 215, 107, 0.5);
-    background: linear-gradient(160deg, rgba(255, 233, 168, 0.15), rgba(255, 255, 255, 0.04));
-    filter: none !important;
-    animation: slotPopIn .35s cubic-bezier(.34,1.56,.64,1);
+    opacity: .45;
+    border: 1.5px dashed rgba(255, 255, 255, 0.25) !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    box-shadow: none !important;
+    filter: grayscale(0.7) !important;
+    cursor: not-allowed;
   }
-  @keyframes slotPopIn { 0%{transform:scale(.85);opacity:0;} 100%{transform:scale(1);opacity:.95;} }
+  .artifact-tile.unlocked-slot .tile-icon,
+  .artifact-tile.unlocked-slot .tile-name,
+  .artifact-tile.unlocked-slot .tile-desc,
+  .artifact-tile.unlocked-slot .tile-reward-tag {
+    color: #7a94a8 !important;
+    opacity: 0.7;
+  }
 
   .artifact-tile.appraised{border-color:var(--emerald);background:rgba(91,232,165,.1);cursor:default;}
   .tile-icon{font-size:22px;transition:all .3s;}
@@ -284,7 +290,7 @@
     background:rgba(0,0,0,.5);color:#fff;
   }
   .artifact-tile.owned .tile-status-badge{background:var(--gold);color:#4a2f00;}
-  .artifact-tile.unlocked-slot .tile-status-badge{background:var(--gold);color:#4a2f00;}
+  .artifact-tile.unlocked-slot .tile-status-badge{background:rgba(255,255,255,.15);color:#a8e2ff;border:1px solid rgba(255,255,255,.25);}
   .artifact-tile.appraised .tile-status-badge{background:var(--emerald);color:#04210f;}
 
   /* ===================== POPUPS & MODALS ===================== */
@@ -524,7 +530,7 @@ function showNavTab(name){
   };
 
   var WEEKDAYS = ['수요일', '목요일', '금요일', '토요일', '일요일', '월요일', '화요일'];
-  var STORAGE_KEY = 'cuteSeaTreasureState_v30';
+  var STORAGE_KEY = 'cuteSeaTreasureState_v31';
 
   function shuffleArray(arr) {
     var array = arr.slice();
@@ -843,7 +849,7 @@ function showNavTab(name){
     renderTiles();
 
     if(state.editMode){
-      showToast('편집 모드 ON — 텍스트 및 보원 명칭을 클릭해 수정하세요.');
+      showToast('편집 모드 ON — 텍스트 및 보상 명칭을 클릭해 수정하세요.');
     } else {
       showToast('편집 모드 OFF — 명칭 수정이 완료되었습니다.');
     }
