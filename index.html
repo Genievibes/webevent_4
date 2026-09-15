@@ -42,7 +42,7 @@
     display:flex;gap:6px;
   }
   .tb-btn{
-    font-family:'Gowun Dodum',sans-serif;font-size:11px;font-weight:700;color:#eaf6ff;
+    font-family:'Gowun Dodum',sans-serif;font-size:11px;font-weight:700;color:#eafcff;
     background:rgba(6,20,38,.75);border:1.5px solid rgba(255,255,255,.32);
     padding:5px 11px;border-radius:20px;cursor:pointer;white-space:nowrap;
     transition:all .18s cubic-bezier(.34,1.56,.64,1);backdrop-filter:blur(6px);
@@ -133,6 +133,7 @@
   }
   .stat-block{display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding:0 12px;border-right:1px dashed rgba(255,255,255,.18);flex:1;}
   .stat-block:last-of-type{border-right:none;}
+  .stat-label-wrap{display:flex;align-items:center;gap:6px;}
   .stat-label{font-size:10px;color:#a8e2ff;font-weight:700;white-space:nowrap;}
   .stat-value{font-size:15px;font-weight:400;color:#fff;font-family:'Jua',sans-serif;white-space:nowrap;}
   .stat-subtext{font-size:8.5px;color:#85b8d0;margin-top:1px;font-weight:400;}
@@ -140,6 +141,34 @@
   .stat-value .accent-cyan{color:var(--cyan);}
   .stat-value .accent-violet{color:var(--violet);}
   .stat-value .accent-emerald{color:var(--emerald);}
+
+  /* 대시보드 보물 인양 우측으로 이동된 말풍선 스타일 */
+  .artifact-ready-bubble {
+    position:relative; background:linear-gradient(160deg,#ffe9a8,#ffd76b); color:#4a2f00;
+    padding:2px 8px; border-radius:10px; font-weight:700; font-size:9.5px; white-space:nowrap;
+    box-shadow:0 3px 8px rgba(255,215,107,.5); border:1px solid #fff;
+    animation: bubbleBounce 2s ease-in-out infinite;
+    display:none;
+  }
+  .artifact-ready-bubble::after {
+    content:''; position:absolute; left:-4px; top:50%; transform:translateY(-50%);
+    border-width:3.5px 4.5px 3.5px 0; border-style:solid;
+    border-color:transparent #ffd76b transparent transparent;
+  }
+  @keyframes bubbleBounce { 0%,100%{transform:translateY(0);} 50%{transform:translateY(-3px);} }
+
+  /* 닻 아이콘 게이지 UI */
+  .anchor-gauge { display:flex; align-items:center; gap:6px; margin-top:3px; }
+  .anchor-icon-svg {
+    width:22px; height:22px; transition:all .3s cubic-bezier(.34,1.56,.64,1);
+    filter: drop-shadow(0 0 2px rgba(0,0,0,.6));
+    opacity:.25; fill:#4a657a;
+  }
+  .anchor-icon-svg.filled {
+    opacity:1; fill:url(#anchorGlowGrad);
+    filter: drop-shadow(0 0 6px rgba(95,230,255,.8));
+    transform: scale(1.1);
+  }
 
   /* ===================== STAGE MAIN ===================== */
   #stage-main{flex:1;position:relative;margin:0 20px 14px;display:flex;flex-direction:column;overflow:hidden;
@@ -159,8 +188,9 @@
     background:linear-gradient(160deg, rgba(255,255,255,.09), rgba(255,255,255,.015));
     border:1.5px solid rgba(255,255,255,.18);
   }
-  .mission-panel-head{display:flex;align-items:center;justify-content:space-between;}
+  .mission-panel-head{display:flex;align-items:center;justify-content:space-between;position:relative;}
   .mission-title{font-size:13px;font-weight:700;color:#fff6d5;display:flex;align-items:center;gap:6px;}
+
   .mission-counter-badge{font-size:11px;font-weight:700;font-family:'Jua',sans-serif;padding:3px 10px;border-radius:999px;background:linear-gradient(160deg,#ffe9a8,#ffd76b);color:#4a2f00;}
   .mission-counter-badge.full{background:linear-gradient(160deg,#c8ffe0,#5be8a5);color:#04210f;}
   .mission-list{display:flex;flex-direction:column;gap:5px;flex:1;overflow-y:auto;padding-right:2px;}
@@ -186,8 +216,9 @@
   
   /* 잠수함 CSS 및 황금 잠수정 커스텀 */
   .submarine-scene {
-    position: relative; width: 100%; height: 120px; display: flex; align-items: center; justify-content: center;
+    position: relative; width: 100%; height: 125px; display: flex; align-items: center; justify-content: center;
   }
+
   .searchlight-beam {
     position: absolute; top: 55%; left: 50%; width: 170px; height: 100px; transform: translateX(-50%);
     background: linear-gradient(180deg, rgba(255,255,230,0.4) 0%, rgba(95,230,255,0.15) 50%, transparent 100%);
@@ -261,7 +292,7 @@
   }
   .artifact-tile.locked{opacity:.4;cursor:not-allowed;filter:grayscale(0.8);}
   
-  /* 슬롯 해금(신관의 서 적용 후) 상태: 하이라이팅 및 Glow 제거, 어두운 텍스트/비활성화 유지 */
+  /* 슬롯 해금 상태 */
   .artifact-tile.unlocked-slot{
     opacity: .45;
     border: 1.5px dashed rgba(255, 255, 255, 0.25) !important;
@@ -317,6 +348,20 @@
   }
   .modal-btn:hover{transform:scale(1.04);}
 
+  /* 유물 획득 축하 전용 팝업 스타일 */
+  .modal-card.get-artifact {
+    border-color: var(--gold);
+    box-shadow: 0 0 80px rgba(255, 215, 107, 0.5);
+    background: linear-gradient(160deg, #3d2a08 0%, #0d1a29 80%);
+  }
+  .art-get-icon {
+    font-size: 56px; margin: 10px 0 4px; filter: drop-shadow(0 0 16px rgba(255,215,107,0.8));
+    animation: artPop 0.6s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes artPop { 0% { transform: scale(0.2) rotate(-20deg); opacity: 0; } 100% { transform: scale(1) rotate(0deg); opacity: 1; } }
+  .art-get-name { font-size: 22px; font-weight: 700; color: var(--gold); font-family: 'Jua', sans-serif; margin-bottom: 6px; }
+  .art-get-desc { font-size: 13px; color: #eafcff; background: rgba(0,0,0,0.4); padding: 8px 14px; border-radius: 12px; border: 1px solid rgba(255,215,107,0.3); }
+
   /* 유물 보상 선택 전용 모달 스타일 (전기 유물 전용) */
   .reward-select-grid { display:flex; flex-direction:column; gap:8px; margin-top:10px; max-height:260px; overflow-y:auto; padding-right:4px; }
   .reward-select-card {
@@ -327,6 +372,71 @@
   .reward-select-card:hover { border-color:var(--gold); background:rgba(255,215,107,.18); transform:translateX(3px); }
   .reward-select-card .art-origin { font-size:10px; color:var(--cyan); opacity:.85; }
 
+  /* ===================== NARRATIVE FINAL REWARD POPUP ===================== */
+  .modal-card.narrative-card {
+    width: 520px;
+    background: linear-gradient(160deg, #2b1d06 0%, #08121f 75%);
+    border: 2px solid var(--gold);
+    box-shadow: 0 0 90px rgba(255, 215, 107, 0.6);
+  }
+  .narrative-box {
+    background: rgba(0, 0, 0, 0.55);
+    border: 1px solid rgba(255, 215, 107, 0.3);
+    border-radius: 16px;
+    padding: 14px 18px;
+    margin: 12px 0;
+    text-align: left;
+    position: relative;
+  }
+  .narrative-speech {
+    font-size: 13px;
+    color: #fff6d5;
+    line-height: 1.6;
+    font-family: 'Gowun Dodum', sans-serif;
+    margin: 0;
+  }
+  .gift-box-anim-wrap {
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    margin: 10px 0;
+  }
+  /* 선물 상자 페이드인 / 스르륵 등장 연출 */
+  .gift-box-icon {
+    font-size: 64px;
+    opacity: 0;
+    transform: translateY(20px) scale(0.7);
+    animation: giftFadeIn 1.4s cubic-bezier(.34,1.56,.64,1) 0.5s forwards;
+    filter: drop-shadow(0 0 20px rgba(255, 215, 107, 0.8));
+  }
+  @keyframes giftFadeIn {
+    0% { opacity: 0; transform: translateY(20px) scale(0.7); }
+    100% { opacity: 1; transform: translateY(0) scale(1); }
+  }
+  /* 끈이 풀리면서 아바타 상자 등장 연출 */
+  .reward-avatar-unveil {
+    opacity: 0;
+    transform: scale(0.8);
+    animation: avatarUnveil 0.8s cubic-bezier(.34,1.56,.64,1) 2.1s forwards;
+    background: linear-gradient(160deg, rgba(255,215,107,0.25), rgba(95,230,255,0.15));
+    border: 1.5px solid var(--gold);
+    border-radius: 14px;
+    padding: 10px 18px;
+    margin-top: 8px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+  }
+  @keyframes avatarUnveil {
+    0% { opacity: 0; transform: scale(0.8) translateY(10px); }
+    100% { opacity: 1; transform: scale(1) translateY(0); }
+  }
+  .reward-avatar-icon { font-size: 26px; }
+  .reward-avatar-text { font-size: 14px; font-weight: 700; color: #ffffff; font-family: 'Jua', sans-serif; }
+
   #toast{
     position:absolute;bottom:16px;left:50%;transform:translateX(-50%) translateY(20px);z-index:900;
     background:rgba(6,20,38,.95);border:1.5px solid var(--cyan);color:#eafcff;padding:10px 20px;border-radius:999px;
@@ -336,6 +446,18 @@
 </style>
 </head>
 <body>
+
+<!-- SVG 그라데이션 정의 (네온 푸른 빛 닻 아이콘용) -->
+<svg style="width:0;height:0;position:absolute;">
+  <defs>
+    <linearGradient id="anchorGlowGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#a7f3ff"/>
+      <stop offset="50%" stop-color="#5fe6ff"/>
+      <stop offset="100%" stop-color="#00a3cc"/>
+    </linearGradient>
+  </defs>
+</svg>
+
 <div id="event-wrap">
 
   <!-- TOOLBAR -->
@@ -344,7 +466,6 @@
     <button class="tb-btn download" id="btn-download">⬇️ HTML 다운로드</button>
     <button class="tb-btn quick" id="btn-quick-missions">⚡ 일일 미션 2회 완료</button>
     <button class="tb-btn" id="btn-next-day">⏩ 다음날 넘기기</button>
-    <button class="tb-btn" id="btn-weekly-reset">🔄 주간 초기화</button>
     <button class="tb-btn danger" id="btn-full-reset">⚠️ 전체 초기화</button>
   </div>
 
@@ -396,14 +517,18 @@
       <span class="stat-value"><span class="accent" id="stat-playtime">0</span>/30분</span>
     </div>
     <div class="stat-block">
-      <span class="stat-label">📋 일일 미션</span>
+      <div class="stat-label-wrap">
+        <span class="stat-label">⚓ 보물 인양</span>
+        <!-- 보물 인양 우측에 배치된 말풍선 -->
+        <div class="artifact-ready-bubble" id="artifact-ready-bubble">💬 보물 인양 가능</div>
+      </div>
       <span class="stat-value"><span class="accent-cyan" id="stat-daily-mission">0</span>/<span id="stat-daily-target">2</span>회</span>
       <span class="stat-subtext">(매일 06:00 초기화)</span>
     </div>
     <div class="stat-block">
-      <span class="stat-label">⚓ 주간 인양</span>
-      <span class="stat-value" id="stat-weekly-rescue-container"><span id="stat-weekly-rescue">0</span>/<span id="stat-weekly-target">4</span>회</span>
-      <span class="stat-subtext">(매주 수요일 06:00 자동 초기화)</span>
+      <span class="stat-label">🔮 유물 획득</span>
+      <div class="anchor-gauge" id="anchor-gauge-container"></div>
+      <span class="stat-subtext" id="anchor-subtext">(티켓 5개 누적 시 유물 획득)</span>
     </div>
     <div class="stat-block">
       <span class="stat-label">🔮 유물 감정</span>
@@ -482,6 +607,18 @@
     </div>
   </div>
 
+  <!-- MODAL: ARTIFACT GET (수동 닫기 전용 축하 팝업) -->
+  <div class="modal-overlay" id="modal-art-get">
+    <div class="modal-card get-artifact">
+      <button class="modal-close" id="btn-close-art-get-x">✕</button>
+      <div class="modal-eyebrow" style="color:var(--gold);">🎉 새로운 유물 획득!</div>
+      <div class="art-get-icon" id="pop-art-icon">🧭</div>
+      <div class="art-get-name" id="pop-art-name">고대의 나침반</div>
+      <div class="art-get-desc" id="pop-art-desc">일일 보상 1+1 획득 (1일간 일일 보상 2배)</div>
+      <button class="modal-btn" id="btn-close-art-get-btn" style="background:linear-gradient(160deg,#ffe9a8,#ffd76b);color:#4a2f00;margin-top:20px;">확인</button>
+    </div>
+  </div>
+
   <!-- MODAL: SELECTABLE REWARD (전기 유물 전용 - 5개 유물 보상 선택) -->
   <div class="modal-overlay" id="modal-reward-select">
     <div class="modal-card">
@@ -489,6 +626,35 @@
       <div style="font-size:13.5px;font-weight:700;color:#fff;margin:6px 0;">5개의 일반 유물 감정 보상 중 1종을 선택해 획득하세요!</div>
       <div class="modal-divider"></div>
       <div class="reward-select-grid" id="reward-select-options"></div>
+    </div>
+  </div>
+
+  <!-- MODAL: FINAL NARRATIVE REWARD (6개 유물 모두 감정 완료 시 등장) -->
+  <div class="modal-overlay" id="modal-narrative-final">
+    <div class="modal-card narrative-card">
+      <button class="modal-close" data-close="modal-narrative-final">✕</button>
+      <div class="modal-eyebrow" style="color:var(--gold);">🏆 모든 유물 감정 완료!</div>
+      
+      <div class="narrative-box">
+        <p class="narrative-speech">
+          "자네, 드디어 유물을 모두 모았구만. 축하하네.<br>
+          그동안 보물을 인양하느라 고생한 자네에게 친히 줄 선물이 있다네.<br>
+          아마 자네가 좋아할 것이라고 믿네."
+        </p>
+      </div>
+
+      <!-- 선물 상자 애니메이션 연출 영역 -->
+      <div class="gift-box-anim-wrap">
+        <div class="gift-box-icon">🎁</div>
+        <div class="reward-avatar-unveil">
+          <span class="reward-avatar-icon">👕</span>
+          <span class="reward-avatar-text">축구 유니폼 아바타 상자 x 1</span>
+        </div>
+      </div>
+
+      <div class="modal-divider"></div>
+      <div style="font-size:12px;color:var(--gold);font-weight:700;">🎁 최종 감정 완료 보상이 지급되었습니다!</div>
+      <button class="modal-btn" data-close="modal-narrative-final" style="background:linear-gradient(160deg,#ffe9a8,#ffd76b);color:#4a2f00;margin-top:12px;">보상 획득 및 완료</button>
     </div>
   </div>
 
@@ -506,11 +672,11 @@ function showNavTab(name){
 (function(){
   "use strict";
 
-  /* ============ ARTIFACT DATA (보상 A~E 및 황금 골드 보물 상자 표기) ============ */
+  /* ============ ARTIFACT DATA ============ */
   var ARTIFACTS_DATA = [
     { id: 1, name: '고대의 나침반', icon: '🧭', desc: '일일 보상 1+1 획득 (1일간 일일 보상 2배)', reward: '보상 A' },
     { id: 2, name: '프로키온 바다의 오래된 해도', icon: '📜', desc: '일일 미션 조건 완화 (2회 -> 1회 클리어)', reward: '보상 B' },
-    { id: 3, name: '고대의 신 조각상', icon: '🗿', desc: '주간 인양 필요 횟수 감소 (4회 -> 3회)', reward: '보상 C' },
+    { id: 3, name: '고대의 신 조각상', icon: '🗿', desc: '유물 필요 인양 횟수 감소 (5회 -> 4회)', reward: '보상 C' },
     { id: 4, name: '신관의 서', icon: '📖', desc: '히든 유물 슬롯(#6) 즉시 개방', reward: '보상 D' },
     { id: 5, name: '잊혀진 영웅의 전기', icon: '📕', desc: '유물 보상 선택 획득 (5종 중 1개 선택)', reward: '보상 E' },
     { id: 6, name: '고대 환영 유리 술병', icon: '🍸', desc: '특수 보물 인양용 황금 잠수정 활성화 (황금 보물 상자)', reward: '황금 골드 보물 상자' }
@@ -530,7 +696,7 @@ function showNavTab(name){
   };
 
   var WEEKDAYS = ['수요일', '목요일', '금요일', '토요일', '일요일', '월요일', '화요일'];
-  var STORAGE_KEY = 'cuteSeaTreasureState_v31';
+  var STORAGE_KEY = 'cuteSeaTreasureState_v37';
 
   function shuffleArray(arr) {
     var array = arr.slice();
@@ -550,14 +716,13 @@ function showNavTab(name){
       totalSalvageCount: 0,
       dailyTicketGranted: false,
       missions: [false, false, false, false, false],
-      weeklyRescue: 0,
-      weeklyTarget: 4,
-      weeklyCompleted: false,
+      artifactProgress: 0,
       
       artifactOrderDeck: shuffleArray([1, 2, 3, 4, 5, 6]),
       ownedArtifacts: [],      
       appraisedArtifacts: [],  
       obtainedRewardsList: [], 
+      finalRewardGranted: false,
 
       /* 1회 한정 대기/활성화 플래그 */
       pendingCompass: false,    
@@ -617,16 +782,32 @@ function showNavTab(name){
     $('stat-daily-mission').textContent = Math.min(doneMissionsCount, dailyTarget);
     $('stat-daily-target').textContent = dailyTarget;
 
-    // 2. 주간 목표 횟수 (완료 시 4/4 또는 3/3 표기 유지)
-    state.weeklyTarget = state.activeStatue ? 3 : 4;
-    var container = $('stat-weekly-rescue-container');
-    if(state.weeklyCompleted || state.weeklyRescue >= state.weeklyTarget){
-      container.innerHTML = '<span class="accent-emerald">' + state.weeklyTarget + '</span>/' + state.weeklyTarget + '회 <span style="font-size:11px;color:var(--emerald);">(완료)</span>';
-    } else {
-      container.innerHTML = '<span>' + state.weeklyRescue + '</span>/' + state.weeklyTarget + '회';
+    // 2. 대시보드 닻 아이콘 게이지 렌더링
+    var targetCount = state.activeStatue ? 4 : 5;
+    $('anchor-subtext').textContent = '(티켓 ' + targetCount + '개 누적 시 유물 획득)';
+    
+    var gaugeEl = $('anchor-gauge-container');
+    gaugeEl.innerHTML = '';
+    var currentGaugeCount = state.artifactProgress;
+
+    for(var a=0; a<targetCount; a++){
+      var isFilled = a < currentGaugeCount;
+      var svgHtml = 
+        '<svg class="anchor-icon-svg ' + (isFilled ? 'filled' : '') + '" viewBox="0 0 24 24">' +
+          '<path d="M12 2a2.5 2.5 0 0 0-2.5 2.5c0 .72.31 1.37.8 1.83V9.1a7.002 7.002 0 0 0-6.2 6.13H2.5a1 1 0 1 0 0 2h2.03A9.003 9.003 0 0 0 11 23.97V19.9a1 1 0 1 0-2 0v2.03A7.003 7.003 0 0 1 4.1 17.23h1.4a1 1 0 1 0 0-2H4.1A5.002 5.002 0 0 1 9.1 11.1v2.4a1 1 0 1 0 2 0v-2.4a5.002 5.002 0 0 1 5 4.13h-1.4a1 1 0 1 0 0 2h1.4a7.003 7.003 0 0 1-4.9 4.7v-2.03a1 1 0 1 0-2 0v4.07a9.003 9.003 0 0 0 6.47-6.74h2.03a1 1 0 1 0 0-2h-1.6a7.002 7.002 0 0 0-6.2-6.13V6.33c.49-.46.8-1.11.8-1.83A2.5 2.5 0 0 0 12 2zm0 2a.5.5 0 1 1 0 1 .5.5 0 0 1 0-1z"/>' +
+        '</svg>';
+      gaugeEl.innerHTML += svgHtml;
     }
 
-    // 3. 감정 횟수 표기
+    // 3. 대시보드 보물 인양 항목 오른쪽 말풍선 연출 (보물 인양 가능 횟수가 1회 이상일 때 노출)
+    var bubbleEl = $('artifact-ready-bubble');
+    if(state.tickets > 0 && state.totalSalvageCount < 56){
+      bubbleEl.style.display = 'inline-block';
+    } else {
+      bubbleEl.style.display = 'none';
+    }
+
+    // 4. 감정 횟수 표기
     var appraisedCount = state.appraisedArtifacts.length;
     var hasHiddenArt = state.ownedArtifacts.indexOf(6) !== -1;
     if(state.hiddenArtifactUnlocked || hasHiddenArt){
@@ -635,7 +816,7 @@ function showNavTab(name){
       $('stat-appraised-count').innerHTML = '<span class="accent-violet">' + appraisedCount + '</span>/5회';
     }
 
-    // 4. 황금 잠수정 Visual & Light Effect Render
+    // 5. 황금 잠수정 Visual & Light Effect Render
     var subEl = $('submarine-el');
     var sceneEl = $('submarine-scene-el');
     if(state.activeGoldenSub){
@@ -679,15 +860,15 @@ function showNavTab(name){
 
     if(state.activeStatue){
       activeCount++;
-      listEl.innerHTML += '<span class="buff-tag">🗿 조각상: 이번 주 주간 인양 목표 3회 적용 중</span>';
+      listEl.innerHTML += '<span class="buff-tag">🗿 조각상: 유물 획득 필요 수량 4개 적용 중</span>';
     } else if(state.pendingStatue){
       activeCount++;
-      listEl.innerHTML += '<span class="buff-tag pending-tag">🗿 조각상: 다음 주차 수요일부터 주간 목표 3회 대기 중</span>';
+      listEl.innerHTML += '<span class="buff-tag pending-tag">🗿 조각상: 유물 필요 수량 4개 대기 중</span>';
     }
 
     if(state.hiddenArtifactUnlocked && state.ownedArtifacts.indexOf(6) === -1){
       activeCount++;
-      listEl.innerHTML += '<span class="buff-tag">📖 신관의 서: 히든 슬롯 해금 완료 (다음 주차 인양 시 획득)</span>';
+      listEl.innerHTML += '<span class="buff-tag">📖 신관의 서: 히든 슬롯 해금 완료 (티켓 충전 시 획득)</span>';
     }
 
     if(state.activeGoldenSub){
@@ -749,8 +930,85 @@ function showNavTab(name){
     if(doneCount >= reqCount && !state.dailyTicketGranted){
       if(state.totalSalvageCount + state.tickets < 56){
         state.tickets += 1;
+        state.artifactProgress += 1;
         state.dailyTicketGranted = true;
         showToast('일일 미션 완료! 보물 인양 기회 +1 획득 ⚓');
+        
+        checkArtifactUnlockRequirement();
+      }
+    }
+  }
+
+  /* 팝업 닫을 때 닻 게이지 차감 저장 변수 */
+  var pendingDeductCount = 0;
+
+  function showArtifactGetPopup(art, deductCount){
+    pendingDeductCount = deductCount;
+    $('pop-art-icon').textContent = art.icon;
+    $('pop-art-name').textContent = art.name;
+    $('pop-art-desc').textContent = art.desc;
+
+    // 닻 아이콘 5개가 모두 채워진 화면 상태를 사용자가 볼 수 있도록 300ms 딜레이 후 팝업 호출
+    setTimeout(function(){
+      openModal('modal-art-get');
+    }, 300);
+  }
+
+  function handleCloseArtGetModal(){
+    closeModal('modal-art-get');
+    if(pendingDeductCount > 0){
+      state.artifactProgress -= pendingDeductCount;
+      pendingDeductCount = 0;
+      saveState();
+      render(); // 닻 게이지 리셋(0개) 반영
+    }
+  }
+
+  $('btn-close-art-get-x').addEventListener('click', handleCloseArtGetModal);
+  $('btn-close-art-get-btn').addEventListener('click', handleCloseArtGetModal);
+
+  function checkArtifactUnlockRequirement(){
+    var targetCount = state.activeStatue ? 4 : 5;
+    if(state.artifactProgress >= targetCount && state.ownedArtifacts.length < 6){
+      
+      if(state.activeStatue){
+        state.activeStatue = false;
+      }
+
+      var nextId = null;
+      if(state.hiddenArtifactUnlocked && state.ownedArtifacts.indexOf(6) === -1){
+        nextId = 6;
+      } else {
+        for(var dIdx=0; dIdx<state.artifactOrderDeck.length; dIdx++){
+          var candidateId = state.artifactOrderDeck[dIdx];
+          if(candidateId !== 6 && state.ownedArtifacts.indexOf(candidateId) === -1){
+            nextId = candidateId;
+            break;
+          }
+        }
+      }
+
+      if(nextId){
+        state.ownedArtifacts.push(nextId);
+
+        if(nextId === 1) state.pendingCompass = true;
+        if(nextId === 2) state.pendingMap = true;
+        if(nextId === 3){
+          if(state.ownedArtifacts.length === 6){
+            state.tickets += 1;
+          } else {
+            state.pendingStatue = true;
+          }
+        }
+        if(nextId === 4){
+          state.hiddenArtifactUnlocked = true;
+        }
+        if(nextId === 6){
+          state.pendingGoldenSub = true;
+        }
+
+        var earnedArt = state.customArtifacts.find(function(a){ return a.id === nextId; });
+        showArtifactGetPopup(earnedArt, targetCount);
       }
     }
   }
@@ -792,7 +1050,7 @@ function showNavTab(name){
 
       var displayName = art.name;
       var displayIcon = art.icon;
-      var displayDesc = (isHidden && !isOwned) ? '다음 주차 인양 달성 시 획득 가능합니다.' : art.desc;
+      var displayDesc = (isHidden && !isOwned) ? '다음 티켓 획득 달성 시 지급됩니다.' : art.desc;
       var statusText = isOwned ? (isAppraised ? '감정완료' : '감정가능') : (isHidden ? '슬롯해금' : '미획득');
       var rewardText = art.reward ? art.reward : '';
       
@@ -831,6 +1089,17 @@ function showNavTab(name){
         saveState();
       };
     });
+  }
+
+  /* 6개(5+1) 유물 모두 감정 완료 체크 함수 */
+  function checkFinalNarrativeTrigger(){
+    if(state.appraisedArtifacts.length >= 6 && !state.finalRewardGranted){
+      state.finalRewardGranted = true;
+      saveState();
+      setTimeout(function(){
+        openModal('modal-narrative-final');
+      }, 400);
+    }
   }
 
   /* ============ EDIT MODE & DOWNLOAD ============ */
@@ -900,7 +1169,6 @@ function showNavTab(name){
     state.missions[1] = true;
     checkMissionTicketGrant();
     saveState(); render();
-    showToast('⚡ 일일 미션 2회가 완수 처리되었습니다! (인양 티켓 +1)');
   });
 
   /* ============ SALVAGE LOGIC (보물 인양) ============ */
@@ -917,10 +1185,6 @@ function showNavTab(name){
     var isGoldenUsedInThisTurn = false;
 
     for(var c=0; c<actualCount; c++){
-      if(!state.weeklyCompleted){
-        state.weeklyRescue += 1;
-      }
-      
       var depth = Math.floor(Math.random() * 4900) + 100;
 
       var line = '✨ 수심 ' + depth.toLocaleString() + 'm 인양 성공!';
@@ -943,59 +1207,6 @@ function showNavTab(name){
 
       rewardLinesHtml += '<div style="font-size:13px;color:#eafcff;margin:4px 0;font-weight:700;">' + line + '</div>';
       rewardLinesHtml += '<div style="font-size:12.5px;color:var(--gold);margin-bottom:8px;font-weight:700;">' + rewardLine + '</div>';
-
-      /* 주간 목표 달성 조건 검사 (조각상 효과 3회 vs 4회) */
-      var currentTarget = state.activeStatue ? 3 : 4;
-
-      if(state.weeklyRescue >= currentTarget && !state.weeklyCompleted){
-        state.weeklyCompleted = true; // 완료 상태 플래그 켜기
-        
-        if(state.activeStatue){
-          state.activeStatue = false; 
-          rewardLinesHtml += '<div style="color:var(--violet);font-size:11px;">🗿 (고대의 신 조각상 주간 목표 감축 1회 적용 완료)</div>';
-        }
-
-        var nextId = null;
-
-        if(state.hiddenArtifactUnlocked && state.ownedArtifacts.indexOf(6) === -1){
-          nextId = 6;
-        } else {
-          for(var dIdx=0; dIdx<state.artifactOrderDeck.length; dIdx++){
-            var candidateId = state.artifactOrderDeck[dIdx];
-            if(candidateId !== 6 && state.ownedArtifacts.indexOf(candidateId) === -1){
-              nextId = candidateId;
-              break;
-            }
-          }
-        }
-        
-        if(nextId){
-          state.ownedArtifacts.push(nextId);
-
-          /* 획득 시점 대기 상태 및 즉시 효과 할당 */
-          if(nextId === 1) state.pendingCompass = true;
-          if(nextId === 2) state.pendingMap = true;
-          if(nextId === 3){
-            if(state.ownedArtifacts.length === 6){
-              state.tickets += 1;
-              rewardLinesHtml += '<div style="color:var(--cyan);font-weight:700;">🗿 [마지막 유물 특수 혜택] 보물 인양 횟수 1회 추가 지급!</div>';
-            } else {
-              state.pendingStatue = true;
-            }
-          }
-          if(nextId === 4){
-            state.hiddenArtifactUnlocked = true;
-            rewardLinesHtml += '<div style="color:var(--gold);font-weight:700;">📖 [신관의 서] 획득! 히든 유물 슬롯(#6)이 즉시 개방되었습니다!</div>';
-          }
-          if(nextId === 6){
-            state.pendingGoldenSub = true;
-            rewardLinesHtml += '<div style="color:var(--gold);font-weight:700;">🍸 [고대 환영 유리 술병] 히든 유물 획득! (다음 일자 황금 잠수정 업그레이드 대기)</div>';
-          }
-
-          var earnedArt = state.customArtifacts.find(function(a){ return a.id === nextId; });
-          rewardLinesHtml += '<div style="color:var(--gold);font-weight:700;margin-top:6px;">🔮 주간 인양 목표 달성! 무작위 유물 ['+earnedArt.name+'] 획득!</div>';
-        }
-      }
     }
 
     saveState(); render();
@@ -1025,6 +1236,9 @@ function showNavTab(name){
 
     saveState(); render();
     showToast(msg);
+
+    // 6개 모두 감정 완료되었는지 확인
+    checkFinalNarrativeTrigger();
   }
 
   /* [전기 유물] 5종 선택 모달 오픈 */
@@ -1032,7 +1246,6 @@ function showNavTab(name){
     var container = $('reward-select-options');
     container.innerHTML = '';
 
-    // 히든 유물(6번)을 제외한 1~5번 일반 유물 5종 표시
     for(var i=0; i<5; i++){
       var targetArt = state.customArtifacts[i];
       var card = document.createElement('div');
@@ -1049,6 +1262,9 @@ function showNavTab(name){
           closeModal('modal-reward-select');
           saveState(); render();
           showToast('📕 [잊혀진 영웅의 전기] 감정 완료! 선택한 보상 ['+selectedReward+'] 획득!');
+
+          // 6개 모두 감정 완료되었는지 확인
+          checkFinalNarrativeTrigger();
         };
       })(targetArt.reward));
 
@@ -1077,19 +1293,7 @@ function showNavTab(name){
     state.dailyTicketGranted = false;
 
     var currentWeekday = getWeekdayName(state.day);
-    var isWednesday = currentWeekday === '수요일';
 
-    // 수요일 진입 시 자동 주간 초기화 (0회 리셋 및 주차 유물 효과 반영)
-    if(isWednesday){
-      state.weeklyRescue = 0;
-      state.weeklyCompleted = false;
-      if(state.pendingStatue){
-        state.activeStatue = true;
-        state.pendingStatue = false;
-      }
-    }
-
-    /* 다음 일자에 1회 적용되는 유물 효과 승격 처리 */
     if(state.activeCompass) state.activeCompass = false; 
     if(state.pendingCompass){
       state.activeCompass = true;
@@ -1100,6 +1304,11 @@ function showNavTab(name){
     if(state.pendingMap){
       state.activeMap = true;
       state.pendingMap = false;
+    }
+
+    if(state.pendingStatue){
+      state.activeStatue = true;
+      state.pendingStatue = false;
     }
 
     if(state.pendingGoldenSub){
@@ -1113,21 +1322,7 @@ function showNavTab(name){
     if(state.activeGoldenSub){
       toastMsg += ' 🍸 [황금 잠수정]이 활성화되었습니다!';
     }
-    if(isWednesday){
-      toastMsg += ' 🔄 매주 수요일 주간 인양 초기화 및 주차 유물 효과가 반영되었습니다.';
-    }
     showToast(toastMsg);
-  });
-
-  $('btn-weekly-reset').addEventListener('click', function(){
-    state.weeklyRescue = 0;
-    state.weeklyCompleted = false;
-    if(state.pendingStatue){
-      state.activeStatue = true;
-      state.pendingStatue = false;
-    }
-    saveState(); render();
-    showToast('🔄 주간 인양 횟수 및 주차 유물 효과가 반영되었습니다.');
   });
 
   $('btn-full-reset').addEventListener('click', function(){
